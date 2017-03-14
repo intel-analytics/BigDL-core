@@ -3,37 +3,35 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>bigdl-parent</artifactId>
+        <artifactId>bigdl-core</artifactId>
         <groupId>com.intel.analytics.bigdl</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bigdl-core-parent</artifactId>
-    <groupId>com.intel.analytics.bigdl</groupId>
+    <artifactId>mkl2017-xeon-dnn-parent</artifactId>
+    <groupId>com.intel.analytics.bigdl.dnn</groupId>
     <packaging>pom</packaging>
     <modules>
-        <module>mkl2017-xeon-blas</module>
-        <module>mkl2017-xeon-dnn</module>
+        <module>mkl</module>
+        <module>jni</module>
     </modules>
     <properties>
         <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
         <linkerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</linkerStartOptionDirectory>
         <dynamicLibType>so</dynamicLibType>
         <iompLib>libiomp5.so</iompLib>
-        <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
-        <destFileName>libjmkl.so</destFileName>
+        <destFileName>libjdnn.so</destFileName>
     </properties>
     <profiles>
         <profile>
             <id>mac</id>
             <properties>
-                <iompLibDir>/opt/intel/lib</iompLibDir>
                 <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/darwin/</compilerStartOptionDirectory>
                 <linkerStartOptionDirectory>-I ${JAVA_HOME}/include/darwin/</linkerStartOptionDirectory>
                 <dynamicLibType>dylib</dynamicLibType>
                 <iompLib>libiomp5.dylib</iompLib>
-                <destFileName>libjmkl.dylib</destFileName>
+                <destFileName>libjdnn.dylib</destFileName>
             </properties>
         </profile>
     </profiles>
