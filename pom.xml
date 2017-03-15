@@ -9,24 +9,25 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>native-parent</artifactId>
+    <artifactId>bigdl-core-parent</artifactId>
     <groupId>com.intel.analytics.bigdl</groupId>
     <packaging>pom</packaging>
     <modules>
-        <module>mkl2017-xeon-blas/mkl</module>
-        <module>mkl2017-xeon-blas/jni</module>
+        <module>mkl2017-xeon-blas</module>
     </modules>
     <properties>
         <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
         <linkerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</linkerStartOptionDirectory>
         <dynamicLibType>so</dynamicLibType>
         <iompLib>libiomp5.so</iompLib>
+        <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
         <destFileName>libjmkl.so</destFileName>
     </properties>
     <profiles>
         <profile>
             <id>mac</id>
             <properties>
+                <iompLibDir>/opt/intel/lib</iompLibDir>
                 <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/darwin/</compilerStartOptionDirectory>
                 <linkerStartOptionDirectory>-I ${JAVA_HOME}/include/darwin/</linkerStartOptionDirectory>
                 <dynamicLibType>dylib</dynamicLibType>
