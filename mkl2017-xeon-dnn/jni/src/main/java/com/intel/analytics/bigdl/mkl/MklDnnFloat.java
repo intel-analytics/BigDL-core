@@ -2,12 +2,6 @@ package com.intel.analytics.bigdl.mkl;
 
 /** MKL DNN Library Wrapper for JVM */
 public class MklDnnFloat {
-  static {
-    if (!MKL.isMKLLoaded()) {
-      throw new RuntimeException("MKL is unloaded.");
-    }
-  }
-
   /**
    * create mkl layout, which is based on attributes user defined
    *
