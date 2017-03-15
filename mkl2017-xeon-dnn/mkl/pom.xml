@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.intel.analytics.bigdl.dnn.native</groupId>
-    <artifactId>mkl2017-xeon-dnn-native</artifactId>
+    <artifactId>dnn-native</artifactId>
     <packaging>${dynamicLibType}</packaging>
 
     <build>
@@ -31,7 +31,6 @@
                         <source>
                             <directory>${basedir}/src/main/c/jni</directory>
                             <fileNames>
-                                <fileName>mkl.c</fileName>
                                 <fileName>concat.c</fileName>
                                 <fileName>batch_norm.c</fileName>
                                 <fileName>convolution.c</fileName>

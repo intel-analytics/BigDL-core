@@ -22,6 +22,7 @@
         <dynamicLibType>so</dynamicLibType>
         <iompLib>libiomp5.so</iompLib>
         <destFileName>libjdnn.so</destFileName>
+        <dnn-java-os-version>dnn-java</dnn-java-os-version>
     </properties>
     <profiles>
         <profile>
