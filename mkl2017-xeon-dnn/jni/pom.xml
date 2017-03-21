@@ -30,7 +30,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources/intel64</directory>
+                <directory>${iompLibDir}</directory>
                 <includes>
                     <include>${iompLib}</include>
                 </includes>
