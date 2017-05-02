@@ -14,6 +14,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>mkl2017-xeon-blas</module>
+        <module>mkl2017-xeon-dnn</module>
+        <module>fixpoint</module>
     </modules>
     <properties>
         <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
