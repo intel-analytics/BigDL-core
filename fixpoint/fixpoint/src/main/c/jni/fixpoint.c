@@ -52,7 +52,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvO
   (JNIEnv *env, jclass cls, jlong desc, jfloat threshold)
 {
     FixConvOpDesc *jDesc = (FixConvOpDesc*)desc;
-    FixConvOpQuantizeKernel(jDesc, 64.0f);
+    FixConvOpQuantizeKernel(jDesc, threshold);
 }
 
 /*
@@ -82,8 +82,10 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvO
     FixConvOpDesc *jDesc = (FixConvOpDesc*)desc;
     jfloat* jDst = (jfloat*)((*env)->GetPrimitiveArrayCritical(env, dst, 0));
 
+    /*
     printf("%d jDesc = %x\n", __LINE__, jDesc);
     printf("%d jDesc = %x\n", __LINE__, jDst);
+    */
 
     FixConvOpSetupTargetBuffer(jDesc, jDst+dstOffset);
 
@@ -99,7 +101,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvO
   (JNIEnv *env, jclass cls, jlong desc, jfloat fault_tolerance)
 {
     FixConvOpDesc *jDesc = (FixConvOpDesc*)desc;
-    FixConvOpExecute(jDesc, 0.0f);
+    FixConvOpExecute(jDesc, fault_tolerance);
 }
 
 /*
