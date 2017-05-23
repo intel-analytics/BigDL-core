@@ -40,26 +40,20 @@
                         <compilerStartOption>${compilerStartOptionDirectory}</compilerStartOption>
                     </compilerStartOptions>
                     <compilerEndOptions>
-                        <compilerEndOption>-lpthread</compilerEndOption>
                         <compilerEndOption>-lm</compilerEndOption>
                         <compilerEndOption>-shared</compilerEndOption>
-                        <compilerEndOption>-liomp5</compilerEndOption>
                         <compilerEndOption>-lc</compilerEndOption>
                         <compilerEndOption>-fPIC</compilerEndOption>
-                        <compilerEndOption>-qopenmp</compilerEndOption>
                         <compilerEndOption>-Wall</compilerEndOption>
                         <compilerEndOption>-std=c99</compilerEndOption>
                     </compilerEndOptions>
                     <linkerStartOptions>
                         <linkerStartOption>-I ${JAVA_HOME}/include/</linkerStartOption>
                         <linkerStartOption>${linkerStartOptionDirectory}</linkerStartOption>
-                        <linkerStartOption>-lpthread</linkerStartOption>
                         <linkerStartOption>-ldl</linkerStartOption>
-                        <linkerStartOption>-liomp5</linkerStartOption>
                         <linkerStartOption>-shared</linkerStartOption>
-                        <linkerStartOption>-mkl=parallel</linkerStartOption>
+                        <linkerStartOption>-mkl=sequential</linkerStartOption>
                         <linkerStartOption>-static-intel</linkerStartOption>
-                        <linkerStartOption>-qopenmp</linkerStartOption>
                     </linkerStartOptions>
                     <linkerMiddleOptions>
                         <linkerMiddleOption>-lm</linkerMiddleOption>
