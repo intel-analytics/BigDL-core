@@ -115,3 +115,34 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvO
     FixConvOpDesc *jDesc = (FixConvOpDesc*)desc;
     FixConvOpFree(jDesc);
 }
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixConvOpExecuteAll
+ * Signature: (JJJJJ[FJF[FJF)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvOpExecuteAll
+  (JNIEnv *env, jclass cls,
+   jlong desc,
+   jlong batch_size,
+   jlong channels,
+   jlong height_in,
+   jlong width_in,
+   jfloatArray src,
+   jlong srcOffset,
+   jfloat sw_threshold,
+   jfloatArray dst,
+   jlong dstOffset,
+   jfloat fault_tolerance)
+{
+    FixConvOpDesc *jDesc = (FixConvOpDesc*)desc;
+    jfloat* jSrc = (jfloat*)((*env)->GetPrimitiveArrayCritical(env, src, 0));
+    jfloat* jDst = (jfloat*)((*env)->GetPrimitiveArrayCritical(env, dst, 0));
+
+    FixConvOpQuantizeData(jDesc, batch_size, channels, height_in, width_in, jSrc+srcOffset, sw_threshold);
+    FixConvOpSetupTargetBuffer(jDesc, jDst+dstOffset);
+    FixConvOpExecute(jDesc, fault_tolerance);
+
+    (*env)->ReleasePrimitiveArrayCritical(env, dst, jDst, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, src, jSrc, 0);
+}

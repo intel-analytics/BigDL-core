@@ -75,5 +75,9 @@ public class FixPoint {
 
     public native static void FixConvOpExecute(long desc, float fault_tolerance);
 
+    public native static void FixConvOpExecuteAll(long desc, long batchSize, long channels,
+                                                  long inputHeight, long inputWidth, float[] src, long srcOffset,
+                                                  float threshold, float[] dst, long dstOffset, float fault_tolerance);
+
     public native static void FixConvOpFree(long desc);
 }

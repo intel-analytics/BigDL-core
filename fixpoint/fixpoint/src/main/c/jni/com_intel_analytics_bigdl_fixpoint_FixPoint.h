@@ -65,6 +65,14 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvO
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixConvOpExecuteAll
+ * Signature: (JJJJJ[FJF[FJF)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvOpExecuteAll
+  (JNIEnv *, jclass, jlong, jlong, jlong, jlong, jlong, jfloatArray, jlong, jfloat, jfloatArray, jlong, jfloat);
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvOpFree
  * Signature: (J)V
  */
