@@ -58,11 +58,7 @@ public class MKL {
             return tmpFile.getAbsolutePath();
     }
 
-    /**
-     * Set MKL worker pool size for current JVM thread. Note different JVM thread has separated MKL worker pool.
-     * @param numThreads
-     */
-    public native static void setNumThreads(int numThreads);
+    public native static void disableFastMM();
 
     public native static void vsAdd(int n, float[] a, int aOffset, float[] b, int bOffset,
                                     float[] y, int yOffset);

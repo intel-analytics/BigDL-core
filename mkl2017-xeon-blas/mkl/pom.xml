@@ -40,9 +40,6 @@
                         <compilerStartOption>${compilerStartOptionDirectory}</compilerStartOption>
                     </compilerStartOptions>
                     <compilerEndOptions>
-                        <compilerEndOption>-lm</compilerEndOption>
-                        <compilerEndOption>-shared</compilerEndOption>
-                        <compilerEndOption>-lc</compilerEndOption>
                         <compilerEndOption>-fPIC</compilerEndOption>
                         <compilerEndOption>-Wall</compilerEndOption>
                         <compilerEndOption>-std=c99</compilerEndOption>

@@ -15,6 +15,15 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setNumThreads
   return ;
 }
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Method:    setNumThreads
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
+  (JNIEnv * env, jclass cls) {
+  mkl_disable_fast_mm();
+}
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MKL
