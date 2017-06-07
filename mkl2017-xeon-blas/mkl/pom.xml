@@ -51,6 +51,7 @@
                         <linkerStartOption>-shared</linkerStartOption>
                         <linkerStartOption>-mkl=sequential</linkerStartOption>
                         <linkerStartOption>-static-intel</linkerStartOption>
+                        <linkerStartOption>-no-intel-extensions</linkerStartOption>
                     </linkerStartOptions>
                     <linkerMiddleOptions>
                         <linkerMiddleOption>-lm</linkerMiddleOption>
