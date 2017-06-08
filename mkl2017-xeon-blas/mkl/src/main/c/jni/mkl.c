@@ -12,17 +12,37 @@ extern "C" {
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setNumThreads
   (JNIEnv * env, jclass cls, jint num_threads) {
-  return ;
+  omp_set_num_threads(num_threads);
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Class:     com_intel_analytics_bigdl_mkl_disableFastMM
  * Method:    setNumThreads
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
   (JNIEnv * env, jclass cls) {
   mkl_disable_fast_mm();
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_setBlockTime
+ * Method:    setNumThreads
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setBlockTime
+  (JNIEnv * env, jclass cls, jint time) {
+  kmp_set_blocktime(0);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_watiPolicyPassive
+ * Method:    setNumThreads
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_waitPolicyPassive
+  (JNIEnv * env, jclass cls) {
+  kmp_set_library_throughput();
 }
 
 /*

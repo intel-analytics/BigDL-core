@@ -58,7 +58,37 @@ public class MKL {
             return tmpFile.getAbsolutePath();
     }
 
+    // {{ mkl environments set up
+
+    /**
+     * If mkl is linked with parallel mode, one can modify the number of threads omp will use.
+     * It's an subsitute of environment variable: OIMP_NUM_THREADS
+     *
+     * @param numThreads how many threads omp will use.
+     */
+    public native static void setNumThreads(int numThreads);
+
+    /**
+     * Turns off the Intel MKL Memory Allocator for Intel MKL functions
+     * to directly use the system malloc/free functions.
+     * It's an substitute of environment variable: MKL_DISABLE_FAST_MM
+     */
     public native static void disableFastMM();
+
+    /**
+     * Sets the time (milliseconds) that a thread should wait before sleeping,
+     * after completing the execution of a parallel region.
+     * It's an substitute of environment variable: KMP_BLOCKTIME
+     *
+     * @param msec the time should wait
+     */
+    public native static void setBlockTime(int msec);
+
+    /**
+     * Sets omp wait policy to passive.
+     */
+    public native static void waitPolicyPasssive();
+    // }} mkl environments set up
 
     public native static void vsAdd(int n, float[] a, int aOffset, float[] b, int bOffset,
                                     float[] y, int yOffset);

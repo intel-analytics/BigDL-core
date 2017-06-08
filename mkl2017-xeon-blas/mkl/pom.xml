@@ -48,8 +48,10 @@
                         <linkerStartOption>-I ${JAVA_HOME}/include/</linkerStartOption>
                         <linkerStartOption>${linkerStartOptionDirectory}</linkerStartOption>
                         <linkerStartOption>-ldl</linkerStartOption>
+                        <linkerStartOption>-liomp5</linkerStartOption>
                         <linkerStartOption>-shared</linkerStartOption>
-                        <linkerStartOption>-mkl=sequential</linkerStartOption>
+                        <linkerStartOption>-mkl=parallel</linkerStartOption>
+                        <linkerStartOption>-qopenmp</linkerStartOption>
                         <linkerStartOption>-static-intel</linkerStartOption>
                         <linkerStartOption>-no-intel-extensions</linkerStartOption>
                     </linkerStartOptions>
