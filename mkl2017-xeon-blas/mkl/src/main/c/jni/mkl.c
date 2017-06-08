@@ -12,7 +12,8 @@ extern "C" {
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setNumThreads
   (JNIEnv * env, jclass cls, jint num_threads) {
-  omp_set_num_threads(num_threads);
+  mkl_set_dynamic(0);
+  mkl_set_num_threads(num_threads);
 }
 
 /*
