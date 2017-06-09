@@ -87,7 +87,7 @@ public class MKL {
     /**
      * Sets omp wait policy to passive.
      */
-    public native static void waitPolicyPasssive();
+    public native static void waitPolicyPassive();
     // }} mkl environments set up
 
     public native static void vsAdd(int n, float[] a, int aOffset, float[] b, int bOffset,
