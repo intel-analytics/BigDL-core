@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Locale;
 
 import static java.io.File.createTempFile;
 import static java.nio.channels.Channels.newChannel;
@@ -29,13 +30,58 @@ public class MKL {
             tmpFile = extract(jmklFileName);
             System.load(tmpFile.getAbsolutePath());
             tmpFile.delete(); // delete so temp file after loaded
-            isLoaded = true;
 
+            setMklEnv();
+
+            isLoaded = true;
         } catch (Exception e) {
             isLoaded = false;
             e.printStackTrace();
             // TODO: Add an argument for user, continuing to run even if MKL load failed.
             throw new RuntimeException("Failed to load MKL");
+        }
+    }
+
+    /**
+     * This method will call 4 native methods to set mkl environments. They are
+     *
+     * 1. mkl num threads:
+     *      + function: If mkl is linked with parallel mode, one can modify the number of threads omp will use.
+     *      + default value: 1
+     * 2. mkl block time:
+     *      + function: Turns off the Intel MKL Memory Allocator for Intel MKL functions
+     *                  to directly use the system malloc/free functions.
+     *      + default value: 0
+     * 3. wait policy:
+     *      + function: Sets omp wait policy to passive.
+     *      + default value: passive
+     * 4. disable fast mm:
+     *      + function: Sets the time (milliseconds) that a thread should wait before sleeping,
+     *                  after completing the execution of a parallel region.
+     *      + default value: true
+     */
+    private static void setMklEnv() {
+        String mklBlockTimeStr = System.getProperty("bigdl.mklBlockTime", "0");
+        int mklBlockTime = Integer.parseInt(mklBlockTimeStr);
+
+        String mklNumThreadsStr = System.getProperty("bigdl.mklNumThreads", "1");
+        int mklNumThreads = Integer.parseInt(mklNumThreadsStr);
+
+        String mklDisableFastMMStr = System.getProperty("bigdl.mklDisableFastMM","true").toLowerCase();
+        boolean mklDisableFastMM = true;
+        if (mklDisableFastMMStr.equals("false")) {
+            mklDisableFastMM = false;
+        }
+
+        String mklWaitPolicy = System.getProperty("bigdl.mklWaitPolicy", "passive").toLowerCase();
+
+        // set mkl environment variables
+        setNumThreads(mklNumThreads);
+        setBlockTime(mklBlockTime);
+        waitPolicyPassive();
+
+        if (mklDisableFastMM) {
+            disableFastMM();
         }
     }
 
