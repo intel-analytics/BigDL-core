@@ -108,7 +108,7 @@ public class MKL {
 
     /**
      * If mkl is linked with parallel mode, one can modify the number of threads omp will use.
-     * It's an subsitute of environment variable: OIMP_NUM_THREADS
+     * It's an subsitute of environment variable: OMP_NUM_THREADS
      *
      * @param numThreads how many threads omp will use.
      */
