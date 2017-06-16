@@ -73,6 +73,7 @@
                         <linkerStartOption>-mkl=parallel</linkerStartOption>
                         <linkerStartOption>-static-intel</linkerStartOption>
                         <linkerStartOption>-qopenmp</linkerStartOption>
+                        <linkerStartOption>-no-intel-extensions</linkerStartOption>
                     </linkerStartOptions>
                     <linkerMiddleOptions>
                         <linkerMiddleOption>-lm</linkerMiddleOption>
