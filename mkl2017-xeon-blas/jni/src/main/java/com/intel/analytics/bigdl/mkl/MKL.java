@@ -1,10 +1,11 @@
 package com.intel.analytics.bigdl.mkl;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
-import java.util.Locale;
 
 import static java.io.File.createTempFile;
 import static java.nio.channels.Channels.newChannel;
@@ -53,7 +54,7 @@ public class MKL {
      *                  to directly use the system malloc/free functions.
      *      + default value: 0
      * 3. wait policy:
-     *      + function: Sets omp wait policy to passive.
+     *      + function: Sets omp wait policy to passive. passive or active
      *      + default value: passive
      * 4. disable fast mm:
      *      + function: Sets the time (milliseconds) that a thread should wait before sleeping,
@@ -61,27 +62,43 @@ public class MKL {
      *      + default value: true
      */
     private static void setMklEnv() {
-        String mklBlockTimeStr = System.getProperty("bigdl.mklBlockTime", "0");
-        int mklBlockTime = Integer.parseInt(mklBlockTimeStr);
+        setNumThreads(getMklNumThreads());
+        setBlockTime(getMklBlockTime());
+        waitPolicy(getMklWaitPolicy());
+        if (getMklDisableFastMM()) {
+            disableFastMM();
+        }
+    }
 
+    public static int getMklNumThreads() {
         String mklNumThreadsStr = System.getProperty("bigdl.mklNumThreads", "1");
-        int mklNumThreads = Integer.parseInt(mklNumThreadsStr);
+        return Integer.parseInt(mklNumThreadsStr);
+    }
 
-        String mklDisableFastMMStr = System.getProperty("bigdl.mklDisableFastMM","true").toLowerCase();
+    public static int getMklBlockTime() {
+        String mklBlockTimeStr = System.getProperty("bigdl.mklBlockTime", "0");
+        return Integer.parseInt(mklBlockTimeStr);
+    }
+
+    public static boolean getMklDisableFastMM() {
+        String mklDisableFastMMStr = System.getProperty("bigdl.mklDisableFastMM", "true").toLowerCase();
         boolean mklDisableFastMM = true;
         if (mklDisableFastMMStr.equals("false")) {
             mklDisableFastMM = false;
         }
 
+        return mklDisableFastMM;
+    }
+
+    public static int getMklWaitPolicy() {
         String mklWaitPolicy = System.getProperty("bigdl.mklWaitPolicy", "passive").toLowerCase();
 
-        // set mkl environment variables
-        setNumThreads(mklNumThreads);
-        setBlockTime(mklBlockTime);
-        waitPolicyPassive();
-
-        if (mklDisableFastMM) {
-            disableFastMM();
+        if (mklWaitPolicy.equalsIgnoreCase("passive")) {
+            return 3;
+        } else if (mklWaitPolicy.equalsIgnoreCase("active")) {
+            return 2;
+        } else {
+            throw new UnsupportedOperationException("unknown wait policy " + mklWaitPolicy);
         }
     }
 
@@ -132,8 +149,10 @@ public class MKL {
 
     /**
      * Sets omp wait policy to passive.
+     *
+     * @param mode 1 - serial mode; 2 - turnaround mode; 3 - throughput mode
      */
-    public native static void waitPolicyPassive();
+    public native static void waitPolicy(int mode);
     // }} mkl environments set up
 
     public native static void vsAdd(int n, float[] a, int aOffset, float[] b, int bOffset,
