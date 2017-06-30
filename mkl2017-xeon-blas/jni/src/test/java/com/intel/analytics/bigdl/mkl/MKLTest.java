@@ -1,17 +1,26 @@
 package com.intel.analytics.bigdl.mkl;
 
+import org.junit.After;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 
 public class MKLTest {
+    @After
+    public void clearProperties() {
+        System.clearProperty("bigdl.mklNumThreads");
+        System.clearProperty("bigdl.mklBlockTime");
+        System.clearProperty("bigdl.mklDisableFastMM");
+        System.clearProperty("bigdl.mklWaitPolicy");
+    }
+
     @Test
     public void isMKLLoaded() throws Exception {
         assertTrue(MKL.isMKLLoaded());
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
     public void getMklNumThreads() throws Exception {
         assertTrue(1 == MKL.getMklNumThreads());
         assertTrue(1 == MKL.getNumThreads());
@@ -19,18 +28,24 @@ public class MKLTest {
         System.setProperty("bigdl.mklNumThreads", "10");
         assertTrue(10 == MKL.getMklNumThreads());
         System.clearProperty("bigdl.mklNumThreads");
+
+        System.setProperty("bigdl.mklNumThreads", "-1");
+        MKL.getMklNumThreads();
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
     public void getMklBlockTime() throws Exception {
         assertTrue(0 == MKL.getMklBlockTime());
 
         System.setProperty("bigdl.mklBlockTime", "30");
         assertTrue(30 == MKL.getMklBlockTime());
         System.clearProperty("bigdl.mklBlockTime");
+
+        System.setProperty("bigdl.mklBlockTime", "-1");
+        MKL.getMklBlockTime();
     }
 
-    @Test
+    @Test(expected = UnsupportedOperationException.class)
     public void getMklDisableFastMM() throws Exception {
         assertTrue(true == MKL.getMklDisableFastMM());
 
@@ -39,8 +54,7 @@ public class MKLTest {
         System.clearProperty("bigdl.mklDisableFastMM");
 
         System.setProperty("bigdl.mklDisableFastMM", "error");
-        assertTrue(true == MKL.getMklDisableFastMM());
-        System.clearProperty("bigdl.mklDisableFastMM");
+        MKL.getMklDisableFastMM();
     }
 
     @Test(expected = UnsupportedOperationException.class)

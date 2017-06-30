@@ -72,19 +72,33 @@ public class MKL {
 
     public static int getMklNumThreads() {
         String mklNumThreadsStr = System.getProperty("bigdl.mklNumThreads", "1");
-        return Integer.parseInt(mklNumThreadsStr);
+        int num = Integer.parseInt(mklNumThreadsStr);
+        if (num <= 0) {
+            throw new UnsupportedOperationException("unknown bigdl.mklNumThreads " + num);
+        }
+
+        return num;
     }
 
     public static int getMklBlockTime() {
         String mklBlockTimeStr = System.getProperty("bigdl.mklBlockTime", "0");
-        return Integer.parseInt(mklBlockTimeStr);
+        int time = Integer.parseInt(mklBlockTimeStr);
+        if (time < 0) {
+            throw new UnsupportedOperationException("unknown bigdl.mklBlockTime " + time);
+        }
+
+        return time;
     }
 
     public static boolean getMklDisableFastMM() {
         String mklDisableFastMMStr = System.getProperty("bigdl.mklDisableFastMM", "true").toLowerCase();
-        boolean mklDisableFastMM = true;
+        boolean mklDisableFastMM;
         if (mklDisableFastMMStr.equals("false")) {
             mklDisableFastMM = false;
+        } else if (mklDisableFastMMStr.equals("true")) {
+            mklDisableFastMM = true;
+        } else {
+            throw new UnsupportedOperationException("unknown bigdl.mklDisableFastMM " + mklDisableFastMMStr);
         }
 
         return mklDisableFastMM;
@@ -98,7 +112,7 @@ public class MKL {
         } else if (mklWaitPolicy.equalsIgnoreCase("active")) {
             return 2;
         } else {
-            throw new UnsupportedOperationException("unknown wait policy " + mklWaitPolicy);
+            throw new UnsupportedOperationException("unknown bigdl.mklWaitPolicy " + mklWaitPolicy);
         }
     }
 
