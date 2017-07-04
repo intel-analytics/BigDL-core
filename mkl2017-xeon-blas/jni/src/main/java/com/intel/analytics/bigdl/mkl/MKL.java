@@ -17,6 +17,9 @@ public class MKL {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
 
+    private final static int MKL_WAIT_POLICY_PASSIVE = 3;
+    private final static int MKL_WAIT_POLICY_ACTIVE = 2;
+
     static {
         try {
             String iomp5FileName = "libiomp5.so";
@@ -108,9 +111,9 @@ public class MKL {
         String mklWaitPolicy = System.getProperty("bigdl.mklWaitPolicy", "passive").toLowerCase();
 
         if (mklWaitPolicy.equalsIgnoreCase("passive")) {
-            return 3;
+            return MKL_WAIT_POLICY_PASSIVE;
         } else if (mklWaitPolicy.equalsIgnoreCase("active")) {
-            return 2;
+            return MKL_WAIT_POLICY_ACTIVE;
         } else {
             throw new UnsupportedOperationException("unknown bigdl.mklWaitPolicy " + mklWaitPolicy);
         }

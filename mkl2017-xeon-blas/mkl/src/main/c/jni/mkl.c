@@ -18,8 +18,8 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setNumThreads
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_mkl_disableFastMM
- * Method:    setNumThreads
+ * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Method:    disableFastMM
  * Signature: ()V
  */
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
@@ -28,9 +28,9 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_mkl_setBlockTime
- * Method:    setNumThreads
- * Signature: ()V
+ * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Method:    setBlockTime
+ * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setBlockTime
   (JNIEnv * env, jclass cls, jint time) {
@@ -38,9 +38,9 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setBlockTime
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_mkl_watiPolicyPassive
- * Method:    setNumThreads
- * Signature: ()V
+ * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Method:    waitPolicy
+ * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_waitPolicy
   (JNIEnv * env, jclass cls, int mode) {
