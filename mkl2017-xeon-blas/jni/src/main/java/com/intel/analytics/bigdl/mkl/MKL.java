@@ -1,10 +1,11 @@
 package com.intel.analytics.bigdl.mkl;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
-import java.util.Locale;
 
 import static java.io.File.createTempFile;
 import static java.nio.channels.Channels.newChannel;
@@ -15,6 +16,9 @@ import static java.nio.channels.Channels.newChannel;
 public class MKL {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
+
+    public final static int MKL_WAIT_POLICY_PASSIVE = 3;
+    public final static int MKL_WAIT_POLICY_ACTIVE = 2;
 
     static {
         try {
@@ -53,7 +57,7 @@ public class MKL {
      *                  to directly use the system malloc/free functions.
      *      + default value: 0
      * 3. wait policy:
-     *      + function: Sets omp wait policy to passive.
+     *      + function: Sets omp wait policy to passive. passive or active
      *      + default value: passive
      * 4. disable fast mm:
      *      + function: Sets the time (milliseconds) that a thread should wait before sleeping,
@@ -61,27 +65,57 @@ public class MKL {
      *      + default value: true
      */
     private static void setMklEnv() {
-        String mklBlockTimeStr = System.getProperty("bigdl.mklBlockTime", "0");
-        int mklBlockTime = Integer.parseInt(mklBlockTimeStr);
+        setNumThreads(getMklNumThreads());
+        setBlockTime(getMklBlockTime());
+        waitPolicy(getMklWaitPolicy());
+        if (getMklDisableFastMM()) {
+            disableFastMM();
+        }
+    }
 
+    public static int getMklNumThreads() {
         String mklNumThreadsStr = System.getProperty("bigdl.mklNumThreads", "1");
-        int mklNumThreads = Integer.parseInt(mklNumThreadsStr);
-
-        String mklDisableFastMMStr = System.getProperty("bigdl.mklDisableFastMM","true").toLowerCase();
-        boolean mklDisableFastMM = true;
-        if (mklDisableFastMMStr.equals("false")) {
-            mklDisableFastMM = false;
+        int num = Integer.parseInt(mklNumThreadsStr);
+        if (num <= 0) {
+            throw new UnsupportedOperationException("unknown bigdl.mklNumThreads " + num);
         }
 
+        return num;
+    }
+
+    public static int getMklBlockTime() {
+        String mklBlockTimeStr = System.getProperty("bigdl.mklBlockTime", "0");
+        int time = Integer.parseInt(mklBlockTimeStr);
+        if (time < 0) {
+            throw new UnsupportedOperationException("unknown bigdl.mklBlockTime " + time);
+        }
+
+        return time;
+    }
+
+    public static boolean getMklDisableFastMM() {
+        String mklDisableFastMMStr = System.getProperty("bigdl.mklDisableFastMM", "true").toLowerCase();
+        boolean mklDisableFastMM;
+        if (mklDisableFastMMStr.equals("false")) {
+            mklDisableFastMM = false;
+        } else if (mklDisableFastMMStr.equals("true")) {
+            mklDisableFastMM = true;
+        } else {
+            throw new UnsupportedOperationException("unknown bigdl.mklDisableFastMM " + mklDisableFastMMStr);
+        }
+
+        return mklDisableFastMM;
+    }
+
+    public static int getMklWaitPolicy() {
         String mklWaitPolicy = System.getProperty("bigdl.mklWaitPolicy", "passive").toLowerCase();
 
-        // set mkl environment variables
-        setNumThreads(mklNumThreads);
-        setBlockTime(mklBlockTime);
-        waitPolicyPassive();
-
-        if (mklDisableFastMM) {
-            disableFastMM();
+        if (mklWaitPolicy.equalsIgnoreCase("passive")) {
+            return MKL_WAIT_POLICY_PASSIVE;
+        } else if (mklWaitPolicy.equalsIgnoreCase("active")) {
+            return MKL_WAIT_POLICY_ACTIVE;
+        } else {
+            throw new UnsupportedOperationException("unknown bigdl.mklWaitPolicy " + mklWaitPolicy);
         }
     }
 
@@ -132,8 +166,10 @@ public class MKL {
 
     /**
      * Sets omp wait policy to passive.
+     *
+     * @param mode 1 - serial mode; 2 - turnaround mode; 3 - throughput mode
      */
-    public native static void waitPolicyPassive();
+    public native static void waitPolicy(int mode);
     // }} mkl environments set up
 
     public native static void vsAdd(int n, float[] a, int aOffset, float[] b, int bOffset,

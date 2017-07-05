@@ -12,38 +12,39 @@ extern "C" {
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setNumThreads
   (JNIEnv * env, jclass cls, jint num_threads) {
+  omp_set_num_threads(num_threads);
   mkl_set_dynamic(0);
   mkl_set_num_threads(num_threads);
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_mkl_disableFastMM
- * Method:    setNumThreads
+ * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Method:    disableFastMM
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
   (JNIEnv * env, jclass cls) {
-  mkl_disable_fast_mm();
+  return mkl_disable_fast_mm();
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_mkl_setBlockTime
- * Method:    setNumThreads
- * Signature: ()V
+ * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Method:    setBlockTime
+ * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setBlockTime
   (JNIEnv * env, jclass cls, jint time) {
-  kmp_set_blocktime(0);
+  kmp_set_blocktime(time);
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_mkl_watiPolicyPassive
- * Method:    setNumThreads
- * Signature: ()V
+ * Class:     com_intel_analytics_bigdl_mkl_MKL
+ * Method:    waitPolicy
+ * Signature: (I)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_waitPolicyPassive
-  (JNIEnv * env, jclass cls) {
-  kmp_set_library_throughput();
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_waitPolicy
+  (JNIEnv * env, jclass cls, int mode) {
+  kmp_set_library(mode);
 }
 
 /*
@@ -53,7 +54,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_waitPolicyPassive
  */
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_getNumThreads
   (JNIEnv * env, jclass cls) {
-    return 0;
+    return omp_get_num_threads();
 }
 /*
   * Class:     com_intel_analytics_bigdl_mkl_MKL
