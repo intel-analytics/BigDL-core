@@ -17,8 +17,8 @@ public class MKL {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
 
-    private final static int MKL_WAIT_POLICY_PASSIVE = 3;
-    private final static int MKL_WAIT_POLICY_ACTIVE = 2;
+    public final static int MKL_WAIT_POLICY_PASSIVE = 3;
+    public final static int MKL_WAIT_POLICY_ACTIVE = 2;
 
     static {
         try {
