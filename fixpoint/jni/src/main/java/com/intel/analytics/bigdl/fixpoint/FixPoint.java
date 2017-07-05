@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 
@@ -13,6 +14,9 @@ import static java.nio.channels.Channels.newChannel;
 public class FixPoint {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
+
+    public final static int NCHW = 0;
+    public final static int NHWC = 1;
 
     static {
         try {
@@ -55,29 +59,86 @@ public class FixPoint {
 
     public native static void printHello();
 
-    public native static long FixConvOpCreate(int layout);
 
-    public native static void FixConvOpSetupConvParameter(long desc, long channelOut, long channelIn,
-                                                          long group, long kernelHeight, long kernelWidth,
-                                                          long strideHeight, long strideWidth, long dilationHeight,
-                                                          long dilatioinWidth, long padHeight, long padWidth,
-                                                          float[] weight, long weightOffset,
-                                                          boolean withBias, float[] bias, long biasOffset,
-                                                          boolean relu);
+    public native static long FixConvKernelDescInit(int c_out,
+                                                    int c_in,
+                                                    int kernel_h,
+                                                    int kernel_w);
 
-    public native static void FixConvOpQuantizeKernel(long desc, float threshold);
+     public native static void FixConvKernelInit(long fix_tensor,
+                                                 float[] src,
+                                                 int srcOffset,
+                                                 int c_out,
+                                                 int c_in,
+                                                 int kernel_h,
+                                                 int kernel_w,
+                                                 float threshold,
+                                                 int layout);
 
-    public native static void FixConvOpQuantizeData(long desc, long batchSize, long channels,
-                                                    long inputHeight, long inputWidth, float[] src, long srcOffset,
-                                                    float threshold);
+     public native static void FixConvKernelLoadFromModel(char[] src,
+                                                          int srcOffset,
+                                                          float[] min,
+                                                          float[] max,
+                                                          int c_out,
+                                                          int c_in,
+                                                          int kernel_h,
+                                                          int kernel_w,
+                                                          float threshold,
+                                                          int layout);
 
-    public native static void FixConvOpSetupTargetBuffer(long desc, float[] dst, long dstOffset);
+     public native static long FixConvDataDescInit(int c_in,
+                                                   int kernel_h,
+                                                   int kernel_w,
+                                                   int stride_h,
+                                                   int stride_w,
+                                                   int pad_h,
+                                                   int pad_w,
+                                                   int dilation_h,
+                                                   int dilation_w,
+                                                   int batch_size,
+                                                   int h_in,
+                                                   int w_in);
 
-    public native static void FixConvOpExecute(long desc, float fault_tolerance);
+    public native static void FixConvDataInit(long fix_tensor,
+                                              float[] src, int srcOffset,
+                                              int c_in,
+                                              int kernel_h,
+                                              int kernel_w,
+                                              int stride_h,
+                                              int stride_w,
+                                              int pad_h,
+                                              int pad_w,
+                                              int dilation_h,
+                                              int dilation_w,
+                                              int batch_size,
+                                              int h_in,
+                                              int w_in,
+                                              float threshold,
+                                              int layout);
 
-    public native static void FixConvOpExecuteAll(long desc, long batchSize, long channels,
-                                                  long inputHeight, long inputWidth, float[] src, long srcOffset,
-                                                  float threshold, float[] dst, long dstOffset, float fault_tolerance);
+    public native static long FixConvKernelSumDescInit(int c_out);
 
-    public native static void FixConvOpFree(long desc);
+    public native static void FixConvKernelSumInit(long fp_tensor,
+                                                   float[] src, int srcOffset,
+                                                   int n,
+                                                   int c,
+                                                   int h,
+                                                   int w);
+
+    public native static void InternalMixPrecisionConvolutionGEMM(int layout,
+                                                                  long pa,
+                                                                  long pb,
+                                                                  float[] pc, int pcOffset,
+                                                                  int m,
+                                                                  int n,
+                                                                  int k,
+                                                                  long kernelSum,
+                                                                  float[] bias,
+                                                                  int biasOffset,
+                                                                  int batch_size,
+                                                                  int channel_per_group,
+                                                                  int height_out,
+                                                                  int width_out,
+                                                                  float fault_tolerance);
+
 }
