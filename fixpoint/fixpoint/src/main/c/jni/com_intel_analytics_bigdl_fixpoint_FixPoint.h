@@ -16,85 +16,80 @@ extern "C" {
  * Method:    printHello
  * Signature: ()V
  */
-JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_printHello(JNIEnv *, jclass);
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_printHello
+  (JNIEnv *, jclass);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvKernelDescInit
  * Signature: (IIII)J
  */
-JNIEXPORT jlong JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelDescInit(
-    JNIEnv *, jclass, jint, jint, jint, jint);
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelDescInit
+  (JNIEnv *, jclass, jint, jint, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvKernelInit
  * Signature: (J[FIIIIIFI)V
  */
-JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelInit(
-    JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint, jfloat,
-    jint);
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelInit
+  (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvKernelLoadFromModel
  * Signature: ([CI[F[FIIIIFI)V
  */
-JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelLoadFromModel(
-    JNIEnv *, jclass, jcharArray, jint, jfloatArray, jfloatArray, jint, jint,
-    jint, jint, jfloat, jint);
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelLoadFromModel
+  (JNIEnv *, jclass, jcharArray, jint, jfloatArray, jfloatArray, jint, jint, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvDataDescInit
  * Signature: (IIIIIIIIIIII)J
  */
-JNIEXPORT jlong JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataDescInit(
-    JNIEnv *, jclass, jint, jint, jint, jint, jint, jint, jint, jint, jint,
-    jint, jint, jint);
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataDescInit
+  (JNIEnv *, jclass, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvDataInit
  * Signature: (J[FIIIIIIIIIIIIIFI)V
  */
-JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataInit(
-    JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint, jint,
-    jint, jint, jint, jint, jint, jint, jint, jfloat, jint);
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataInit
+  (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvKernelSumDescInit
  * Signature: (I)J
  */
-JNIEXPORT jlong JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumDescInit(
-    JNIEnv *, jclass, jint);
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumDescInit
+  (JNIEnv *, jclass, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvKernelSumInit
  * Signature: (J[FIIIII)V
  */
-JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumInit(
-    JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint);
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumInit
+  (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    InternalMixPrecisionConvolutionGEMM
  * Signature: (IJJ[FIIIIJ[FIIIIIF)V
  */
-JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolutionGEMM(
-    JNIEnv *, jclass, jint, jlong, jlong, jfloatArray, jint, jint, jint, jint,
-    jlong, jfloatArray, jint, jint, jint, jint, jint, jfloat);
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolutionGEMM
+  (JNIEnv *, jclass, jint, jlong, jlong, jfloatArray, jint, jint, jint, jint, jlong, jfloatArray, jint, jint, jint, jint, jint, jfloat);
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FreeMemory
+ * Signature: (JI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FreeMemory
+  (JNIEnv *, jclass, jlong, jint);
 
 #ifdef __cplusplus
 }
