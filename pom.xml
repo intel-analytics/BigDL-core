@@ -46,6 +46,7 @@
             <id>win64</id>
             <properties>
                 <iompLib>libiomp5md.dll</iompLib>
+                <!-- change this property if it's another on your machine via -DiompLibDir -->
                 <iompLibDir>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.4.210\windows\redist\intel64\compiler</iompLibDir>
                 <native-project>mkl-win64</native-project>
                 <dynamicLibType>dll</dynamicLibType>
