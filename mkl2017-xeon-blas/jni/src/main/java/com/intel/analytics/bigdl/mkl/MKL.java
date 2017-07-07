@@ -32,15 +32,19 @@ public class MKL {
                 jmklFileName = "libjmkl.dll";
             }
 
-            //tmpFile = extract(iomp5FileName);
-            System.load("C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2017.4" +
-                    ".210\\windows\\redist\\intel64\\compiler\\libiomp5md.dll");
-            //System.load(tmpFile.getAbsolutePath());
-            //tmpFile.delete(); // delete so temp file after loaded
+            tmpFile = extract(iomp5FileName);
+            try {
+                System.load(tmpFile.getAbsolutePath());
+            } finally {
+                tmpFile.delete(); // delete so temp file after loaded
+            }
 
             tmpFile = extract(jmklFileName);
-            System.load(tmpFile.getAbsolutePath());
-            tmpFile.delete(); // delete so temp file after loaded
+            try {
+                System.load(tmpFile.getAbsolutePath());
+            } finally {
+                tmpFile.delete(); // delete so temp file after loaded
+            }
 
             setMklEnv();
 
@@ -276,11 +280,20 @@ public class MKL {
         try {
             URL url = MKL.class.getResource("/" + path);
             if (url == null) {
-                throw new Error("Can't find so file in jar, path = " + path);
+                throw new Error("Can't find dynamic lib file in jar, path = " + path);
             }
 
             InputStream in = MKL.class.getResourceAsStream("/" + path);
-            File file = createTempFile("dlNativeLoader", path);
+            File file = null;
+
+            // Windows won't allow to change the dll name, so we keep the name
+            // It's fine as windows is consider in a desktop env, so there won't multiple instance
+            // produce the dynamic lib file
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                file = new File(System.getProperty("java.io.tmpdir") + File.separator + path);
+            } else {
+                file = createTempFile("dlNativeLoader", path);
+            }
 
             ReadableByteChannel src = newChannel(in);
             FileChannel dest = new FileOutputStream(file).getChannel();
@@ -289,7 +302,7 @@ public class MKL {
             src.close();
             return file;
         } catch (Throwable e) {
-            throw new Error("Can't extract so file to /tmp dir");
+            throw new Error("Can't extract dynamic lib file to /tmp dir.\n" + e);
         }
     }
 

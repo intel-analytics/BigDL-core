@@ -53,7 +53,7 @@ To compile on win64, you need
                     <linkerStartOptions>
                         <linkerStartOption>/DLL</linkerStartOption>
                         <linkerStartOption>mkl_intel_lp64.lib </linkerStartOption>
-                        <linkerStartOption>mkl_sequential.lib</linkerStartOption>
+                        <linkerStartOption>mkl_intel_thread.lib</linkerStartOption>
                         <linkerStartOption>mkl_core.lib</linkerStartOption>
                         <linkerStartOption>libiomp5md.lib</linkerStartOption>
                     </linkerStartOptions>
