@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>native-parent</artifactId>
+        <groupId>com.intel.analytics.bigdl</groupId>
+        <version>0.2.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.intel.analytics.bigdl.native</groupId>
+    <artifactId>bigdl-native</artifactId>
+    <packaging>${dynamicLibType}</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>1.0-alpha-8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <compilerProvider>msvc</compilerProvider>
+                    <sources>
+                        <source>
+                            <directory>${project.basedir}\..\mkl\src\main\c\jni</directory>
+                            <fileNames>
+                                <fileName>mkl.c</fileName>
+                            </fileNames>
+                        </source>
+                    </sources>
+
+                    <compilerStartOptions>
+                        <compilerStartOption>/EHsc /LD</compilerStartOption>
+                        <compilerStartOption>/I "${JAVA_HOME}\include"</compilerStartOption>
+                        <compilerStartOption>/I "${JAVA_HOME}\include\win32"</compilerStartOption>
+                    </compilerStartOptions>
+
+                    <linkerSecondaryOutputExtensions>lib</linkerSecondaryOutputExtensions>
+
+                    <linkerStartOptions>
+                        <linkerStartOption>/DLL</linkerStartOption>
+                        <linkerStartOption>mkl_intel_lp64.lib </linkerStartOption>
+                        <linkerStartOption>mkl_sequential.lib</linkerStartOption>
+                        <linkerStartOption>mkl_core.lib</linkerStartOption>
+                        <linkerStartOption>libiomp5md.lib</linkerStartOption>
+                    </linkerStartOptions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -27,10 +27,17 @@ public class MKL {
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                 iomp5FileName = "libiomp5.dylib";
                 jmklFileName = "libjmkl.dylib";
+            } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
+                iomp5FileName = "libiomp5md.dll";
+                jmklFileName = "libjmkl.dll";
             }
-            tmpFile = extract(iomp5FileName);
-            System.load(tmpFile.getAbsolutePath());
-            tmpFile.delete(); // delete so temp file after loaded
+
+            //tmpFile = extract(iomp5FileName);
+            System.load("C:\\Program Files (x86)\\IntelSWTools\\compilers_and_libraries_2017.4" +
+                    ".210\\windows\\redist\\intel64\\compiler\\libiomp5md.dll");
+            //System.load(tmpFile.getAbsolutePath());
+            //tmpFile.delete(); // delete so temp file after loaded
+
             tmpFile = extract(jmklFileName);
             System.load(tmpFile.getAbsolutePath());
             tmpFile.delete(); // delete so temp file after loaded
@@ -278,6 +285,8 @@ public class MKL {
             ReadableByteChannel src = newChannel(in);
             FileChannel dest = new FileOutputStream(file).getChannel();
             dest.transferFrom(src, 0, Long.MAX_VALUE);
+            dest.close();
+            src.close();
             return file;
         } catch (Throwable e) {
             throw new Error("Can't extract so file to /tmp dir");
