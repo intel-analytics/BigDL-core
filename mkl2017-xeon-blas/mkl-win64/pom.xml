@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+To compile on win64, you need
+1. Download visual studio
+2. Download intel parallel studio for window
+3. Find "Compiler 17.0 Update 4 for Intel 64 Visual Studio 2017 environment" cmd and open it
+4. run mklvars.bat
+5. mvn compile -P win64
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
