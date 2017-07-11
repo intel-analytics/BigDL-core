@@ -38,10 +38,10 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvK
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvKernelLoadFromModel
- * Signature: ([CI[F[FIIIIFI)V
+ * Signature: (J[BI[F[FIIIIFI)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelLoadFromModel
-  (JNIEnv *, jclass, jcharArray, jint, jfloatArray, jfloatArray, jint, jint, jint, jint, jfloat, jint);
+  (JNIEnv *, jclass, jlong, jbyteArray, jint, jfloatArray, jfloatArray, jint, jint, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
@@ -81,7 +81,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvK
  * Signature: (IJJ[FIIIIJ[FIIIIIF)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolutionGEMM
-  (JNIEnv *, jclass, jint, jlong, jlong, jfloatArray, jint, jint, jint, jint, jlong, jfloatArray, jint, jint, jint, jint, jint, jfloat);
+  (JNIEnv *, jclass, jint, jlong, jlong, jfloatArray, jint, jint, jint, jint, jfloatArray, jfloatArray, jint, jint, jint, jint, jint, jfloat);
 
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint

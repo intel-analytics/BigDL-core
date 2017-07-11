@@ -75,7 +75,8 @@ public class FixPoint {
                                                  float threshold,
                                                  int layout);
 
-     public native static void FixConvKernelLoadFromModel(char[] src,
+     public native static void FixConvKernelLoadFromModel(long fix_tensor,
+                                                          byte[] src,
                                                           int srcOffset,
                                                           float[] min,
                                                           float[] max,
@@ -132,7 +133,7 @@ public class FixPoint {
                                                                   int m,
                                                                   int n,
                                                                   int k,
-                                                                  long kernelSum,
+                                                                  float[] kernelSum,
                                                                   float[] bias,
                                                                   int biasOffset,
                                                                   int batch_size,

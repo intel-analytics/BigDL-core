@@ -51,15 +51,24 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelInit(
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FixConvKernelLoadFromModel
- * Signature: ([CI[F[FIIIIFI)V
+ * Signature: (J[BI[F[FIIIIFI)V
  */
 JNIEXPORT void JNICALL
 Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelLoadFromModel(
-    JNIEnv *env, jclass cls, jcharArray src,
+    JNIEnv *env, jclass cls, jlong fix_tensor, jbyteArray src,
     jint srcOffset, jfloatArray min, jfloatArray max, jint c_out, jint c_in,
     jint kernel_h, jint kernel_w, jfloat threshold, jint layout)
 {
-    // TODO
+    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+    jbyte* jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
+    jfloat* jni_min = (*env)->GetPrimitiveArrayCritical(env, min, JNI_FALSE);
+    jfloat* jni_max = (*env)->GetPrimitiveArrayCritical(env, max, JNI_FALSE);
+    
+    FixConvKernelLoadFromModel(j_fix_tensor, jni_src, jni_min, jni_max, c_out, c_in, kernel_h, kernel_w, threshold, layout);
+
+    (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, min, jni_min, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, max, jni_max, 0);
 }
 
 /*
@@ -137,21 +146,21 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumInit(
 JNIEXPORT void JNICALL
 Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolutionGEMM(
     JNIEnv *env, jclass cls, jint layout, jlong pa, jlong pb, jfloatArray pc,
-    jint pcOffset, jint m, jint n, jint k, jlong kernel_sum, jfloatArray bias,
+    jint pcOffset, jint m, jint n, jint k, jfloatArray kernel_sum, jfloatArray bias,
     jint biasOffset, jint batch_size, jint channel_per_group, jint height_out,
     jint width_out, jfloat fault_tolerance)
 {
     FixTensor *jni_pa = (FixTensor*)pa;
     FixTensor *jni_pb = (FixTensor*)pb;
-    FPTensor *jni_kernel_sum = (FPTensor*)kernel_sum;
 
     jfloat *jni_pc = (*env)->GetPrimitiveArrayCritical(env, pc, JNI_FALSE);
     jfloat *jni_bias = (*env)->GetPrimitiveArrayCritical(env, bias, JNI_FALSE);
+    jfloat *jni_kernel_sum = (*env)->GetPrimitiveArrayCritical(env, kernel_sum, JNI_FALSE);
 
     InternalMixPrecisionConvolutionGEMM(layout, jni_pa->data, jni_pb->data, jni_pc + pcOffset,
             jni_pa->shape[0], jni_pb->shape[0], jni_pb->shape[1],
             jni_pa->ratio, jni_pb->ratio,
-            jni_kernel_sum->data, jni_pb->min,
+            jni_kernel_sum, jni_pb->min,
             jni_bias + biasOffset, batch_size,
             channel_per_group, height_out, width_out, fault_tolerance,
             jni_pa->shape[0] - jni_pa->ori_shape[0],
@@ -159,6 +168,7 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolution
 
     (*env)->ReleasePrimitiveArrayCritical(env, pc, jni_pc, 0);
     (*env)->ReleasePrimitiveArrayCritical(env, bias, jni_bias, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, kernel_sum, jni_kernel_sum, 0);
 }
 
 /*
