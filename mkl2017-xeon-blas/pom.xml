@@ -13,7 +13,7 @@
     <groupId>com.intel.analytics.bigdl</groupId>
     <packaging>pom</packaging>
     <modules>
-        <module>mkl</module>
+        <module>${native-project}</module>
         <module>jni</module>
     </modules>
 </project>

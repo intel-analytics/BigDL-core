@@ -2,3 +2,7 @@
 target/
 *.un~
 *.iml
+*.dll
+*.lib
+*.exp
+*.obj
