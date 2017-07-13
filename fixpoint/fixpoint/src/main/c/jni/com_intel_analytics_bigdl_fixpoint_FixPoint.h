@@ -78,7 +78,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvK
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    InternalMixPrecisionConvolutionGEMM
- * Signature: (IJJ[FIIIIJ[FIIIIIF)V
+ * Signature: (IJJ[FIIII[F[FIIIIIF)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolutionGEMM
   (JNIEnv *, jclass, jint, jlong, jlong, jfloatArray, jint, jint, jint, jint, jfloatArray, jfloatArray, jint, jint, jint, jint, jint, jfloat);
