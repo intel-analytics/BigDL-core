@@ -177,27 +177,16 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolution
  * Signature: (JI)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FreeMemory(
-    JNIEnv *env, jclass cls, jlong ptr, jint type)
+    JNIEnv *env, jclass cls, jlong ptr)
 {
-#define FIXTENSOR 0
-#define FPTENSOR 1
+    FixTensor *jni_ptr = (FixTensor*)ptr;
 
-    if (type == FIXTENSOR) {
-        FixTensor *jni_ptr = (FixTensor*)ptr;
+    FreeMemory(jni_ptr->data);
+    FreeMemory(jni_ptr->min);
+    FreeMemory(jni_ptr->max);
+    FreeMemory(jni_ptr->ratio);
 
-        FreeMemory(jni_ptr->data);
-        FreeMemory(jni_ptr->min);
-        FreeMemory(jni_ptr->max);
-        FreeMemory(jni_ptr->ratio);
-
-        free(jni_ptr);
-    } else if (type == FPTENSOR) {
-        FPTensor *jni_ptr = (FPTensor*)ptr;
-
-        FreeMemory(jni_ptr->data);
-
-        free(jni_ptr);
-    }
+    free(jni_ptr);
 }
 
 #ifdef __cplusplus

@@ -86,10 +86,10 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_Internal
 /*
  * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
  * Method:    FreeMemory
- * Signature: (JI)V
+ * Signature: (J)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FreeMemory
-  (JNIEnv *, jclass, jlong, jint);
+  (JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus
 }

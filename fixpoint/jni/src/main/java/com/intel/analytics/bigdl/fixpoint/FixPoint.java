@@ -141,5 +141,5 @@ public class FixPoint {
                                                                   int height_out,
                                                                   int width_out,
                                                                   float fault_tolerance);
-    public native static void FreeMemory(long ptr, int type);
+    public native static void FreeMemory(long ptr);
 }
