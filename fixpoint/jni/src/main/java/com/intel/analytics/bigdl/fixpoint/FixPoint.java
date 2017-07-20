@@ -26,7 +26,7 @@ public class FixPoint {
             }
             tmpFile = extract(fixpointName);
             System.load(tmpFile.getAbsolutePath());
-            tmpFile.delete(); // delete so temp file after loaded
+             tmpFile.delete(); // delete so temp file after loaded
             isLoaded = true;
 
         } catch (Exception e) {
@@ -142,4 +142,25 @@ public class FixPoint {
                                                                   int width_out,
                                                                   float fault_tolerance);
     public native static void FreeMemory(long ptr);
+
+    public native static long FixFCKernelDescInit(int c_out, int c_in);
+
+    public native static void FixFCKernelLoadFromModel(long fix_tensor,
+                                                       byte[] src,
+                                                       float[] min,
+                                                       float[] max,
+                                                       int c_out,
+                                                       int c_in,
+                                                       float threshold,
+                                                       int layout);
+
+    public native static long FixFCDataDescInit(int batch_size,
+                                                int channel);
+
+    public native static void FixFCDataInit(long fix_tensor,
+                                            float[] src, int srcOffset,
+                                            int batch_size,
+                                            int channel,
+                                            float threshold,
+                                            int layout);
 }

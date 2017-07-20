@@ -157,7 +157,7 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolution
     jfloat *jni_bias = (*env)->GetPrimitiveArrayCritical(env, bias, JNI_FALSE);
     jfloat *jni_kernel_sum = (*env)->GetPrimitiveArrayCritical(env, kernel_sum, JNI_FALSE);
 
-    InternalMixPrecisionConvolutionGEMM(layout, jni_pa->data, jni_pb->data, jni_pc + pcOffset,
+    InternalMixPrecisionGEMM(layout, jni_pa->data, jni_pb->data, jni_pc + pcOffset,
             jni_pa->shape[0], jni_pb->shape[0], jni_pb->shape[1],
             jni_pa->ratio, jni_pb->ratio,
             jni_kernel_sum, jni_pb->min,
@@ -187,6 +187,88 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FreeMemo
     FreeMemory(jni_ptr->ratio);
 
     free(jni_ptr);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCKernelDescInit
+ * Signature: (II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKernelDescInit
+  (JNIEnv *env, jclass cls, jint c_out, jint c_in)
+{
+  FixTensor *tmp = (FixTensor*)malloc(sizeof(FixTensor));
+  FixFCKernelDescInit(tmp, c_out, c_in);
+  return (jlong)tmp;
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCKernelLoadFromModel
+ * Signature: (J[B[F[FIIFI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKernelLoadFromModel
+  (JNIEnv *env,
+ jclass cls,
+ jlong fix_tensor,
+ jbyteArray src,
+ jfloatArray min,
+ jfloatArray max,
+ jint c_out,
+ jint c_in,
+ jfloat threshold,
+ jint layout)
+{
+    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+    jbyte* jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
+    jfloat* jni_min = (*env)->GetPrimitiveArrayCritical(env, min, JNI_FALSE);
+    jfloat* jni_max = (*env)->GetPrimitiveArrayCritical(env, max, JNI_FALSE);
+    
+    FixFCKernelLoadFromModel(j_fix_tensor, jni_src, jni_min, jni_max, c_out, c_in, threshold, layout);
+
+    (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, min, jni_min, 0);
+    (*env)->ReleasePrimitiveArrayCritical(env, max, jni_max, 0);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCDataDescInit
+ * Signature: (II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCDataDescInit
+  (JNIEnv *env,
+ jclass cls,
+ jint batch_size,
+ jint channel)
+{
+  FixTensor *tmp = (FixTensor*)malloc(sizeof(FixTensor));
+  FixFCDataDescInit(tmp, batch_size, channel);
+  return (jlong)tmp;
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCDataInit
+ * Signature: (J[FIIIFI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCDataInit
+  (JNIEnv *env,
+ jclass cls,
+ jlong fix_tensor,
+ jfloatArray src,
+ jint srcOffset,
+ jint batch_size,
+ jint channel,
+ jfloat threshold,
+ jint layout)
+{
+    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+
+    jfloat * jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
+    FixFCDataInit(j_fix_tensor, jni_src + srcOffset,
+            batch_size, channel, threshold, layout);
+    (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
 }
 
 #ifdef __cplusplus

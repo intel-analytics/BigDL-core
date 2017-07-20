@@ -91,6 +91,38 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_Internal
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FreeMemory
   (JNIEnv *, jclass, jlong);
 
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCKernelDescInit
+ * Signature: (II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKernelDescInit
+  (JNIEnv *, jclass, jint, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCKernelLoadFromModel
+ * Signature: (J[B[F[FIIFI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKernelLoadFromModel
+  (JNIEnv *, jclass, jlong, jbyteArray, jfloatArray, jfloatArray, jint, jint, jfloat, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCDataDescInit
+ * Signature: (II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCDataDescInit
+  (JNIEnv *, jclass, jint, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Method:    FixFCDataInit
+ * Signature: (J[FIIIFI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCDataInit
+  (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jfloat, jint);
+
 #ifdef __cplusplus
 }
 #endif
