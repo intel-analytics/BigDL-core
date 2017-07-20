@@ -13,7 +13,7 @@ To compile on win64, you need
     <parent>
         <artifactId>native-parent</artifactId>
         <groupId>com.intel.analytics.bigdl</groupId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
