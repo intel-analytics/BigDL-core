@@ -18,15 +18,22 @@ public class FixPoint {
     public final static int NCHW = 0;
     public final static int NHWC = 1;
 
+    private static void loadLibary(String name) {
+        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+            name = "lib" + name + ".dylib";
+        } else {
+            name = "lib" + name + ".so";
+        }
+
+        tmpFile = extract(name);
+        System.load(tmpFile.getAbsolutePath());
+        tmpFile.delete(); // delete so temp file after loaded
+    }
+
     static {
         try {
-            String fixpointName = "libfixpoint.so";
-            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                fixpointName = "libfixpoint.dylib";
-            }
-            tmpFile = extract(fixpointName);
-            System.load(tmpFile.getAbsolutePath());
-             tmpFile.delete(); // delete so temp file after loaded
+            loadLibary("nnfixpoint");
+            loadLibary("fixpoint");
             isLoaded = true;
 
         } catch (Exception e) {

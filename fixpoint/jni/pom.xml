@@ -32,6 +32,15 @@
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${fpLibDir}</directory>
+                <includes>
+                    <include>${fpLib}</include>
+                </includes>
+                <targetPath>${project.build.directory}/classes</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

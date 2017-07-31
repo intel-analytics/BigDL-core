@@ -24,6 +24,8 @@
         <native-project>mkl</native-project>
         <iompLib>libiomp5.so</iompLib>
         <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
+        <fpLib>libnnfixpoint.so</fpLib>
+        <fpLibDir>/home/wyz/workspace/libnnfixpoint</fpLibDir>
         <destFileName>libjmkl.so</destFileName>
     </properties>
     <profiles>
