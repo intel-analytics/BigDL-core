@@ -134,19 +134,15 @@ public class FixPoint {
                                                    int w);
 
     public native static void InternalMixPrecisionConvolutionGEMM(int layout,
-                                                                  long pa, int paOffset, int id,
+                                                                  long pa,
                                                                   long pb,
                                                                   float[] pc, int pcOffset,
-                                                                  int m,
-                                                                  int n,
-                                                                  int k,
                                                                   float[] kernelSum, int kernelSumOffset,
                                                                   float[] bias, int biasOffset,
                                                                   int batch_size,
                                                                   int channel_per_group,
                                                                   int height_out,
                                                                   int width_out,
-                                                                  int group,
                                                                   float fault_tolerance);
     public native static void FreeMemory(long ptr);
 
