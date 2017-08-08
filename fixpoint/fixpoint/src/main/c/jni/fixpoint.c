@@ -145,7 +145,7 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumInit(
  */
 JNIEXPORT void JNICALL
 Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolutionGEMM(
-    JNIEnv *env, jclass cls, jint layout, jlong pa, jint paOffset, jlong pb, jfloatArray pc,
+    JNIEnv *env, jclass cls, jint layout, jlong pa, jint paOffset, jint id, jlong pb, jfloatArray pc,
     jint pcOffset, jint m, jint n, jint k, jfloatArray kernel_sum, jint kernel_sum_offset, jfloatArray bias,
     jint biasOffset, jint batch_size, jint channel_per_group, jint height_out,
     jint width_out, jint group, jfloat fault_tolerance)
@@ -159,11 +159,16 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolution
 
     printf("jni_pa->shape[0] = %d, jni_pb->shape[0] = %d, jni_pb->shape[1] = %d\n",
            jni_pa->shape[0], jni_pb->shape[0], jni_pb->shape[1]);
-    printf("m = %d, n = %d, k = %d\n", m, n, k);
+    printf("jni_pa->ori_shape[0] = %d, jni_pb->ori_shape[0] = %d\n",
+           jni_pa->ori_shape[0], jni_pb->ori_shape[0]);
+    printf("weight_offset = %d\n", paOffset);
+    printf("ratio_offset = %d\n", jni_pa->shape[0] / group * id);
+    printf("kernel_sum_offset = %d\n", kernel_sum_offset);
+    printf("bias_offset = %d\n", biasOffset);
 
     InternalMixPrecisionGEMM(layout, jni_pa->data + paOffset, jni_pb->data, jni_pc + pcOffset,
-            jni_pa->shape[0] / group, jni_pb->shape[0], jni_pb->shape[1] / group,
-            jni_pa->ratio, jni_pb->ratio,
+            jni_pa->shape[0] / group, jni_pb->shape[0], jni_pb->shape[1],
+            jni_pa->ratio + jni_pa->shape[0] / group * id, jni_pb->ratio,
             jni_kernel_sum + kernel_sum_offset, jni_pb->min,
             jni_bias + biasOffset, batch_size,
             channel_per_group, height_out, width_out, fault_tolerance,

@@ -134,7 +134,7 @@ public class FixPoint {
                                                    int w);
 
     public native static void InternalMixPrecisionConvolutionGEMM(int layout,
-                                                                  long pa, int paOffset,
+                                                                  long pa, int paOffset, int id,
                                                                   long pb,
                                                                   float[] pc, int pcOffset,
                                                                   int m,
