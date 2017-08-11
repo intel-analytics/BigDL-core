@@ -2,26 +2,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "com_intel_analytics_bigdl_fixpoint_FixPoint.h"
+#include "com_intel_analytics_bigdl_quantization_Quantization.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_printHello(JNIEnv *env,
+Java_com_intel_analytics_bigdl_quantization_Quantization_printHello(JNIEnv *env,
                                                             jclass cls)
 {
   printf("Hello FixPoint!");
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixConvKernelDescInit
  * Signature: (IIII)J
  */
 JNIEXPORT jlong JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelDescInit(
+Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelDescInit(
     JNIEnv *env, jclass cls, jint c_out, jint c_in, jint kernel_h,
     jint kernel_w)
 {
@@ -31,12 +31,12 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelDescInit(
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixConvKernelInit
  * Signature: (J[FIIIIIFI)V
  */
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelInit(
+Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelInit(
     JNIEnv *env, jclass cls, jlong fix_tensor, jfloatArray src, jint srcOffset,
     jint c_out, jint c_in, jint kernel_h, jint kernel_w, jfloat threshold,
     jint layout)
@@ -49,12 +49,12 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelInit(
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixConvKernelLoadFromModel
  * Signature: (J[BI[F[FIIIIFI)V
  */
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelLoadFromModel(
+Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelLoadFromModel(
     JNIEnv *env, jclass cls, jlong fix_tensor, jbyteArray src,
     jint srcOffset, jfloatArray min, jfloatArray max, jint c_out, jint c_in,
     jint kernel_h, jint kernel_w, jfloat threshold, jint layout)
@@ -72,12 +72,12 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelLoadFromModel(
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixConvDataDescInit
  * Signature: (IIIIIIIIIIII)J
  */
 JNIEXPORT jlong JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataDescInit(
+Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvDataDescInit(
     JNIEnv *env, jclass cls, jint c_in, jint kernel_h, jint kernel_w,
     jint stride_h, jint stride_w, jint pad_h, jint pad_w, jint dilation_h,
     jint dilation_w, jint batch_size, jint h_in, jint w_in)
@@ -88,12 +88,12 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataDescInit(
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixConvDataInit
  * Signature: (J[FIIIIIIIIIIIIIFI)V
  */
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataInit(
+Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvDataInit(
     JNIEnv *env, jclass cls, jlong fix_tensor, jfloatArray src, jint srcOffset,
     jint c_in, jint kernel_h, jint kernel_w, jint stride_h, jint stride_w,
     jint pad_h, jint pad_w, jint dilation_h, jint dilation_w, jint batch_size,
@@ -108,12 +108,12 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvDataInit(
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixConvKernelSumDescInit
  * Signature: (I)J
  */
 JNIEXPORT jlong JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumDescInit(
+Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelSumDescInit(
     JNIEnv *env, jclass cls, jint c_out)
 {
   FPTensor *tmp = (FPTensor*)malloc(sizeof(FPTensor));
@@ -122,12 +122,12 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumDescInit(
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixConvKernelSumInit
  * Signature: (J[FIIIII)V
  */
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumInit(
+Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelSumInit(
     JNIEnv *env, jclass cls, jlong fp_tensor, jfloatArray src, jint srcOffset,
     jint n, jint c, jint h, jint w)
 {
@@ -139,12 +139,12 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixConvKernelSumInit(
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    InternalMixPrecisionConvolutionGEMM
  * Signature: (IJIJ[FIIII[FI[FIIIIIIF)V
  */
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolutionGEMM(
+Java_com_intel_analytics_bigdl_quantization_Quantization_InternalMixPrecisionConvolutionGEMM(
     JNIEnv *env, jclass cls, jint layout, jlong pa, jlong pb, jfloatArray pc,
     jint pcOffset, jfloatArray kernel_sum, jint kernel_sum_offset, jfloatArray bias,
     jint biasOffset, jint batch_size, jint channel_per_group, jint height_out,
@@ -172,11 +172,11 @@ Java_com_intel_analytics_bigdl_fixpoint_FixPoint_InternalMixPrecisionConvolution
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FreeMemory
  * Signature: (JI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FreeMemory(
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FreeMemory(
     JNIEnv *env, jclass cls, jlong ptr)
 {
     FixTensor *jni_ptr = (FixTensor*)ptr;
@@ -190,11 +190,11 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FreeMemo
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixFCKernelDescInit
  * Signature: (II)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKernelDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCKernelDescInit
   (JNIEnv *env, jclass cls, jint c_out, jint c_in)
 {
   FixTensor *tmp = (FixTensor*)malloc(sizeof(FixTensor));
@@ -203,11 +203,11 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKe
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixFCKernelLoadFromModel
  * Signature: (J[B[F[FIIFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKernelLoadFromModel
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCKernelLoadFromModel
   (JNIEnv *env,
  jclass cls,
  jlong fix_tensor,
@@ -232,11 +232,11 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCKer
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixFCDataDescInit
  * Signature: (II)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCDataDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCDataDescInit
   (JNIEnv *env,
  jclass cls,
  jint batch_size,
@@ -248,11 +248,11 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCDa
 }
 
 /*
- * Class:     com_intel_analytics_bigdl_fixpoint_FixPoint
+ * Class:     com_intel_analytics_bigdl_quantization_Quantization
  * Method:    FixFCDataInit
  * Signature: (J[FIIIFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_fixpoint_FixPoint_FixFCDataInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCDataInit
   (JNIEnv *env,
  jclass cls,
  jlong fix_tensor,

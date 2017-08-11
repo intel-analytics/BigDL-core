@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fixpoint-parent</artifactId>
+    <artifactId>quantization-parent</artifactId>
     <groupId>com.intel.analytics.bigdl</groupId>
     <packaging>pom</packaging>
     <modules>
-        <module>fixpoint</module>
+        <module>quantization</module>
         <module>jni</module>
     </modules>
 </project>

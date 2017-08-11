@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>fixpoint-parent</artifactId>
+        <artifactId>quantization-parent</artifactId>
         <groupId>com.intel.analytics.bigdl</groupId>
         <version>0.3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.intel.analytics.bigdl.fixpoint</groupId>
-    <artifactId>fixpoint-native</artifactId>
+    <groupId>com.intel.analytics.bigdl.quantization</groupId>
+    <artifactId>quantization-native</artifactId>
     <packaging>${dynamicLibType}</packaging>
 
     <build>
@@ -31,7 +31,7 @@
                         <source>
                             <directory>${basedir}/src/main/c/jni</directory>
                             <fileNames>
-                                <fileName>fixpoint.c</fileName>
+                                <fileName>quantization.c</fileName>
                             </fileNames>
                         </source>
                     </sources>

@@ -1,17 +1,16 @@
-package com.intel.analytics.bigdl.fixpoint;
+package com.intel.analytics.bigdl.quantization;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 
 import static java.io.File.createTempFile;
 import static java.nio.channels.Channels.newChannel;
 
-public class FixPoint {
+public class Quantization {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
 
@@ -33,26 +32,26 @@ public class FixPoint {
     static {
         try {
             loadLibary("nnfixpoint");
-            loadLibary("fixpoint");
+            loadLibary("quantization");
             isLoaded = true;
 
         } catch (Exception e) {
             isLoaded = false;
             e.printStackTrace();
             // TODO: Add an argument for user, continuing to run even if MKL load failed.
-            throw new RuntimeException("Failed to load FixPoint");
+            throw new RuntimeException("Failed to load Quantization");
         }
     }
 
     // Extract so file from jar to a temp path
     private static File extract(String path) {
         try {
-            URL url = FixPoint.class.getResource("/" + path);
+            URL url = Quantization.class.getResource("/" + path);
             if (url == null) {
                 throw new Error("Can't find so file in jar, path = " + path);
             }
 
-            InputStream in = FixPoint.class.getResourceAsStream("/" + path);
+            InputStream in = Quantization.class.getResourceAsStream("/" + path);
             File file = createTempFile("dlNativeLoader", path);
 
             ReadableByteChannel src = newChannel(in);
@@ -63,9 +62,6 @@ public class FixPoint {
             throw new Error("Can't extract so file to /tmp dir");
         }
     }
-
-    public native static void printHello();
-
 
     public native static long FixConvKernelDescInit(int c_out,
                                                     int c_in,

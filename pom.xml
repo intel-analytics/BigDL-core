@@ -15,7 +15,7 @@
     <modules>
         <module>mkl2017-xeon-blas</module>
         <module>mkl2017-xeon-dnn</module>
-        <module>fixpoint</module>
+        <module>quantization</module>
     </modules>
     <properties>
         <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
@@ -24,8 +24,8 @@
         <native-project>mkl</native-project>
         <iompLib>libiomp5.so</iompLib>
         <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
-        <fpLib>libnnfixpoint.so</fpLib>
-        <fpLibDir>/home/wyz/workspace/libnnfixpoint</fpLibDir>
+        <quantizationLib>libnnfixpoint.so</quantizationLib>
+        <quantizationLibDir>/opt/quantization/</quantizationLibDir>
         <destFileName>libjmkl.so</destFileName>
     </properties>
     <profiles>
