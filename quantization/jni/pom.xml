@@ -27,10 +27,6 @@
         </dependency>
     </dependencies>
 
-    <properties>
-        <destFileName>libquantization.so</destFileName>
-    </properties>
-
     <build>
         <resources>
             <resource>
@@ -65,7 +61,7 @@
                                     <type>${dynamicLibType}</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                    <destFileName>${destFileName}</destFileName>
+                                    <destFileName>${quantizationDestFileName}</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

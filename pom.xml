@@ -27,6 +27,7 @@
         <quantizationLib>libnnfixpoint.so</quantizationLib>
         <quantizationLibDir>/opt/quantization/</quantizationLibDir>
         <destFileName>libjmkl.so</destFileName>
+        <quantizationDestFileName>libquantization.so</quantizationDestFileName>
     </properties>
     <profiles>
         <profile>
@@ -44,6 +45,8 @@
                 <dynamicLibType>dylib</dynamicLibType>
                 <iompLib>libiomp5.dylib</iompLib>
                 <destFileName>libjmkl.dylib</destFileName>
+                <quantizationLib>libnnfixpoint.dylib</quantizationLib>
+                <quantizationDestFileName>libquantization.dylib</quantizationDestFileName>
             </properties>
         </profile>
         <profile>
