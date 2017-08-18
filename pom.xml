@@ -23,10 +23,11 @@
         <native-project>mkl</native-project>
         <iompLib>libiomp5.so</iompLib>
         <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
+        <destFileName>libjmkl.so</destFileName>
         <quantizationLib>libnnfixpoint.so</quantizationLib>
         <quantizationLibDir>/opt/quantization/</quantizationLibDir>
-        <destFileName>libjmkl.so</destFileName>
         <quantizationDestFileName>libquantization.so</quantizationDestFileName>
+        <quantizationProject>quantization</quantizationProject>
     </properties>
     <profiles>
         <profile>
@@ -57,6 +58,10 @@
                 <native-project>mkl-win64</native-project>
                 <dynamicLibType>dll</dynamicLibType>
                 <destFileName>libjmkl.dll</destFileName>
+                <quantizationLib>libnnfixpoint.dll</quantizationLib>
+                <quantizationLibDir>C:\Program Files\Quantization</quantizationLibDir>
+                <quantizationDestFileName>libquantization.dll</quantizationDestFileName>
+                <quantizationProject>quantization-win64</quantizationProject>
             </properties>
         </profile>
     </profiles>

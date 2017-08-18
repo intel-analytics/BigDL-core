@@ -13,7 +13,7 @@
     <groupId>com.intel.analytics.bigdl</groupId>
     <packaging>pom</packaging>
     <modules>
-        <module>quantization</module>
+        <module>${quantizationProject}</module>
         <module>jni</module>
     </modules>
 </project>

@@ -18,11 +18,16 @@ public class Quantization {
     public final static int NHWC = 1;
 
     private static void loadLibary(String name) {
-        if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-            name = "lib" + name + ".dylib";
-        } else {
-            name = "lib" + name + ".so";
+        String os = System.getProperty("os.name").toLowerCase();
+        String suffix = ".so";
+
+        if (os.contains("mac")) {
+            suffix = ".dylib";
+        } else if (os.contains("win")) {
+            suffix = ".dll";
         }
+
+        name = "lib" + name + suffix;
 
         tmpFile = extract(name);
         System.load(tmpFile.getAbsolutePath());
