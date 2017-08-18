@@ -21,7 +21,7 @@ struct FixTensorDesc {
   size_t shape[4];
   size_t ori_shape[4];
   size_t dim;
-  size_t workspace_size_per_meta_info;;
+  size_t workspace_size_per_meta_info;
   size_t workspace_size;
 };
 typedef struct FixTensorDesc FixTensor;
