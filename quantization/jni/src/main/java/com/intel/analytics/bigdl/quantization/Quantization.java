@@ -68,71 +68,71 @@ public class Quantization {
         }
     }
 
-    public native static long FixConvKernelDescInit(int c_out,
-                                                    int c_in,
-                                                    int kernel_h,
-                                                    int kernel_w);
-
-     public native static void FixConvKernelInit(long fix_tensor,
-                                                 float[] src,
-                                                 int srcOffset,
-                                                 int c_out,
+    public native static long ConvKernelDescInit(int c_out,
                                                  int c_in,
                                                  int kernel_h,
-                                                 int kernel_w,
-                                                 float threshold,
-                                                 int layout);
+                                                 int kernel_w);
 
-     public native static void FixConvKernelLoadFromModel(long fix_tensor,
-                                                          byte[] src,
-                                                          int srcOffset,
-                                                          float[] min,
-                                                          float[] max,
-                                                          int c_out,
-                                                          int c_in,
-                                                          int kernel_h,
-                                                          int kernel_w,
-                                                          float threshold,
-                                                          int layout);
-
-     public native static long FixConvDataDescInit(int c_in,
-                                                   int kernel_h,
-                                                   int kernel_w,
-                                                   int stride_h,
-                                                   int stride_w,
-                                                   int pad_h,
-                                                   int pad_w,
-                                                   int dilation_h,
-                                                   int dilation_w,
-                                                   int batch_size,
-                                                   int h_in,
-                                                   int w_in);
-
-    public native static void FixConvDataInit(long fix_tensor,
-                                              float[] src, int srcOffset,
+     public native static void ConvKernelInit(long fix_tensor,
+                                              float[] src,
+                                              int srcOffset,
+                                              int c_out,
                                               int c_in,
                                               int kernel_h,
                                               int kernel_w,
-                                              int stride_h,
-                                              int stride_w,
-                                              int pad_h,
-                                              int pad_w,
-                                              int dilation_h,
-                                              int dilation_w,
-                                              int batch_size,
-                                              int h_in,
-                                              int w_in,
                                               float threshold,
                                               int layout);
 
-    public native static long FixConvKernelSumDescInit(int c_out);
+     public native static void ConvKernelLoadFromModel(long fix_tensor,
+                                                       byte[] src,
+                                                       int srcOffset,
+                                                       float[] min,
+                                                       float[] max,
+                                                       int c_out,
+                                                       int c_in,
+                                                       int kernel_h,
+                                                       int kernel_w,
+                                                       float threshold,
+                                                       int layout);
 
-    public native static void FixConvKernelSumInit(long fp_tensor,
-                                                   float[] src, int srcOffset,
-                                                   int n,
-                                                   int c,
-                                                   int h,
-                                                   int w);
+     public native static long ConvDataDescInit(int c_in,
+                                                int kernel_h,
+                                                int kernel_w,
+                                                int stride_h,
+                                                int stride_w,
+                                                int pad_h,
+                                                int pad_w,
+                                                int dilation_h,
+                                                int dilation_w,
+                                                int batch_size,
+                                                int h_in,
+                                                int w_in);
+
+    public native static void ConvDataInit(long fix_tensor,
+                                           float[] src, int srcOffset,
+                                           int c_in,
+                                           int kernel_h,
+                                           int kernel_w,
+                                           int stride_h,
+                                           int stride_w,
+                                           int pad_h,
+                                           int pad_w,
+                                           int dilation_h,
+                                           int dilation_w,
+                                           int batch_size,
+                                           int h_in,
+                                           int w_in,
+                                           float threshold,
+                                           int layout);
+
+    public native static long ConvKernelSumDescInit(int c_out);
+
+    public native static void ConvKernelSumInit(long fp_tensor,
+                                                float[] src, int srcOffset,
+                                                int n,
+                                                int c,
+                                                int h,
+                                                int w);
 
     public native static void InternalMixPrecisionConvolutionGEMM(int layout,
                                                                   long pa,
@@ -147,24 +147,24 @@ public class Quantization {
                                                                   float fault_tolerance);
     public native static void FreeMemory(long ptr);
 
-    public native static long FixFCKernelDescInit(int c_out, int c_in);
+    public native static long FCKernelDescInit(int c_out, int c_in);
 
-    public native static void FixFCKernelLoadFromModel(long fix_tensor,
-                                                       byte[] src,
-                                                       float[] min,
-                                                       float[] max,
-                                                       int c_out,
-                                                       int c_in,
-                                                       float threshold,
-                                                       int layout);
+    public native static void FCKernelLoadFromModel(long fix_tensor,
+                                                    byte[] src,
+                                                    float[] min,
+                                                    float[] max,
+                                                    int c_out,
+                                                    int c_in,
+                                                    float threshold,
+                                                    int layout);
 
-    public native static long FixFCDataDescInit(int batch_size,
-                                                int channel);
+    public native static long FCDataDescInit(int batch_size,
+                                             int channel);
 
-    public native static void FixFCDataInit(long fix_tensor,
-                                            float[] src, int srcOffset,
-                                            int batch_size,
-                                            int channel,
-                                            float threshold,
-                                            int layout);
+    public native static void FCDataInit(long fix_tensor,
+                                         float[] src, int srcOffset,
+                                         int batch_size,
+                                         int channel,
+                                         float threshold,
+                                         int layout);
 }

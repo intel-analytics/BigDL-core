@@ -13,66 +13,58 @@ extern "C" {
 #define com_intel_analytics_bigdl_quantization_Quantization_NHWC 1L
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    printHello
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_printHello
-  (JNIEnv *, jclass);
-
-/*
- * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixConvKernelDescInit
+ * Method:    ConvKernelDescInit
  * Signature: (IIII)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_ConvKernelDescInit
   (JNIEnv *, jclass, jint, jint, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixConvKernelInit
+ * Method:    ConvKernelInit
  * Signature: (J[FIIIIIFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_ConvKernelInit
   (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixConvKernelLoadFromModel
+ * Method:    ConvKernelLoadFromModel
  * Signature: (J[BI[F[FIIIIFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelLoadFromModel
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_ConvKernelLoadFromModel
   (JNIEnv *, jclass, jlong, jbyteArray, jint, jfloatArray, jfloatArray, jint, jint, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixConvDataDescInit
+ * Method:    ConvDataDescInit
  * Signature: (IIIIIIIIIIII)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvDataDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_ConvDataDescInit
   (JNIEnv *, jclass, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixConvDataInit
+ * Method:    ConvDataInit
  * Signature: (J[FIIIIIIIIIIIIIFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvDataInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_ConvDataInit
   (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixConvKernelSumDescInit
+ * Method:    ConvKernelSumDescInit
  * Signature: (I)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelSumDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_ConvKernelSumDescInit
   (JNIEnv *, jclass, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixConvKernelSumInit
+ * Method:    ConvKernelSumInit
  * Signature: (J[FIIIII)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixConvKernelSumInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_ConvKernelSumInit
   (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jint, jint);
 
 /*
@@ -93,34 +85,34 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixFCKernelDescInit
+ * Method:    FCKernelDescInit
  * Signature: (II)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCKernelDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FCKernelDescInit
   (JNIEnv *, jclass, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixFCKernelLoadFromModel
+ * Method:    FCKernelLoadFromModel
  * Signature: (J[B[F[FIIFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCKernelLoadFromModel
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FCKernelLoadFromModel
   (JNIEnv *, jclass, jlong, jbyteArray, jfloatArray, jfloatArray, jint, jint, jfloat, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixFCDataDescInit
+ * Method:    FCDataDescInit
  * Signature: (II)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCDataDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FCDataDescInit
   (JNIEnv *, jclass, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_quantization_Quantization
- * Method:    FixFCDataInit
+ * Method:    FCDataInit
  * Signature: (J[FIIIFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FixFCDataInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_quantization_Quantization_FCDataInit
   (JNIEnv *, jclass, jlong, jfloatArray, jint, jint, jint, jfloat, jint);
 
 #ifdef __cplusplus

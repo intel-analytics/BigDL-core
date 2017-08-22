@@ -25,8 +25,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <compilerProvider>generic-classic</compilerProvider>
-                    <compilerExecutable>icc</compilerExecutable>
-                    <linkerExecutable>icc</linkerExecutable>
+                    <compilerExecutable>gcc</compilerExecutable>
+                    <linkerExecutable>gcc</linkerExecutable>
                     <sources>
                         <source>
                             <directory>${basedir}/src/main/c/jni</directory>
