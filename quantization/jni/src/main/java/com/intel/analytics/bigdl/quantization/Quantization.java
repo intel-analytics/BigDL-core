@@ -30,8 +30,11 @@ public class Quantization {
         name = "lib" + name + suffix;
 
         tmpFile = extract(name);
-        System.load(tmpFile.getAbsolutePath());
-        tmpFile.delete(); // delete so temp file after loaded
+        try {
+            System.load(tmpFile.getAbsolutePath());
+        } finally {
+            tmpFile.delete(); // delete so temp file after loaded
+        }
     }
 
     static {
@@ -53,18 +56,29 @@ public class Quantization {
         try {
             URL url = Quantization.class.getResource("/" + path);
             if (url == null) {
-                throw new Error("Can't find so file in jar, path = " + path);
+                throw new Error("Can't find dynamic lib file in jar, path = " + path);
             }
 
             InputStream in = Quantization.class.getResourceAsStream("/" + path);
-            File file = createTempFile("dlNativeLoader", path);
+            File file = null;
+
+            // Windows won't allow to change the dll name, so we keep the name
+            // It's fine as windows is consider in a desktop env, so there won't multiple instance
+            // produce the dynamic lib file
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                file = new File(System.getProperty("java.io.tmpdir") + File.separator + path);
+            } else {
+                file = createTempFile("dlNativeLoader", path);
+            }
 
             ReadableByteChannel src = newChannel(in);
             FileChannel dest = new FileOutputStream(file).getChannel();
             dest.transferFrom(src, 0, Long.MAX_VALUE);
+            dest.close();
+            src.close();
             return file;
         } catch (Throwable e) {
-            throw new Error("Can't extract so file to /tmp dir");
+            throw new Error("Can't extract dynamic lib file to /tmp dir.\n" + e);
         }
     }
 
