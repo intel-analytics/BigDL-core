@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>quantization-parent</artifactId>
+        <artifactId>bigquant-parent</artifactId>
         <groupId>com.intel.analytics.bigdl</groupId>
         <version>0.3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.intel.analytics.bigdl.quantization</groupId>
-    <artifactId>quantization-java</artifactId>
+    <groupId>com.intel.analytics.bigdl.bigquant</groupId>
+    <artifactId>bigquant-java</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -20,8 +20,8 @@
             <version>4.11</version>
         </dependency>
         <dependency>
-            <groupId>com.intel.analytics.bigdl.quantization</groupId>
-            <artifactId>quantization-native</artifactId>
+            <groupId>com.intel.analytics.bigdl.bigquant</groupId>
+            <artifactId>bigquant-native</artifactId>
             <version>${project.version}</version>
             <type>${dynamicLibType}</type>
         </dependency>
@@ -30,9 +30,12 @@
     <build>
         <resources>
             <resource>
-                <directory>${quantizationLibDir}</directory>
+                <directory>${bigquantLibDir}</directory>
                 <includes>
-                    <include>${quantizationLib}</include>
+                    <include>${bigquantLib}</include>
+                    <include>libnnfixpoint_avx2.so</include>
+                    <include>libnnfixpoint_avx512.so</include>
+                    <include>libnnfixpoint_sse42.so</include>
                 </includes>
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>
@@ -55,13 +58,13 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.intel.analytics.bigdl.quantization</groupId>
-                                    <artifactId>quantization-native</artifactId>
+                                    <groupId>com.intel.analytics.bigdl.bigquant</groupId>
+                                    <artifactId>bigquant-native</artifactId>
                                     <version>${pom.version}</version>
                                     <type>${dynamicLibType}</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                    <destFileName>${quantizationDestFileName}</destFileName>
+                                    <destFileName>${bigquantDestFileName}</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

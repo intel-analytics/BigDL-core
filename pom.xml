@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>mkl2017-xeon-blas</module>
-        <module>quantization</module>
+        <module>bigquant</module>
     </modules>
     <properties>
         <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
@@ -24,10 +24,10 @@
         <iompLib>libiomp5.so</iompLib>
         <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
         <destFileName>libjmkl.so</destFileName>
-        <quantizationLib>libnnfixpoint.so</quantizationLib>
-        <quantizationLibDir>/opt/quantization/</quantizationLibDir>
-        <quantizationDestFileName>libquantization.so</quantizationDestFileName>
-        <quantizationProject>quantization</quantizationProject>
+        <bigquantLib>libnnfixpoint_rt.so</bigquantLib>
+        <bigquantLibDir>/opt/bigquant/</bigquantLibDir>
+        <bigquantDestFileName>libbigquant.so</bigquantDestFileName>
+        <bigquantProject>quant</bigquantProject>
     </properties>
     <profiles>
         <profile>
@@ -45,8 +45,8 @@
                 <dynamicLibType>dylib</dynamicLibType>
                 <iompLib>libiomp5.dylib</iompLib>
                 <destFileName>libjmkl.dylib</destFileName>
-                <quantizationLib>libnnfixpoint.dylib</quantizationLib>
-                <quantizationDestFileName>libquantization.dylib</quantizationDestFileName>
+                <bigquantLib>libnnfixpoint.dylib</bigquantLib>
+                <bigquantDestFileName>libbigquant.dylib</bigquantDestFileName>
             </properties>
         </profile>
         <profile>
@@ -58,10 +58,10 @@
                 <native-project>mkl-win64</native-project>
                 <dynamicLibType>dll</dynamicLibType>
                 <destFileName>libjmkl.dll</destFileName>
-                <quantizationLib>libnnfixpoint.dll</quantizationLib>
-                <quantizationLibDir>C:\Program Files\Quantization</quantizationLibDir>
-                <quantizationDestFileName>libquantization.dll</quantizationDestFileName>
-                <quantizationProject>quantization-win64</quantizationProject>
+                <bigquantLib>libnnfixpoint.dll</bigquantLib>
+                <bigquantLibDir>C:\Program Files\Quant</bigquantLibDir>
+                <bigquantDestFileName>libbigquant.dll</bigquantDestFileName>
+                <bigquantProject>quant-win64</bigquantProject>
             </properties>
         </profile>
     </profiles>

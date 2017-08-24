@@ -11,14 +11,14 @@ To compile on win64, you need
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>quantization-parent</artifactId>
+        <artifactId>bigquant-parent</artifactId>
         <groupId>com.intel.analytics.bigdl</groupId>
         <version>0.3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.intel.analytics.bigdl.quantization</groupId>
-    <artifactId>quantization-native</artifactId>
+    <groupId>com.intel.analytics.bigdl.bigquant</groupId>
+    <artifactId>bigquant-native</artifactId>
     <packaging>${dynamicLibType}</packaging>
 
     <build>
@@ -35,9 +35,9 @@ To compile on win64, you need
                     <compilerProvider>msvc</compilerProvider>
                     <sources>
                         <source>
-                            <directory>${project.basedir}\..\quantization\src\main\c\jni</directory>
+                            <directory>${project.basedir}\..\bigquant\src\main\c\jni</directory>
                             <fileNames>
-                                <fileName>quantization.c</fileName>
+                                <fileName>quant.c</fileName>
                             </fileNames>
                         </source>
                     </sources>

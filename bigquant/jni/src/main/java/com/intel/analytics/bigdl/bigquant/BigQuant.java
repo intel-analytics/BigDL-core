@@ -1,4 +1,4 @@
-package com.intel.analytics.bigdl.quantization;
+package com.intel.analytics.bigdl.bigquant;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,7 +10,7 @@ import java.nio.channels.ReadableByteChannel;
 import static java.io.File.createTempFile;
 import static java.nio.channels.Channels.newChannel;
 
-public class Quantization {
+public class BigQuant {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
 
@@ -39,27 +39,27 @@ public class Quantization {
 
     static {
         try {
-            loadLibary("nnfixpoint");
-            loadLibary("quantization");
+            loadLibary("nnfixpoint_rt");
+            loadLibary("bigquant");
             isLoaded = true;
 
         } catch (Exception e) {
             isLoaded = false;
             e.printStackTrace();
             // TODO: Add an argument for user, continuing to run even if MKL load failed.
-            throw new RuntimeException("Failed to load Quantization");
+            throw new RuntimeException("Failed to load Quant");
         }
     }
 
     // Extract so file from jar to a temp path
     private static File extract(String path) {
         try {
-            URL url = Quantization.class.getResource("/" + path);
+            URL url = BigQuant.class.getResource("/" + path);
             if (url == null) {
                 throw new Error("Can't find dynamic lib file in jar, path = " + path);
             }
 
-            InputStream in = Quantization.class.getResourceAsStream("/" + path);
+            InputStream in = BigQuant.class.getResourceAsStream("/" + path);
             File file = null;
 
             // Windows won't allow to change the dll name, so we keep the name
