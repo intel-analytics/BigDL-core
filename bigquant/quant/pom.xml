@@ -13,6 +13,12 @@
     <artifactId>bigquant-native</artifactId>
     <packaging>${dynamicLibType}</packaging>
 
+    <properties>
+      <native.source.dir>${project.basedir}/src/main/c/native</native.source.dir>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+
     <build>
         <plugins>
             <plugin>
@@ -48,11 +54,33 @@
                         <linkerStartOption>${linkerStartOptionDirectory}</linkerStartOption>
                     </linkerStartOptions>
                     <linkerEndOptions>
+                        <linkerEndOption>-L</linkerEndOption>
+                        <linkerEndOption>${native.source.dir}</linkerEndOption>
                         <linkerEndOption>-lbigquant_rt</linkerEndOption>
                         <linkerEndOption>-shared</linkerEndOption>
                     </linkerEndOptions>
                     <linkerFinalName>${pom.artifactId}</linkerFinalName>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${native.source.dir}/Makefile</executable>
+                            <workingDirectory>${native.source.dir}</workingDirectory>
+                            <arguments>
+                              <argument>all</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -30,7 +30,7 @@
     <build>
         <resources>
             <resource>
-                <directory>${bigquantLibDir}</directory>
+              <directory>${project.basedir}/../${bigquantProject}/src/main/c/native</directory>
                 <includes>
                     <include>${bigquantLib}</include>
                     <include>libbigquant_avx2.so</include>
