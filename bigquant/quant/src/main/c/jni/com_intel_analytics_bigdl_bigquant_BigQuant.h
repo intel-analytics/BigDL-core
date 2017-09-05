@@ -13,6 +13,22 @@ extern "C" {
 #define com_intel_analytics_bigdl_bigquant_BigQuant_NHWC 1L
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
+ * Method:    printHello
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_printHello
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
+ * Method:    loadRuntime
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_loadRuntime
+  (JNIEnv *, jclass, jstring);
+
+/*
+ * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
  * Method:    ConvKernelDescInit
  * Signature: (IIII)J
  */

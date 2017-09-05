@@ -157,7 +157,7 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_InternalMixPrecisionConvolution
     jfloat *jni_bias = (*env)->GetPrimitiveArrayCritical(env, bias, JNI_FALSE);
     jfloat *jni_kernel_sum = (*env)->GetPrimitiveArrayCritical(env, kernel_sum, JNI_FALSE);
 
-    InternalMixPrecisionGEMM(layout, jni_pa->data, jni_pb->data, jni_pc + pcOffset,
+    MixPrecisionGEMM(layout, jni_pa->data, jni_pb->data, jni_pc + pcOffset,
             jni_pa->shape[0], jni_pb->shape[0], jni_pb->shape[1],
             jni_pa->ratio, jni_pb->ratio,
             jni_kernel_sum + kernel_sum_offset, jni_pb->min,
@@ -269,6 +269,19 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCDataIn
     FixFCDataInit(j_fix_tensor, jni_src + srcOffset,
             batch_size, channel, threshold, layout);
     (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
+ * Method:    loadRuntime
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_loadRuntime
+  (JNIEnv *env, jclass cls, jstring path)
+{
+  const char *jPath = (*env)->GetStringUTFChars(env, path, 0);
+  ManualRuntimeLoadLib(jPath);
+  (*env)->ReleaseStringUTFChars(env, path, jPath);
 }
 
 #ifdef __cplusplus

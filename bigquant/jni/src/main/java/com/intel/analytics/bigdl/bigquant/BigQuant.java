@@ -17,7 +17,7 @@ public class BigQuant {
     public final static int NCHW = 0;
     public final static int NHWC = 1;
 
-    private static void loadLibary(String name) {
+    private static String getLibraryName(String name) {
         String os = System.getProperty("os.name").toLowerCase();
         String suffix = ".so";
 
@@ -29,7 +29,11 @@ public class BigQuant {
 
         name = "lib" + name + suffix;
 
-        tmpFile = extract(name);
+        return name;
+    }
+
+    private static void loadLibary(String name) {
+        tmpFile = extract(getLibraryName(name));
         try {
             System.load(tmpFile.getAbsolutePath());
         } finally {
@@ -39,14 +43,15 @@ public class BigQuant {
 
     static {
         try {
+            String resourceDir = BigQuant.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             loadLibary("nnfixpoint_rt");
             loadLibary("bigquant");
+            loadRuntime(resourceDir);
             isLoaded = true;
 
         } catch (Exception e) {
             isLoaded = false;
             e.printStackTrace();
-            // TODO: Add an argument for user, continuing to run even if MKL load failed.
             throw new RuntimeException("Failed to load Quant");
         }
     }
@@ -81,6 +86,14 @@ public class BigQuant {
             throw new Error("Can't extract dynamic lib file to /tmp dir.\n" + e);
         }
     }
+
+    public static void main(String[] args) {
+        printHello();
+    }
+
+    public native static void printHello();
+
+    public native static void loadRuntime(String path);
 
     public native static long ConvKernelDescInit(int c_out,
                                                  int c_in,

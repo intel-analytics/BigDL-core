@@ -21,7 +21,7 @@ struct FixTensorDesc {
   size_t shape[4];
   size_t ori_shape[4];
   size_t dim;
-  size_t workspace_size_per_meta_info;
+  size_t workspace_size_per_meta_info;;
   size_t workspace_size;
 };
 typedef struct FixTensorDesc FixTensor;
@@ -52,11 +52,12 @@ typedef struct FixFCOpDesc FixFCOpDesc;
 #endif
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #else
-#include<stdbool.h>
+#include <stdbool.h>
 #endif
+  API_PREFIX void ManualRuntimeLoadLib(char *path);
+
   API_PREFIX void FreeMemory(void *p);
 
   API_PREFIX const char* GetGitCommit();
@@ -68,7 +69,12 @@ extern "C"
   API_PREFIX FixConvOpDesc* FixConvOpCreate(LAYOUT layout);
 
   API_PREFIX void FixConvOpSetupConvParameter(FixConvOpDesc* p, size_t channel_out, size_t channel_in, size_t group, size_t kernel_h, size_t kernel_w, \
-          size_t stride_h, size_t stride_w, size_t dilation_h, size_t dilation_w, size_t pad_h, size_t pad_w, float *src, bool with_bias, float *bias, bool relu_fusion);
+          size_t stride_h, size_t stride_w, size_t dilation_h, size_t dilation_w, size_t pad_h, size_t pad_w, float *src, float *bias);
+
+  API_PREFIX void FixFuseConvOpSetupConvParameter(FixConvOpDesc* p, size_t channel_out, size_t channel_in, size_t group, size_t kernel_h, size_t kernel_w,
+          size_t stride_h, size_t stride_w, size_t dialation_h, size_t dialation_w, size_t pad_h, size_t pad_w, float *src, float *bias,
+          bool conv_relu_fusion, bool conv_bn_fusion, bool conv_bn_relu_fusion, bool conv_relu_bn_fusion,
+          float *global_mean, float *global_variance, float epison, float *scale, float *shift);
 
   API_PREFIX void FixConvOpQuantizeKernel(FixConvOpDesc* p, float threshold);
 
@@ -132,7 +138,7 @@ extern "C"
 
   API_PREFIX void FixFCKernelSumInit(FPTensor *fp_tensor, float *src, size_t c_out, size_t c_in);
 
-  API_PREFIX void InternalMixPrecisionGEMM(LAYOUT layout,\
+  API_PREFIX void MixPrecisionGEMM(LAYOUT layout,\
     int8_t* pa, uint8_t* pb, float* pc, size_t m, size_t n, size_t k, \
     float* ratio_a, float* ratio_b, float* kernel_sum, float* min_b, float* bias, \
     size_t batch_size, size_t channel_per_group, size_t height_out, size_t width_out, \
@@ -140,4 +146,7 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
+
 #endif
+
+
