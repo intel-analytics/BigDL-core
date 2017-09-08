@@ -14,7 +14,7 @@
     <packaging>${dynamicLibType}</packaging>
 
     <properties>
-      <native.source.dir>${project.basedir}/src/main/c/native</native.source.dir>
+      <native.source.dir>${project.basedir}/../native</native.source.dir>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -76,6 +76,7 @@
                             <executable>${native.source.dir}/Makefile</executable>
                             <workingDirectory>${native.source.dir}</workingDirectory>
                             <arguments>
+                              <argument>LOAD_METHOD=MANUAL</argument>
                               <argument>all</argument>
                             </arguments>
                         </configuration>
