@@ -161,17 +161,17 @@ public class BigQuant {
                                                 int h,
                                                 int w);
 
-    public native static void InternalMixPrecisionConvolutionGEMM(int layout,
-                                                                  long pa,
-                                                                  long pb,
-                                                                  float[] pc, int pcOffset,
-                                                                  float[] kernelSum, int kernelSumOffset,
-                                                                  float[] bias, int biasOffset,
-                                                                  int batch_size,
-                                                                  int channel_per_group,
-                                                                  int height_out,
-                                                                  int width_out,
-                                                                  float fault_tolerance);
+    public native static void MixPrecisionGEMM(int layout,
+                                               long pa,
+                                               long pb,
+                                               float[] pc, int pcOffset,
+                                               float[] kernelSum, int kernelSumOffset,
+                                               float[] bias, int biasOffset,
+                                               int batch_size,
+                                               int channel_per_group,
+                                               int height_out,
+                                               int width_out,
+                                               float fault_tolerance);
     public native static void FreeMemory(long ptr);
 
     public native static long FCKernelDescInit(int c_out, int c_in);

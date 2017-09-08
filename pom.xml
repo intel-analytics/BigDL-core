@@ -24,8 +24,7 @@
         <iompLib>libiomp5.so</iompLib>
         <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
         <destFileName>libjmkl.so</destFileName>
-        <bigquantLib>libnnfixpoint_rt.so</bigquantLib>
-        <bigquantLibDir>/opt/bigquant/</bigquantLibDir>
+        <bigquantLib>libbigquant_rt.so</bigquantLib>
         <bigquantDestFileName>libbigquant.so</bigquantDestFileName>
         <bigquantProject>quant</bigquantProject>
     </properties>

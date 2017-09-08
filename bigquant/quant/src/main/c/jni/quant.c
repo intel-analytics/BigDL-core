@@ -140,11 +140,11 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKernelSumInit(
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    InternalMixPrecisionConvolutionGEMM
+ * Method:    MixPrecisionGEMM
  * Signature: (IJIJ[FIIII[FI[FIIIIIIF)V
  */
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_bigquant_BigQuant_InternalMixPrecisionConvolutionGEMM(
+Java_com_intel_analytics_bigdl_bigquant_BigQuant_MixPrecisionGEMM(
     JNIEnv *env, jclass cls, jint layout, jlong pa, jlong pb, jfloatArray pc,
     jint pcOffset, jfloatArray kernel_sum, jint kernel_sum_offset, jfloatArray bias,
     jint biasOffset, jint batch_size, jint channel_per_group, jint height_out,

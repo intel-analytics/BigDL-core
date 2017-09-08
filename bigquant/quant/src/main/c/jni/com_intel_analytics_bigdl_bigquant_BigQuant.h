@@ -85,10 +85,10 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKern
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    InternalMixPrecisionConvolutionGEMM
+ * Method:    MixPrecisionGEMM
  * Signature: (IJJ[FI[FI[FIIIIIF)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_InternalMixPrecisionConvolutionGEMM
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_MixPrecisionGEMM
   (JNIEnv *, jclass, jint, jlong, jlong, jfloatArray, jint, jfloatArray, jint, jfloatArray, jint, jint, jint, jint, jint, jfloat);
 
 /*
