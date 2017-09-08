@@ -48,7 +48,7 @@
                         <linkerStartOption>${linkerStartOptionDirectory}</linkerStartOption>
                     </linkerStartOptions>
                     <linkerEndOptions>
-                        <linkerEndOption>-lnnfixpoint_rt</linkerEndOption>
+                        <linkerEndOption>-lbigquant_rt</linkerEndOption>
                         <linkerEndOption>-shared</linkerEndOption>
                     </linkerEndOptions>
                     <linkerFinalName>${pom.artifactId}</linkerFinalName>

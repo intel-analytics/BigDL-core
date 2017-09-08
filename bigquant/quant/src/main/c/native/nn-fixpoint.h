@@ -51,13 +51,8 @@ typedef struct FixFCOpDesc FixFCOpDesc;
 #define API_PREFIX
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#else
-#include <stdbool.h>
-#endif
-  API_PREFIX void ManualRuntimeLoadLib(char *path);
-
+extern "C"
+{
   API_PREFIX void FreeMemory(void *p);
 
   API_PREFIX const char* GetGitCommit();
@@ -138,15 +133,12 @@ extern "C" {
 
   API_PREFIX void FixFCKernelSumInit(FPTensor *fp_tensor, float *src, size_t c_out, size_t c_in);
 
-  API_PREFIX void MixPrecisionGEMM(LAYOUT layout,\
+  API_PREFIX void InternalMixPrecisionGEMM(LAYOUT layout,\
     int8_t* pa, uint8_t* pb, float* pc, size_t m, size_t n, size_t k, \
     float* ratio_a, float* ratio_b, float* kernel_sum, float* min_b, float* bias, \
     size_t batch_size, size_t channel_per_group, size_t height_out, size_t width_out, \
     float fault_tolerance, size_t pad_m, size_t pad_n);
-#ifdef __cplusplus
 }
-#endif
-
 #endif
 
 

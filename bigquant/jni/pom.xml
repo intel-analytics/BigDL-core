@@ -33,9 +33,9 @@
                 <directory>${bigquantLibDir}</directory>
                 <includes>
                     <include>${bigquantLib}</include>
-                    <include>libnnfixpoint_avx2.so</include>
-                    <include>libnnfixpoint_avx512.so</include>
-                    <include>libnnfixpoint_sse42.so</include>
+                    <include>libbigquant_avx2.so</include>
+                    <include>libbigquant_avx512.so</include>
+                    <include>libbigquant_sse42.so</include>
                 </includes>
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>

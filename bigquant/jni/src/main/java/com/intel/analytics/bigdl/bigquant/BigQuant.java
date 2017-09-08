@@ -44,7 +44,7 @@ public class BigQuant {
     static {
         try {
             String resourceDir = BigQuant.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            loadLibary("nnfixpoint_rt");
+            loadLibary("bigquant_rt");
             loadLibary("bigquant");
             loadRuntime(resourceDir);
             isLoaded = true;
@@ -100,7 +100,7 @@ public class BigQuant {
                                                  int kernel_h,
                                                  int kernel_w);
 
-     public native static void ConvKernelInit(long fix_tensor,
+     public native static void ConvKernelInit(long tensor,
                                               float[] src,
                                               int srcOffset,
                                               int c_out,
@@ -110,7 +110,7 @@ public class BigQuant {
                                               float threshold,
                                               int layout);
 
-     public native static void ConvKernelLoadFromModel(long fix_tensor,
+     public native static void ConvKernelLoadFromModel(long tensor,
                                                        byte[] src,
                                                        int srcOffset,
                                                        float[] min,
@@ -135,7 +135,7 @@ public class BigQuant {
                                                 int h_in,
                                                 int w_in);
 
-    public native static void ConvDataInit(long fix_tensor,
+    public native static void ConvDataInit(long tensor,
                                            float[] src, int srcOffset,
                                            int c_in,
                                            int kernel_h,
@@ -154,7 +154,7 @@ public class BigQuant {
 
     public native static long ConvKernelSumDescInit(int c_out);
 
-    public native static void ConvKernelSumInit(long fp_tensor,
+    public native static void ConvKernelSumInit(long tensor,
                                                 float[] src, int srcOffset,
                                                 int n,
                                                 int c,
@@ -176,7 +176,7 @@ public class BigQuant {
 
     public native static long FCKernelDescInit(int c_out, int c_in);
 
-    public native static void FCKernelLoadFromModel(long fix_tensor,
+    public native static void FCKernelLoadFromModel(long tensor,
                                                     byte[] src,
                                                     float[] min,
                                                     float[] max,
@@ -188,7 +188,7 @@ public class BigQuant {
     public native static long FCDataDescInit(int batch_size,
                                              int channel);
 
-    public native static void FCDataInit(long fix_tensor,
+    public native static void FCDataInit(long tensor,
                                          float[] src, int srcOffset,
                                          int batch_size,
                                          int channel,

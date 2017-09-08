@@ -1,7 +1,7 @@
-#include <nn-fixpoint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "bigquant.h"
 #include "com_intel_analytics_bigdl_bigquant_BigQuant.h"
 
 #ifdef __cplusplus
@@ -17,7 +17,7 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_printHello(JNIEnv *env,
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixConvKernelDescInit
+ * Method:    ConvKernelDescInit
  * Signature: (IIII)J
  */
 JNIEXPORT jlong JNICALL
@@ -25,46 +25,46 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKernelDescInit(
     JNIEnv *env, jclass cls, jint c_out, jint c_in, jint kernel_h,
     jint kernel_w)
 {
-  FixTensor *tmp = (FixTensor*)malloc(sizeof(FixTensor));
-  FixConvKernelDescInit(tmp, c_out, c_in, kernel_h, kernel_w);
+  QuantizedTensor *tmp = (QuantizedTensor*)malloc(sizeof(QuantizedTensor));
+  QuantizedConvKernelDescInit(tmp, c_out, c_in, kernel_h, kernel_w);
   return (jlong)tmp;
 }
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixConvKernelInit
+ * Method:    ConvKernelInit
  * Signature: (J[FIIIIIFI)V
  */
 JNIEXPORT void JNICALL
 Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKernelInit(
-    JNIEnv *env, jclass cls, jlong fix_tensor, jfloatArray src, jint srcOffset,
+    JNIEnv *env, jclass cls, jlong tensor, jfloatArray src, jint srcOffset,
     jint c_out, jint c_in, jint kernel_h, jint kernel_w, jfloat threshold,
     jint layout)
 {
-    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+    QuantizedTensor *j_tensor = (QuantizedTensor*)tensor;
 
     jfloat * jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
-    FixConvKernelInit(j_fix_tensor, jni_src + srcOffset, c_out, c_in, kernel_h , kernel_w ,threshold, layout);
+    QuantizedConvKernelInit(j_tensor, jni_src + srcOffset, c_out, c_in, kernel_h , kernel_w ,threshold, layout);
     (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
 }
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixConvKernelLoadFromModel
+ * Method:    ConvKernelLoadFromModel
  * Signature: (J[BI[F[FIIIIFI)V
  */
 JNIEXPORT void JNICALL
 Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKernelLoadFromModel(
-    JNIEnv *env, jclass cls, jlong fix_tensor, jbyteArray src,
+    JNIEnv *env, jclass cls, jlong tensor, jbyteArray src,
     jint srcOffset, jfloatArray min, jfloatArray max, jint c_out, jint c_in,
     jint kernel_h, jint kernel_w, jfloat threshold, jint layout)
 {
-    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+    QuantizedTensor *j_tensor = (QuantizedTensor*)tensor;
     jbyte* jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
     jfloat* jni_min = (*env)->GetPrimitiveArrayCritical(env, min, JNI_FALSE);
     jfloat* jni_max = (*env)->GetPrimitiveArrayCritical(env, max, JNI_FALSE);
     
-    FixConvKernelLoadFromModel(j_fix_tensor, jni_src, jni_min, jni_max, c_out, c_in, kernel_h, kernel_w, threshold, layout);
+    QuantizedConvKernelLoadFromModel(j_tensor, jni_src, jni_min, jni_max, c_out, c_in, kernel_h, kernel_w, threshold, layout);
 
     (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
     (*env)->ReleasePrimitiveArrayCritical(env, min, jni_min, 0);
@@ -73,7 +73,7 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKernelLoadFromModel(
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixConvDataDescInit
+ * Method:    ConvDataDescInit
  * Signature: (IIIIIIIIIIII)J
  */
 JNIEXPORT jlong JNICALL
@@ -82,34 +82,34 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvDataDescInit(
     jint stride_h, jint stride_w, jint pad_h, jint pad_w, jint dilation_h,
     jint dilation_w, jint batch_size, jint h_in, jint w_in)
 {
-  FixTensor *tmp = (FixTensor*)malloc(sizeof(FixTensor));
-  FixConvDataDescInit(tmp, c_in, kernel_h, kernel_w, stride_h, stride_w, pad_h, pad_w, dilation_h, dilation_w, batch_size, h_in, w_in);
+  QuantizedTensor *tmp = (QuantizedTensor*)malloc(sizeof(QuantizedTensor));
+  QuantizedConvDataDescInit(tmp, c_in, kernel_h, kernel_w, stride_h, stride_w, pad_h, pad_w, dilation_h, dilation_w, batch_size, h_in, w_in);
   return (jlong)tmp;
 }
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixConvDataInit
+ * Method:    ConvDataInit
  * Signature: (J[FIIIIIIIIIIIIIFI)V
  */
 JNIEXPORT void JNICALL
 Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvDataInit(
-    JNIEnv *env, jclass cls, jlong fix_tensor, jfloatArray src, jint srcOffset,
+    JNIEnv *env, jclass cls, jlong tensor, jfloatArray src, jint srcOffset,
     jint c_in, jint kernel_h, jint kernel_w, jint stride_h, jint stride_w,
     jint pad_h, jint pad_w, jint dilation_h, jint dilation_w, jint batch_size,
     jint h_in, jint w_in, jfloat threshold, jint layout)
 {
-    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+    QuantizedTensor *j_tensor = (QuantizedTensor*)tensor;
 
     jfloat * jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
-    FixConvDataInit(j_fix_tensor, jni_src + srcOffset, c_in, kernel_h, kernel_w, stride_h, stride_w,
+    QuantizedConvDataInit(j_tensor, jni_src + srcOffset, c_in, kernel_h, kernel_w, stride_h, stride_w,
             pad_h, pad_w, dilation_h, dilation_w, batch_size, h_in, w_in, threshold, layout);
     (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
 }
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixConvKernelSumDescInit
+ * Method:    ConvKernelSumDescInit
  * Signature: (I)J
  */
 JNIEXPORT jlong JNICALL
@@ -117,13 +117,13 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKernelSumDescInit(
     JNIEnv *env, jclass cls, jint c_out)
 {
   FPTensor *tmp = (FPTensor*)malloc(sizeof(FPTensor));
-  FixConvKernelSumDescInit(tmp, c_out);
+  QuantizedConvKernelSumDescInit(tmp, c_out);
   return (jlong)tmp;
 }
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixConvKernelSumInit
+ * Method:    ConvKernelSumInit
  * Signature: (J[FIIIII)V
  */
 JNIEXPORT void JNICALL
@@ -134,7 +134,7 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_ConvKernelSumInit(
     FPTensor *j_fp_tensor = (FPTensor*)fp_tensor;
 
     jfloat * jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
-    FixConvKernelSumInit(j_fp_tensor, jni_src + srcOffset, n, c, h, w);
+    QuantizedConvKernelSumInit(j_fp_tensor, jni_src + srcOffset, n, c, h, w);
     (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
 }
 
@@ -150,8 +150,8 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_InternalMixPrecisionConvolution
     jint biasOffset, jint batch_size, jint channel_per_group, jint height_out,
     jint width_out, jfloat fault_tolerance)
 {
-    FixTensor *jni_pa = (FixTensor*)pa;
-    FixTensor *jni_pb = (FixTensor*)pb;
+    QuantizedTensor *jni_pa = (QuantizedTensor*)pa;
+    QuantizedTensor *jni_pb = (QuantizedTensor*)pb;
 
     jfloat *jni_pc = (*env)->GetPrimitiveArrayCritical(env, pc, JNI_FALSE);
     jfloat *jni_bias = (*env)->GetPrimitiveArrayCritical(env, bias, JNI_FALSE);
@@ -179,7 +179,7 @@ Java_com_intel_analytics_bigdl_bigquant_BigQuant_InternalMixPrecisionConvolution
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FreeMemory(
     JNIEnv *env, jclass cls, jlong ptr)
 {
-    FixTensor *jni_ptr = (FixTensor*)ptr;
+    QuantizedTensor *jni_ptr = (QuantizedTensor*)ptr;
 
     FreeMemory(jni_ptr->data);
     FreeMemory(jni_ptr->min);
@@ -191,26 +191,26 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FreeMemo
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixFCKernelDescInit
+ * Method:    FCKernelDescInit
  * Signature: (II)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCKernelDescInit
   (JNIEnv *env, jclass cls, jint c_out, jint c_in)
 {
-  FixTensor *tmp = (FixTensor*)malloc(sizeof(FixTensor));
-  FixFCKernelDescInit(tmp, c_out, c_in);
+  QuantizedTensor *tmp = (QuantizedTensor*)malloc(sizeof(QuantizedTensor));
+  QuantizedFCKernelDescInit(tmp, c_out, c_in);
   return (jlong)tmp;
 }
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixFCKernelLoadFromModel
+ * Method:    FCKernelLoadFromModel
  * Signature: (J[B[F[FIIFI)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCKernelLoadFromModel
   (JNIEnv *env,
  jclass cls,
- jlong fix_tensor,
+ jlong tensor,
  jbyteArray src,
  jfloatArray min,
  jfloatArray max,
@@ -219,12 +219,12 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCKernel
  jfloat threshold,
  jint layout)
 {
-    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+    QuantizedTensor *j_tensor = (QuantizedTensor*)tensor;
     jbyte* jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
     jfloat* jni_min = (*env)->GetPrimitiveArrayCritical(env, min, JNI_FALSE);
     jfloat* jni_max = (*env)->GetPrimitiveArrayCritical(env, max, JNI_FALSE);
     
-    FixFCKernelLoadFromModel(j_fix_tensor, jni_src, jni_min, jni_max, c_out, c_in, threshold, layout);
+    QuantizedFCKernelLoadFromModel(j_tensor, jni_src, jni_min, jni_max, c_out, c_in, threshold, layout);
 
     (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
     (*env)->ReleasePrimitiveArrayCritical(env, min, jni_min, 0);
@@ -233,7 +233,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCKernel
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixFCDataDescInit
+ * Method:    FCDataDescInit
  * Signature: (II)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCDataDescInit
@@ -242,20 +242,20 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCDataD
  jint batch_size,
  jint channel)
 {
-  FixTensor *tmp = (FixTensor*)malloc(sizeof(FixTensor));
-  FixFCDataDescInit(tmp, batch_size, channel);
+  QuantizedTensor *tmp = (QuantizedTensor*)malloc(sizeof(QuantizedTensor));
+  QuantizedFCDataDescInit(tmp, batch_size, channel);
   return (jlong)tmp;
 }
 
 /*
  * Class:     com_intel_analytics_bigdl_bigquant_BigQuant
- * Method:    FixFCDataInit
+ * Method:    FCDataInit
  * Signature: (J[FIIIFI)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCDataInit
   (JNIEnv *env,
  jclass cls,
- jlong fix_tensor,
+ jlong tensor,
  jfloatArray src,
  jint srcOffset,
  jint batch_size,
@@ -263,10 +263,10 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FCDataIn
  jfloat threshold,
  jint layout)
 {
-    FixTensor *j_fix_tensor = (FixTensor*)fix_tensor;
+    QuantizedTensor *j_tensor = (QuantizedTensor*)tensor;
 
     jfloat * jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
-    FixFCDataInit(j_fix_tensor, jni_src + srcOffset,
+    QuantizedFCDataInit(j_tensor, jni_src + srcOffset,
             batch_size, channel, threshold, layout);
     (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
 }
