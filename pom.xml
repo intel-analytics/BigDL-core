@@ -27,6 +27,7 @@
         <bigquantLib>libbigquant_rt.so</bigquantLib>
         <bigquantDestFileName>libbigquant.so</bigquantDestFileName>
         <bigquantProject>quant</bigquantProject>
+        <make_exe>make</make_exe>
     </properties>
     <profiles>
         <profile>
@@ -44,7 +45,7 @@
                 <dynamicLibType>dylib</dynamicLibType>
                 <iompLib>libiomp5.dylib</iompLib>
                 <destFileName>libjmkl.dylib</destFileName>
-                <bigquantLib>libnnfixpoint.dylib</bigquantLib>
+                <bigquantLib>libbigquant.dylib</bigquantLib>
                 <bigquantDestFileName>libbigquant.dylib</bigquantDestFileName>
             </properties>
         </profile>
@@ -61,6 +62,7 @@
                 <bigquantLibDir>C:\Program Files\Quant</bigquantLibDir>
                 <bigquantDestFileName>libbigquant.dll</bigquantDestFileName>
                 <bigquantProject>quant-win64</bigquantProject>
+                <make_exe>mingw32-make</make_exe>
             </properties>
         </profile>
     </profiles>

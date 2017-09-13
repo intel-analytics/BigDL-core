@@ -5,7 +5,6 @@ public class BigQuant {
     public final static int NCHW = 0;
     public final static int NHWC = 1;
 
-
     static {
         try {
             Loader loader = new Loader();

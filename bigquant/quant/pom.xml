@@ -73,9 +73,11 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>${native.source.dir}/Makefile</executable>
+                            <executable>${make_exe}</executable>
                             <workingDirectory>${native.source.dir}</workingDirectory>
                             <arguments>
+                              <argument>-f</argument>
+                              <argument>${native.source.dir}/Makefile</argument>
                               <argument>LOAD_METHOD=MANUAL</argument>
                               <argument>all</argument>
                             </arguments>

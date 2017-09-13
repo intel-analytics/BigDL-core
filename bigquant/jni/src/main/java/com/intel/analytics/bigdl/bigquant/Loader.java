@@ -7,12 +7,24 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Loader {
     private String prefix = "lib";
-    private String[] libraries = {"bigquant", "bigquant_rt", "bigquant_avx2", "bigquant_sse42", "bigquant_avx512"};
+    private List<String> libraries = new ArrayList<String>();
+    private String os = System.getProperty("os.name").toLowerCase();
 
     public void init() throws IOException {
+        libraries.add("bigquant");
+        libraries.add("bigquant_rt");
+        libraries.add("bigquant_avx2");
+        libraries.add("bigquant_sse42");
+
+        if (!os.contains("mac")) {
+            libraries.add("bigquant_avx512");
+        }
+
         Path tempDir = Files.createTempDirectory("bigquant.native.");
         copyAll(tempDir);
 

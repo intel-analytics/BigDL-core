@@ -8,6 +8,9 @@
 extern "C" {
 #endif
 
+typedef struct QuantizedTensorDesc QuantizedTensor;
+typedef struct FPTensorDesc FPTensor;
+
 JNIEXPORT void JNICALL
 Java_com_intel_analytics_bigdl_bigquant_BigQuant_printHello(JNIEnv *env,
                                                             jclass cls)
@@ -180,13 +183,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_bigquant_BigQuant_FreeMemo
     JNIEnv *env, jclass cls, jlong ptr)
 {
     QuantizedTensor *jni_ptr = (QuantizedTensor*)ptr;
-
-    FreeMemory(jni_ptr->data);
-    FreeMemory(jni_ptr->min);
-    FreeMemory(jni_ptr->max);
-    FreeMemory(jni_ptr->ratio);
-
-    free(jni_ptr);
+    FreeQuantizedTensor(jni_ptr);
 }
 
 /*
