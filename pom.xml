@@ -45,7 +45,7 @@
                 <dynamicLibType>dylib</dynamicLibType>
                 <iompLib>libiomp5.dylib</iompLib>
                 <destFileName>libjmkl.dylib</destFileName>
-                <bigquantLib>libbigquant.dylib</bigquantLib>
+                <bigquantLib>libbigquant_rt.dylib</bigquantLib>
                 <bigquantDestFileName>libbigquant.dylib</bigquantDestFileName>
             </properties>
         </profile>
@@ -58,8 +58,7 @@
                 <native-project>mkl-win64</native-project>
                 <dynamicLibType>dll</dynamicLibType>
                 <destFileName>libjmkl.dll</destFileName>
-                <bigquantLib>libnnfixpoint.dll</bigquantLib>
-                <bigquantLibDir>C:\Program Files\Quant</bigquantLibDir>
+                <bigquantLib>libbigquant_rt.dll</bigquantLib>
                 <bigquantDestFileName>libbigquant.dll</bigquantDestFileName>
                 <bigquantProject>quant-win64</bigquantProject>
                 <make_exe>mingw32-make</make_exe>
