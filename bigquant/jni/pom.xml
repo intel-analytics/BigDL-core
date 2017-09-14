@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>bigquant-parent</artifactId>
         <groupId>com.intel.analytics.bigdl</groupId>
@@ -30,12 +30,12 @@
     <build>
         <resources>
             <resource>
-              <directory>${project.basedir}/../native</directory>
+                <directory>${project.basedir}/../native</directory>
                 <includes>
                     <include>${bigquantLib}</include>
-                    <include>libbigquant_avx2.so</include>
-                    <include>libbigquant_avx512.so</include>
-                    <include>libbigquant_sse42.so</include>
+                    <include>libbigquant_avx2.${dynamicLibType}</include>
+                    <include>libbigquant_avx512.${dynamicLibType}</include>
+                    <include>libbigquant_sse42.${dynamicLibType}</include>
                 </includes>
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>
@@ -43,6 +43,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -60,24 +61,16 @@
                                 <artifactItem>
                                     <groupId>com.intel.analytics.bigdl.bigquant</groupId>
                                     <artifactId>bigquant-native</artifactId>
-                                    <version>${pom.version}</version>
+                                    <version>${project.version}</version>
                                     <type>${dynamicLibType}</type>
-                                    <overWrite>false</overWrite>
+                                    <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                    <destFileName>${bigquantDestFileName}</destFileName>
+                                    <destFileName>libbigquant.${dynamicLibType}</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>

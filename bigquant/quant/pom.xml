@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>bigquant-parent</artifactId>
         <groupId>com.intel.analytics.bigdl</groupId>
@@ -14,8 +14,8 @@
     <packaging>${dynamicLibType}</packaging>
 
     <properties>
-      <native.source.dir>${project.basedir}/../native</native.source.dir>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <native.source.dir>${project.basedir}/../native</native.source.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
 
@@ -23,6 +23,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -59,7 +60,7 @@
                         <linkerEndOption>-lbigquant_rt</linkerEndOption>
                         <linkerEndOption>-shared</linkerEndOption>
                     </linkerEndOptions>
-                    <linkerFinalName>${pom.artifactId}</linkerFinalName>
+                    <linkerFinalName>${project.artifactId}</linkerFinalName>
                 </configuration>
             </plugin>
             <plugin>
@@ -76,10 +77,10 @@
                             <executable>${make_exe}</executable>
                             <workingDirectory>${native.source.dir}</workingDirectory>
                             <arguments>
-                              <argument>-f</argument>
-                              <argument>${native.source.dir}/Makefile</argument>
-                              <argument>LOAD_METHOD=MANUAL</argument>
-                              <argument>all</argument>
+                                <argument>-f</argument>
+                                <argument>${native.source.dir}/Makefile</argument>
+                                <argument>LOAD_METHOD=MANUAL</argument>
+                                <argument>all</argument>
                             </arguments>
                         </configuration>
                     </execution>

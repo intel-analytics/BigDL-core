@@ -21,10 +21,16 @@ To compile on win64, you need
     <artifactId>bigquant-native</artifactId>
     <packaging>${dynamicLibType}</packaging>
 
+    <properties>
+      <native.source.dir>${project.basedir}\..\native</native.source.dir>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+		<version>3.1</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -35,7 +41,7 @@ To compile on win64, you need
                     <compilerProvider>msvc</compilerProvider>
                     <sources>
                         <source>
-                            <directory>${project.basedir}\..\bigquant\src\main\c\jni</directory>
+                            <directory>${project.basedir}\..\quant\src\main\c\jni</directory>
                             <fileNames>
                                 <fileName>quant.c</fileName>
                             </fileNames>
@@ -51,10 +57,35 @@ To compile on win64, you need
                     <linkerSecondaryOutputExtensions>lib</linkerSecondaryOutputExtensions>
 
                     <linkerStartOptions>
+			<linkerStartOption>/LIBPATH:${native.source.dir}</linkerStartOption>
+                        <linkerStartOption>libbigquant_rt.lib</linkerStartOption>
                         <linkerStartOption>/DLL</linkerStartOption>
-                        <linkerStartOption>libnnfixpoint.lib</linkerStartOption>
                     </linkerStartOptions>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>mingw32-make</executable>
+                            <workingDirectory>${native.source.dir}</workingDirectory>
+                            <arguments>
+                              <argument>-f</argument>
+                              <argument>${native.source.dir}\Makefile</argument>
+                              <argument>LOAD_METHOD=MANUAL</argument>
+                              <argument>PLATFORM=WINDOWS</argument>
+                              <argument>all</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

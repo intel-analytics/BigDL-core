@@ -7,6 +7,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,12 @@ public class Loader {
             libraries.add("bigquant_avx512");
         }
 
-        Path tempDir = Files.createTempDirectory("bigquant.native.");
+        Path tempDir = null;
+        if (os.contains("win")) {
+            tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+        } else {
+            tempDir = Files.createTempDirectory("bigquant.native.");
+        }
         copyAll(tempDir);
 
         loadLibrary("bigquant_rt", tempDir);
