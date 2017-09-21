@@ -22,21 +22,28 @@ public class Loader {
         libraries.add("bigquant_avx2");
         libraries.add("bigquant_sse42");
 
+        // for osx, we don't support avx512 now.
+        // because the default version of gcc installed by brew doesn't enable this feature
         if (!os.contains("mac")) {
             libraries.add("bigquant_avx512");
         }
 
+        // TODO for windows, we don't create bigquant.native dir
         Path tempDir = null;
         if (os.contains("win")) {
             tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
         } else {
             tempDir = Files.createTempDirectory("bigquant.native.");
         }
+
         copyAll(tempDir);
 
         loadLibrary("bigquant_rt", tempDir);
         loadLibrary("bigquant", tempDir);
-        BigQuant.loadRuntime(tempDir.toString());
+        int success = BigQuant.loadRuntime(tempDir.toString());
+        if (success < 0) {
+            System.exit(1);
+        }
 
         deleteAll(tempDir);
     }

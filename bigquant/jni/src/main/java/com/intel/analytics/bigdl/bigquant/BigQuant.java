@@ -25,7 +25,7 @@ public class BigQuant {
 
     public native static void printHello();
 
-    public native static void loadRuntime(String path);
+    public native static int loadRuntime(String path);
 
     public native static long ConvKernelDescInit(int c_out,
                                                  int c_in,
