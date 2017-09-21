@@ -23,6 +23,10 @@
         <iompLib>libiomp5.so</iompLib>
         <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
         <destFileName>libjmkl.so</destFileName>
+        <bigquantLib>libbigquant_rt.so</bigquantLib>
+        <bigquantDestFileName>libbigquant.so</bigquantDestFileName>
+        <bigquantProject>quant</bigquantProject>
+        <make_exe>make</make_exe>
     </properties>
     <profiles>
         <profile>
@@ -40,6 +44,8 @@
                 <dynamicLibType>dylib</dynamicLibType>
                 <iompLib>libiomp5.dylib</iompLib>
                 <destFileName>libjmkl.dylib</destFileName>
+                <bigquantLib>libbigquant_rt.dylib</bigquantLib>
+                <bigquantDestFileName>libbigquant.dylib</bigquantDestFileName>
             </properties>
         </profile>
         <profile>
@@ -51,6 +57,10 @@
                 <native-project>mkl-win64</native-project>
                 <dynamicLibType>dll</dynamicLibType>
                 <destFileName>libjmkl.dll</destFileName>
+                <bigquantLib>libbigquant_rt.dll</bigquantLib>
+                <bigquantDestFileName>libbigquant.dll</bigquantDestFileName>
+                <bigquantProject>quant-win64</bigquantProject>
+                <make_exe>mingw32-make</make_exe>
             </properties>
         </profile>
     </profiles>
