@@ -69,4 +69,45 @@ public class MKLTest {
         MKL.getMklWaitPolicy();
     }
 
+    @Test
+    public void sgemmWithPack() {
+        int m = 4;
+        int k = 5;
+        int n = 6;
+
+        float[] a = new float[m * k];
+        float[] b = new float[k * n];
+        float[] c = new float[m * n];
+
+        for (int i = 0; i < m*k; i++) {
+            a[i] = i + 1;
+        }
+
+        for (int i = 0; i < k * n; i++) {
+            b[i] = i + 1;
+        }
+        for (int i = 0; i < m * n; i++) {
+            c[i] = i + 1;
+            c[i] *= 0;
+        }
+
+        float alpha = 1f;
+        int lda = k;
+        int ldb = k;
+        int ldc = m;
+
+        long packMem = MKL.sgemmAlloc('A', m, n, k);
+        MKL.sgemmPack('A', 'T', m, n, k, alpha, a, 0, lda, packMem);
+        MKL.sgemmCompute('T', 'N', m, n, k, packMem, lda, b, 0, ldb, 1f, c, 0, ldc);
+        for (int i = 0; i < m * n; i++) {
+            System.out.println(c[i]);
+        }
+        MKL.sgemmFree(packMem);
+
+        MKL.vsgemm('T', 'N', m, n, k, alpha, a, 0, lda, b, 0, ldb, 1f, c, 0, ldc);
+
+        for (int i = 0; i < m * n; i++) {
+            System.out.println(c[i]);
+        }
+    }
 }
