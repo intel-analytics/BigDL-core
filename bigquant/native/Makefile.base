@@ -1,0 +1,108 @@
+CXX := g++-7
+AR := ar
+CXXFLAGS = -Ofast -ftree-vectorize -fomit-frame-pointer -funroll-loops -DGIT_VERSION="\"`git rev-parse HEAD`\"" -Wdelete-incomplete -std=c++11
+LDFLAGS = -flto
+TARGET = HASWELL
+OPENMP = FALSE
+LLC_MODE = EXCLUSIVE
+GLIBCPP11_ABI = 0
+TIME_PROFILE = 0
+MANUAL_LOAD := 0
+
+ifeq ($(TIME_PROFILE), 1)
+	CXXFLAGS += -DTIME_PROFILE
+endif
+
+ifeq ($(MANUAL_LOAD), 1)
+	CXXFLAGS += -DMANUAL_LOAD
+endif
+
+# PLATFORM can CHOOSE WINDOWS, LINUX OR MACOS
+ifeq ($(PLATFORM), WINDOWS)
+	CXXFLAGS += -DWINDOWS -fno-asynchronous-unwind-tables
+	SHARED_LIBRARY_SUFFIX = dll
+	LDFLAGS = -static
+else ifeq ($(PLATFORM), LINUX)
+	SHARED_LIBRARY_SUFFIX = so
+	LDFLAGS += -ldl
+else ifeq ($(PLATFORM), MACOS)
+	SHARED_LIBRARY_SUFFIX = dylib
+endif
+
+
+ifeq ($(LLC_MODE), SHARED)
+	CXXFLAGS += -DLLC_SHARED
+endif
+
+ifeq ($(LLC_MODE), EXCLUSIVE)
+	CXXFLAGS += -DLLC_EXCLUSIVE
+endif
+
+ifeq ($(GLIBCPP11_ABI), 0)
+  CXXFLAGS += -D_GLIBCXX_USE_CXX11_ABI=0
+endif
+
+RUNTIMEOBJNAME = libbigquant_rt.o
+RUNTIMELIBNAME = libbigquant_rt.$(SHARED_LIBRARY_SUFFIX)
+
+ifeq ($(TARGET), SKYLAKE_SERVER)
+	ARCH_FLAGS = -march=skylake-avx512 -mtune=skylake-avx512 -DAVX512
+	SHAREDLIBNAME = libbigquant_avx512.$(SHARED_LIBRARY_SUFFIX)
+	STATICOBJNAME = libbigquant_avx512.o
+	STATICLIBNAME = libbigquant_avx512.a
+	DEFLIBNAME = libbigquant_avx512.def
+else ifeq ($(TARGET), HASWELL)
+	ARCH_FLAGS = -march=haswell -mtune=haswell 
+	SHAREDLIBNAME = libbigquant_avx2.$(SHARED_LIBRARY_SUFFIX)
+	STATICOBJNAME = libbigquant_avx2.o
+	STATICLIBNAME = libbigquant_avx2.a
+	DEFLIBNAME = libbigquant_avx2.def
+else ifeq ($(TARGET), MOBILE) 
+	ARCH_FLAGS = -march=silvermont -mtune=silvermont -fsched-pressure -fschedule-insns 
+	SHAREDLIBNAME = libbigquant_sse42.$(SHARED_LIBRARY_SUFFIX)
+	STATICOBJNAME = libbigquant_sse42.o
+	STATICLIBNAME = libbigquant_sse42.a
+	DEFLIBNAME = libbigquant_sse42.def
+endif
+
+ifeq ($(OPENMP), TRUE)
+	CXXFLAGS += -fopenmp
+endif
+
+
+runtime:
+ifeq ($(PLATFORM), WINDOWS)
+	$(CXX) $(CXXFLAGS) -fPIC -shared c_api_rt.cc -Wl,-soname,$(RUNTIMELIBNAME) -Wl,--output-def,libbigquant_rt.def -o $(RUNTIMELIBNAME) -fpermissive $(LDFLAGS)
+	lib /MACHINE:X64 /def:libbigquant_rt.def
+else ifeq ($(PLATFORM), LINUX)
+	$(CXX) $(CXXFLAGS) -fPIC -shared c_api_rt.cc -Wl,-soname,$(RUNTIMELIBNAME) -o $(RUNTIMELIBNAME) -fpermissive $(LDFLAGS)
+else ifeq ($(PLATFORM), MACOS)
+	$(CXX) $(CXXFLAGS) -c c_api_rt.cc -o $(RUNTIMEOBJNAME) -fpermissive
+	$(CXX) $(RUNTIMEOBJNAME) -dynamiclib -current_version 1.0 -o $(RUNTIMELIBNAME) -install_name @rpath/$(RUNTIMELIBNAME)
+endif
+
+shared:
+ifeq ($(PLATFORM), WINDOWS)
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) -fPIC -shared c_api.cc -o $(SHAREDLIBNAME) -Wl,--output-def,$(DEFLIBNAME) $(LDFLAGS)
+	lib /MACHINE:X64 /def:$(DEFLIBNAME)
+else ifeq ($(PLATFORM), LINUX)
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) -fPIC -shared c_api.cc -o $(SHAREDLIBNAME) $(LDFLAGS)
+else ifeq ($(PLATFORM), MACOS)
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) -c c_api.cc -o $(STATICOBJNAME) -fpermissive
+	$(CXX) $(STATICOBJNAME) -dynamiclib -current_version 1.0 -o $(SHAREDLIBNAME) -install_name @rpath/$(SHAREDLIBNAME)
+endif
+
+static:
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) -c c_api.cc -o libbigquant_tmp.o 
+	$(AR) rcs $(STATICLIBNAME) libbigquant_tmp.o
+
+test:
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) tests/test_find_extreme.cpp -o ./tests/test_find_extreme.out -lCppUTest
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) tests/test_layout.cpp -o ./tests/test_layout.out -lCppUTest
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) tests/test_quantize.cpp -o ./tests/test_quantize.out -lCppUTest
+	$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) tests/test_gemm.cpp -o ./tests/test_gemm.out -lCppUTest -lopenblas
+	#$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) tests/test_utility.cpp -o ./tests/test_utility.out -lCppUTest
+	#$(CXX) $(CXXFLAGS) $(ARCH_FLAGS) tests/test_dot.cpp -o ./tests/test_dot.out -lCppUTest
+
+clean:
+	rm -rf *.so *.o *.a *.dll *.dylib
