@@ -6,10 +6,21 @@ void aligned_malloc(void** p, size_t alignment, size_t size) {
   *p = NULL;
 #if defined(_MSC_VER)
   *p = _aligned_malloc(size, alignment);
+  if(*p == NULL) {
+    fprintf(stderr, "Failed to Allocate Memory.\n");
+    exit(-1);
+  }
 #elif defined(__MINGW32__)
   *p = __mingw_aligned_malloc(size, alignment);
+  if(*p == NULL) {
+    fprintf(stderr, "Failed to Allocate Memory.\n");
+    exit(-1);
+  }
 #else
-  posix_memalign(p, alignment, size);
+  if (posix_memalign(p, alignment, size) != 0) {
+    fprintf(stderr, "Failed to Allocate Memory.\n");
+    exit(-1);
+  }
 #endif
 }
 

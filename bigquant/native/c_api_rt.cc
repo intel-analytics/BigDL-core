@@ -79,33 +79,33 @@ void BindSymbol() {
 #else
 #define BINDSYMBOL dlsym
 #endif
-  QuantizedConvOpCreateRT = BINDSYMBOL(handler, "InternalQuantizedConvOpCreate");
-  QuantizedConvOpSetupConvParameterRT = BINDSYMBOL(handler, "InternalQuantizedConvOpSetupConvParameter");
-  QuantizedConvOpInitWeightRT = BINDSYMBOL(handler, "InternalQuantizedConvOpInitWeight");
-  QuantizedConvOpExecuteRT = BINDSYMBOL(handler, "InternalQuantizedConvOpExecute");
-  QuantizedConvOpFreeRT = BINDSYMBOL(handler, "InternalQuantizedConvOpFree");
-  QuantizedFCOpCreateRT = BINDSYMBOL(handler, "InternalQuantizedFCOpCreate");
-  QuantizedFCOpSetupFCParameterRT = BINDSYMBOL(handler, "InternalQuantizedFCOpSetupFCParameter");
-  QuantizedFCOpInitWeightRT = BINDSYMBOL(handler, "InternalQuantizedFCOpInitWeight");
-  QuantizedFCOpExecuteRT = BINDSYMBOL(handler, "InternalQuantizedFCOpExecute");
-  QuantizedFCOpFreeRT = BINDSYMBOL(handler, "InternalQuantizedFCOpFree");
-  QuantizedConvKernelDescInitRT = BINDSYMBOL(handler, "InternalQuantizedConvKernelDescInit");
-  QuantizedConvKernelInitRT = BINDSYMBOL(handler, "InternalQuantizedConvKernelInit");
-  QuantizedConvKernelLoadFromModelRT = BINDSYMBOL(handler, "InternalQuantizedConvKernelLoadFromModel");
-  QuantizedConvDataDescInitRT = BINDSYMBOL(handler, "InternalQuantizedConvDataDescInit");
-  QuantizedConvDataInitRT = BINDSYMBOL(handler, "InternalQuantizedConvDataInit");
-  QuantizedConvKernelSumDescInitRT = BINDSYMBOL(handler, "InternalQuantizedConvKernelSumDescInit");
-  QuantizedConvKernelSumInitRT = BINDSYMBOL(handler, "InternalQuantizedConvKernelSumInit");
-  MixPrecisionGEMMRT = BINDSYMBOL(handler, "InternalMixPrecisionGEMM");
-  QuantizedFCKernelDescInitRT = BINDSYMBOL(handler, "InternalQuantizedFCKernelDescInit");
-  QuantizedFCKernelInitRT = BINDSYMBOL(handler, "InternalQuantizedFCKernelInit");
-  QuantizedFCKernelLoadFromModelRT = BINDSYMBOL(handler, "InternalQuantizedFCKernelLoadFromModel");
-  QuantizedFCDataDescInitRT = BINDSYMBOL(handler, "InternalQuantizedFCDataDescInit");
-  QuantizedFCDataInitRT = BINDSYMBOL(handler, "InternalQuantizedFCDataInit");
-  QuantizedFCKernelSumDescInitRT = BINDSYMBOL(handler, "InternalQuantizedFCKernelSumDescInit");
-  QuantizedFCKernelSumInitRT = BINDSYMBOL(handler, "InternalQuantizedFCKernelSumInit");
-  FreeFPTensorRT = BINDSYMBOL(handler, "InternalFreeFPTensor");
-  FreeQuantizedTensorRT = BINDSYMBOL(handler, "InternalFreeQuantizedTensor");
+  QuantizedConvOpCreateRT = reinterpret_cast<QuantizedConvOp* (*)()>(BINDSYMBOL(handler, "InternalQuantizedConvOpCreate"));
+  QuantizedConvOpSetupConvParameterRT = reinterpret_cast<void (*)(QuantizedConvOp*, LAYOUT, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, CONV_ALGORITHM)>(BINDSYMBOL(handler, "InternalQuantizedConvOpSetupConvParameter"));
+  QuantizedConvOpInitWeightRT = reinterpret_cast<void (*)(QuantizedConvOp*, float*)>(BINDSYMBOL(handler, "InternalQuantizedConvOpInitWeight"));
+  QuantizedConvOpExecuteRT = reinterpret_cast<void (*)(QuantizedConvOp*, float*, float*, float*, size_t, size_t, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedConvOpExecute"));
+  QuantizedConvOpFreeRT = reinterpret_cast<void (*)(QuantizedConvOp*)>(BINDSYMBOL(handler, "InternalQuantizedConvOpFree"));
+  QuantizedFCOpCreateRT = reinterpret_cast<QuantizedFCOp* (*)()>(BINDSYMBOL(handler, "InternalQuantizedFCOpCreate"));
+  QuantizedFCOpSetupFCParameterRT = reinterpret_cast<void (*)(QuantizedFCOp*, LAYOUT, size_t, size_t, FC_ALGORITHM)>(BINDSYMBOL(handler, "InternalQuantizedFCOpSetupFCParameter"));
+  QuantizedFCOpInitWeightRT = reinterpret_cast<void (*)(QuantizedFCOp*, float*)>(BINDSYMBOL(handler, "InternalQuantizedFCOpInitWeight"));
+  QuantizedFCOpExecuteRT = reinterpret_cast<void (*)(QuantizedFCOp*, float*, float*, float*, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedFCOpExecute"));
+  QuantizedFCOpFreeRT = reinterpret_cast<void (*)(QuantizedFCOp*)>(BINDSYMBOL(handler, "InternalQuantizedFCOpFree"));
+  QuantizedConvKernelDescInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, size_t, size_t, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedConvKernelDescInit"));
+  QuantizedConvKernelInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, float*, size_t, size_t, size_t, size_t, float, LAYOUT)>(BINDSYMBOL(handler, "InternalQuantizedConvKernelInit"));
+  QuantizedConvKernelLoadFromModelRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, int8_t*, float*, float*, size_t, size_t, size_t, size_t, float, LAYOUT)>(BINDSYMBOL(handler, "InternalQuantizedConvKernelLoadFromModel"));
+  QuantizedConvDataDescInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedConvDataDescInit"));
+  QuantizedConvDataInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, float*, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, size_t, float, LAYOUT)>(BINDSYMBOL(handler, "InternalQuantizedConvDataInit"));
+  QuantizedConvKernelSumDescInitRT = reinterpret_cast<void (*)(FPTensorDesc*, size_t)>(BINDSYMBOL(handler, "InternalQuantizedConvKernelSumDescInit"));
+  QuantizedConvKernelSumInitRT = reinterpret_cast<void (*)(FPTensorDesc*, float*, size_t, size_t, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedConvKernelSumInit"));
+  MixPrecisionGEMMRT = reinterpret_cast<void (*)(LAYOUT, int8_t*, uint8_t*, float*, size_t, size_t, size_t, float*, float*, float*, float*, float*, size_t, size_t, size_t, size_t, float, size_t, size_t)>(BINDSYMBOL(handler, "InternalMixPrecisionGEMM"));
+  QuantizedFCKernelDescInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedFCKernelDescInit"));
+  QuantizedFCKernelInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, float*, size_t, size_t, float, LAYOUT)>(BINDSYMBOL(handler, "InternalQuantizedFCKernelInit"));
+  QuantizedFCKernelLoadFromModelRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, int8_t*, float*, float*, size_t, size_t, float, LAYOUT)>(BINDSYMBOL(handler, "InternalQuantizedFCKernelLoadFromModel"));
+  QuantizedFCDataDescInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedFCDataDescInit"));
+  QuantizedFCDataInitRT = reinterpret_cast<void (*)(QuantizedTensorDesc*, float*, size_t, size_t, float, LAYOUT)>(BINDSYMBOL(handler, "InternalQuantizedFCDataInit"));
+  QuantizedFCKernelSumDescInitRT = reinterpret_cast<void (*)(FPTensorDesc*, size_t)>(BINDSYMBOL(handler, "InternalQuantizedFCKernelSumDescInit"));
+  QuantizedFCKernelSumInitRT = reinterpret_cast<void (*)(FPTensorDesc*, float*, size_t, size_t)>(BINDSYMBOL(handler, "InternalQuantizedFCKernelSumInit"));
+  FreeFPTensorRT = reinterpret_cast<void (*)(FPTensorDesc*)>(BINDSYMBOL(handler, "InternalFreeFPTensor"));
+  FreeQuantizedTensorRT = reinterpret_cast<void (*)(QuantizedTensorDesc*)>(BINDSYMBOL(handler, "InternalFreeQuantizedTensor"));
 #undef BINDSYMBOL
 }
 
