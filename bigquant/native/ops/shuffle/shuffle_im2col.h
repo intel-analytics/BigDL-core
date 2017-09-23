@@ -277,8 +277,16 @@ void PadQuantizeShuffleNHWCIm2col(DType *data, size_t batch_size, size_t channel
     aligned_malloc(reinterpret_cast<void **>(&min_per_channel[g]), 64, sizeof(DType) * batch_size * height * width);
     aligned_malloc(reinterpret_cast<void **>(&max_per_channel[g]), 64, sizeof(DType) * batch_size * height * width);
   }
+#ifdef TIME_PROFILE
+  auto start = std::chrono::system_clock::now();
+#endif
   findextreme(data, groups, min_per_channel.data(), max_per_channel.data(), batch_size, channels_per_group,
               height * width, workspace);
+#ifdef TIME_PROFILE
+  auto end = std::chrono::system_clock::now();
+  auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cerr << "im2col findextreme per channel " << diff.count() << "us" << std::endl;
+#endif
 #pragma omp parallel for collapse(3)
   for (size_t batch = 0; batch < batch_size; ++batch) {                   // total batch size
     for (size_t o_y = 0; o_y < output_h; ++o_y) {    // total output rows

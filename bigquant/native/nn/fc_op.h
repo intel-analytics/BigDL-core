@@ -12,6 +12,10 @@ struct FCOp {
     delete algo_;
   }
 
+  FCOp(const FCOp&) = delete;
+
+  FCOp& operator=(const FCOp&) = delete;
+
   void SetupFCKernelParameter(LAYOUT layout, size_t channel_out, size_t channel_in, FC_ALGORITHM algo) {
     fc_kernel_desc_ = {layout, channel_out, channel_in};
     ChooseAlgo(algo);
