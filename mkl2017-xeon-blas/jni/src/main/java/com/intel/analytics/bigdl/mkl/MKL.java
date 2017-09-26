@@ -279,8 +279,10 @@ public class MKL {
     public native static void sgemmPack(char identifier, char transa, int m, int n, int k, float alpha, float[] src,
                                         int srcOffset,int lda, long ptr);
 
-    public native static void sgemmCompute(char transa, char transb, int m, int n, int k, long a, int lda, float[] b,
-                                           int bOffset, int ldb, float beta, float[] c, int cOffset, int ldc);
+    public native static void sgemmCompute(char transa, char transb,
+                                           int m, int n, int k, float[] a, int aOffset, int lda,
+                                           float[] b, int bOffset, int ldb,
+                                           float beta, float[] c, int cOffset, int ldc, long packMem);
 
     public native static void sgemmFree(long ptr);
 

@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <omp.h>
 #include <mkl.h>
+#include <ctype.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -712,12 +713,16 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_vdscal
  * Method:    sgemmAlloc
  * Signature: (CIII)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmAlloc
-  (JNIEnv *env, jclass cls, jchar identifier, jint m, jint n, jint k)
+  JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmAlloc
+(JNIEnv *env, jclass cls, jchar identifier, jint m, jint n, jint k)
 {
-   int jni_identifier;
-   if (identifier == 'a' || identifier == 'A') jni_identifier = CblasAMatrix;
-   else jni_identifier = CblasBMatrix;
+  int jni_identifier;
+  if (identifier == 'a' || identifier == 'A') {
+    jni_identifier = CblasAMatrix;
+  } else {
+    jni_identifier = CblasBMatrix;
+  }
+
   return (jlong)(cblas_sgemm_alloc(jni_identifier, m, n, k));
 }
 
@@ -726,28 +731,31 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmAlloc
  * Method:    sgemmPack
  * Signature: (CCIIIF[FIIJ)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmPack
-  (JNIEnv *env, jclass cls, jchar identifier, jchar transa,
-   jint m, jint n, jint k, jfloat alpha,
-   jfloatArray src, jint srcOffset, jint ld, jlong dest)
+  JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmPack
+(JNIEnv *env, jclass cls, jchar identifier, jchar trans,
+ jint m, jint n, jint k, jfloat alpha,
+ jfloatArray src, jint srcOffset, jint ld, jlong dest)
 {
   jfloat *jni_dest = (jfloat*)dest;
   jfloat *jni_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
-   int jni_identifier;
-   if (identifier == 'a' || identifier == 'A') jni_identifier = CblasAMatrix;
-   else jni_identifier = CblasBMatrix;
 
-int jni_transa;
-   if(transa == 't' || transa == 'T') jni_transa = CblasTrans; else jni_transa = CblasNoTrans;
+  int jni_identifier;
+  if (identifier == 'a' || identifier == 'A') {
+    jni_identifier = CblasAMatrix;
+  } else {
+    jni_identifier = CblasBMatrix;
+  }
 
-   int i = 0;
-   for (i = 0; i < m * k; i++) {
-    printf("%f\n", jni_src[i]);
-   }
+  int jni_trans;
+  if(trans == 't' || trans == 'T') {
+    jni_trans = CblasTrans;
+  } else {
+    jni_trans = CblasNoTrans;
+  }
 
-  cblas_sgemm_pack(CblasColMajor, jni_identifier, jni_transa, m, n, k, alpha,
+  cblas_sgemm_pack(CblasColMajor, jni_identifier, jni_trans, m, n, k, alpha,
                    jni_src + srcOffset, ld, jni_dest);
-   (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
+  (*env)->ReleasePrimitiveArrayCritical(env, src, jni_src, 0);
 }
 
 /*
@@ -755,28 +763,70 @@ int jni_transa;
  * Method:    sgemmCompute
  * Signature: (CCIIIJI[FIIF[FII)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmCompute
-  (JNIEnv *env, jclass cls,
-   jchar transa, jchar transb,
-   jint m, jint n, jint k,
-   jlong a, jint lda,
-   jfloatArray b, jint bOffset, jint ldb,
-   jfloat beta, jfloatArray c, jint cOffset, jint ldc)
+  JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmCompute
+(JNIEnv *env, jclass cls,
+ jchar transa, jchar transb,
+ jint m, jint n, jint k,
+ jfloatArray a, jint aOffset, jint lda,
+ jfloatArray b, jint bOffset, jint ldb,
+ jfloat beta, jfloatArray c, jint cOffset, jint ldc, jlong packMem)
 {
-  jfloat *jni_a = (jfloat*)a;
-  jfloat *jni_b = (*env)->GetPrimitiveArrayCritical(env, b, JNI_FALSE);
+  jfloat *jni_a_start = NULL, *jni_b_start = NULL;
+  jfloat *jni_a = NULL, *jni_b = NULL;
   jfloat *jni_c = (*env)->GetPrimitiveArrayCritical(env, c, JNI_FALSE);
 
-int jni_transa, jni_transb;
-   if(transa == 't' || transa == 'T') jni_transa = CblasTrans; else jni_transa = CblasNoTrans;
-   if(transb == 't' || transb == 'T') jni_transb = CblasTrans; else jni_transb = CblasNoTrans;
+  transa = tolower(transa);
+  transb = tolower(transb);
+
+  if (transa != 'p' && transb != 'p') {
+    fprintf(stderr, "one of transa transb must be P\n");
+    exit(1);
+  }
+
+  int jni_transa, jni_transb;
+
+  switch (transa) {
+  case 't':
+    jni_transa = CblasTrans; break;
+  case 'n':
+    jni_transa = CblasNoTrans; break;
+  case 'p':
+    jni_transa = CblasPacked;
+    jni_a = (jfloat*)(packMem);
+
+    jni_b_start = (*env)->GetPrimitiveArrayCritical(env, b, JNI_FALSE);
+    jni_b = jni_b_start + bOffset;
+    break;
+  default:
+    jni_transa = CblasNoTrans;
+  }
+
+  switch (transb) {
+  case 't':
+    jni_transb = CblasTrans; break;
+  case 'n':
+    jni_transb = CblasNoTrans; break;
+  case 'p':
+    jni_transb = CblasPacked;
+    jni_b = (jfloat*)(packMem);
+
+    jni_a_start = (*env)->GetPrimitiveArrayCritical(env, a, JNI_FALSE);
+    jni_a = jni_a_start + aOffset;
+    break;
+  default:
+    jni_transb = CblasNoTrans;
+  }
 
   cblas_sgemm_compute(CblasColMajor, jni_transa, jni_transb, m, n, k, jni_a, lda,
-                      jni_b + bOffset, ldb,
+                      jni_b, ldb,
                       beta, jni_c + cOffset, ldc);
 
-   (*env)->ReleasePrimitiveArrayCritical(env, b, jni_b, 0);
-   (*env)->ReleasePrimitiveArrayCritical(env, c, jni_c, 0);
+  if (jni_a == (jfloat*)(packMem)) {
+    (*env)->ReleasePrimitiveArrayCritical(env, b, jni_b_start, 0);
+  } else if (jni_b == (jfloat*)(packMem)) {
+    (*env)->ReleasePrimitiveArrayCritical(env, a, jni_a_start, 0);
+  }
+  (*env)->ReleasePrimitiveArrayCritical(env, c, jni_c, 0);
 }
 
 /*
@@ -784,8 +834,8 @@ int jni_transa, jni_transb;
  * Method:    sgemmFree
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmFree
-  (JNIEnv *env, jclass cls, jlong ptr)
+  JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_sgemmFree
+(JNIEnv *env, jclass cls, jlong ptr)
 {
   cblas_sgemm_free((float*)ptr);
 }
