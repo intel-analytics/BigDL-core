@@ -170,7 +170,7 @@ int ManualRuntimeLoadLib(char *path) {
 #elif defined(__APPLE__)
   char *ext = ".dylib";
 #else
-  char *ext = ".so";
+  const char *ext = ".so";
 #endif
   if (handler == NULL) {
     if (cpuid_support_feature(AVX_512)) {
