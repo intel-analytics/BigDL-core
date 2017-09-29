@@ -22,6 +22,7 @@
 #if defined(AVX512)
 #define PERMUTE_PS _mm512_permute_ps
 #define PERMUTEX_PS _mm512_permutexvar_ps
+#define PERMUTE2F128_PS_HALF _mm256_permute2f128_ps
 #elif defined(__AVX2__)
 #define PERMUTE_PS _mm256_permute_ps
 #define PERMUTE_PS_HALF _mm_permute_ps
@@ -42,7 +43,12 @@
 #endif
 
 // VEC UNPACK
-#ifdef __AVX2__
+#if defined(AVX512)
+#define UNPACKLO_PS_HALF _mm256_unpacklo_ps
+#define UNPACKHI_PS_HALF _mm256_unpackhi_ps
+#define UNPACKLO_PD_HALF _mm256_unpacklo_pd
+#define UNPACKHI_PD_HALF _mm256_unpackhi_pd
+#elif  defined(__AVX2__)
 #define UNPACKLO_PS _mm256_unpacklo_ps
 #define UNPACKHI_PS _mm256_unpackhi_ps
 #define UNPACKLO_PD _mm256_unpacklo_pd
