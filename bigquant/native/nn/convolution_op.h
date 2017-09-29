@@ -18,6 +18,10 @@ struct ConvOp {
     delete algo_;
   }
 
+  ConvOp(const ConvOp&) = delete;
+
+  ConvOp& operator=(const ConvOp&) = delete;
+
   void SetupConvolutionParameter(LAYOUT layout, size_t channel_out, size_t channel_in, size_t groups, size_t kernel_h,
                                  size_t kernel_w, size_t stride_h, size_t stride_w, size_t pad_h, size_t pad_w,
                                  size_t dilation_h, size_t dilation_w, size_t fusion_mask, CONV_ALGORITHM algo) {

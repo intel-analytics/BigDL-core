@@ -227,6 +227,9 @@ void ConvShuffleGEMM(int8_t *pa, uint8_t *pb, float *pc, size_t m, size_t n, siz
                      float fault_tolerance, size_t pad_m, size_t pad_n, bool conv_relu_fusion, bool conv_bn_fusion,
                      bool conv_bn_relu_fusion, bool conv_relu_bn_fusion, float *global_mean, float *mul_variance_coeff,
                      float *scale, float *shift) {
+#ifdef TIME_PROFILE
+  auto start = std::chrono::system_clock::now();
+#endif
   assert((fault_tolerance <= 1.0f) && (fault_tolerance >= 0.0f));
   assert((layout == NCHW) || (layout == NHWC));
   size_t feature_map_size_per_channel = height_out * width_out;
@@ -286,6 +289,14 @@ void ConvShuffleGEMM(int8_t *pa, uint8_t *pb, float *pc, size_t m, size_t n, siz
       }
     }
   }
+#ifdef TIME_PROFILE
+  auto end = std::chrono::system_clock::now();
+  auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cerr << m << "," << n << "," << k << ",";
+  std::cerr << diff.count() << "us, "
+            << (2.0 * m * n * k) / diff.count() / 1.0e3 << " glops"
+            << std::endl;
+#endif
 }
 #endif
 #if defined(LLC_EXCLUSIVE)
@@ -296,6 +307,9 @@ void ConvShuffleGEMM(int8_t *pa, uint8_t *pb, float *pc, size_t m, size_t n, siz
                      float fault_tolerance, size_t pad_m, size_t pad_n, bool conv_relu_fusion, bool conv_bn_fusion,
                      bool conv_bn_relu_fusion, bool conv_relu_bn_fusion, float *global_mean, float *mul_variance_coeff,
                      float *scale, float *shift) {
+#ifdef TIME_PROFILE
+  auto start = std::chrono::system_clock::now();
+#endif
   assert((fault_tolerance <= 1.0f) && (fault_tolerance >= 0.0f));
   assert((layout == NCHW) || (layout == NHWC));
   size_t feature_map_size_per_channel = height_out * width_out;
@@ -354,6 +368,15 @@ void ConvShuffleGEMM(int8_t *pa, uint8_t *pb, float *pc, size_t m, size_t n, siz
       }
     }
   }
+#ifdef TIME_PROFILE
+  auto end = std::chrono::system_clock::now();
+  auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cerr << m << "," << n << "," << k << ",";
+  std::cerr << diff.count() << "us, "
+            << (2.0 * m * n * k) / diff.count() / 1.0e3 << " glops"
+            << std::endl;
+#endif
+
 }
 
 #endif

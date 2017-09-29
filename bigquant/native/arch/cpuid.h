@@ -40,6 +40,7 @@ struct cache_info {
   size_t cache_size;
   size_t logic_cores_per_package;
   bool hyper_threading;
+  bool inclusive;
 };
 
 static int cpuid_caches(int cache_id, struct cache_info& info) {
@@ -60,10 +61,12 @@ static int cpuid_caches(int cache_id, struct cache_info& info) {
   size_t cacheline_partitions = ((ebx >> 12) & 0x3ff) + 1;
   size_t cache_ways = ((ebx >> 22) & 0x3ff) + 1;
   size_t cache_size = cache_ways * cacheline_partitions * cacheline_size * cache_sets;
+  bool inclusive = (edx >> 1) & 1;
 
   info.cache_id = cache_id;
   info.cache_level = cache_level;
   info.cache_size = cache_size;
+  info.inclusive = inclusive;
 
   eax = 0xb;
   ecx = 1;

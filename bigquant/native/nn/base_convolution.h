@@ -37,6 +37,13 @@ struct ConvolutionDataDesc {
 };
 
 struct BaseConvolutionAlgo {
+
+  BaseConvolutionAlgo() = default;
+
+  BaseConvolutionAlgo(const BaseConvolutionAlgo&) = delete;
+
+  BaseConvolutionAlgo& operator=(const BaseConvolutionAlgo&) = delete;
+
   virtual ~BaseConvolutionAlgo(){
 
   };

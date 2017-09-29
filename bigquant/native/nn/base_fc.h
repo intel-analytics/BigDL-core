@@ -17,8 +17,13 @@ struct FCDataDesc {
 };
 
 struct BaseFCAlgo {
-  BaseFCAlgo() {
-  }
+
+  BaseFCAlgo() = default;
+
+  BaseFCAlgo(const BaseFCAlgo&) = delete;
+
+  BaseFCAlgo& operator=(const BaseFCAlgo&) = delete;
+
   virtual ~BaseFCAlgo() {
   }
   virtual void InitWeight(float *weight, FCKernelDesc &fc_kernel_desc) = 0;
