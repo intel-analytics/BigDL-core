@@ -15,6 +15,7 @@
     <modules>
         <module>mkl2017-xeon-blas</module>
         <module>bigquant</module>
+        <module>dist</module>
     </modules>
     <properties>
         <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
