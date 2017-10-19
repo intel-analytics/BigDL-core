@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.intel.analytics.bigdl.bigquant</groupId>
-    <artifactId>bigquant-java${os}</artifactId>
+    <artifactId>${bigquant-java-os}</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
