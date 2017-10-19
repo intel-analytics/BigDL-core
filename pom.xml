@@ -15,6 +15,7 @@
     <modules>
         <module>mkl2017-xeon-blas</module>
         <module>bigquant</module>
+        <module>dist</module>
     </modules>
     <properties>
         <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
@@ -24,6 +25,7 @@
         <iompLib>libiomp5.so</iompLib>
         <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
         <destFileName>libjmkl.so</destFileName>
+        <bigquant-java-os>bigquant-java</bigquant-java-os>
         <bigquantLib>libbigquant_rt.so</bigquantLib>
         <bigquantDestFileName>libbigquant.so</bigquantDestFileName>
         <bigquantProject>quant</bigquantProject>
@@ -47,6 +49,7 @@
                 <destFileName>libjmkl.dylib</destFileName>
                 <bigquantLib>libbigquant_rt.dylib</bigquantLib>
                 <bigquantDestFileName>libbigquant.dylib</bigquantDestFileName>
+                <bigquant-java-os>bigquant-java-mac</bigquant-java-os>
             </properties>
         </profile>
         <profile>
@@ -62,6 +65,7 @@
                 <bigquantDestFileName>libbigquant.dll</bigquantDestFileName>
                 <bigquantProject>quant-win64</bigquantProject>
                 <make_exe>mingw32-make</make_exe>
+                <bigquant-java-os>bigquant-java-win64</bigquant-java-os>
             </properties>
         </profile>
     </profiles>
