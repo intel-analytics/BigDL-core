@@ -10,7 +10,7 @@
 
   <artifactId>bigdl-core</artifactId>
   <groupId>com.intel.analytics.bigdl</groupId>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <dependencies>
     <dependency>
