@@ -288,7 +288,20 @@ public class MKL {
     public native static void vsscal(int n, float sa, float[] sx, int offset, int incx);
 
     public native static void vdscal(int n, double sa, double[] sx, int offset, int incx);
-    
+
+
+    public native static long sgemmAlloc(char transa, int m, int n, int k);
+
+    public native static void sgemmPack(char identifier, char transa, int m, int n, int k, float alpha, float[] src,
+                                        int srcOffset,int lda, long ptr);
+
+    public native static void sgemmCompute(char transa, char transb,
+                                           int m, int n, int k, float[] a, int aOffset, int lda,
+                                           float[] b, int bOffset, int ldb,
+                                           float beta, float[] c, int cOffset, int ldc, long packMem);
+
+    public native static void sgemmFree(long ptr);
+
     /**
      * Get the worker pool size of current JVM thread. Note different JVM thread has separated MKL worker pool.
      * @return

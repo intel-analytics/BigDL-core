@@ -85,4 +85,105 @@ public class MKLTest {
         MKL.getMklWaitPolicy();
     }
 
+    @Test
+    public void sgemmWithPackAMatrix() {
+        int m = 4;
+        int k = 5;
+        int n = 6;
+
+        float[] a = new float[m * k];
+        float[] b = new float[k * n];
+        float[] c1 = new float[m * n];
+        float[] c2 = new float[m * n];
+
+        for (int i = 0; i < m*k; i++) {
+            a[i] = i + 1;
+        }
+
+        for (int i = 0; i < k * n; i++) {
+            b[i] = i + 1;
+        }
+        for (int i = 0; i < m * n; i++) {
+            c1[i] = 0;
+            c2[i] = 0;
+        }
+
+        float alpha = 1f;
+        float beta = 0f;
+        int lda = m;
+        int ldb = k;
+        int ldc = m;
+
+        long packMem = MKL.sgemmAlloc('A', m, n, k);
+        MKL.sgemmPack('A', 'N', m, n, k, alpha, a, 0, lda, packMem);
+        MKL.sgemmCompute('P', 'N', m, n, k, a, 0, lda,
+                b, 0, ldb, beta, c1, 0, ldc, packMem);
+        for (int i = 0; i < m * n; i++) {
+            System.out.println(c1[i]);
+        }
+        System.out.println("*");
+        MKL.sgemmFree(packMem);
+
+        MKL.vsgemm('N', 'N', m, n, k, alpha, a, 0,
+                lda, b, 0, ldb, beta, c2, 0, ldc);
+
+        for (int i = 0; i < m * n; i++) {
+            System.out.println(c2[i]);
+        }
+
+        for (int i = 0; i < m * n; i++) {
+            assertTrue(c1[i] == c2[i]);
+        }
+    }
+
+    @Test
+    public void sgemmWithPackBMatrix() {
+        int m = 4;
+        int k = 5;
+        int n = 6;
+
+        float[] a = new float[m * k];
+        float[] b = new float[k * n];
+        float[] c1 = new float[m * n];
+        float[] c2 = new float[m * n];
+
+        for (int i = 0; i < m*k; i++) {
+            a[i] = i + 1;
+        }
+
+        for (int i = 0; i < k * n; i++) {
+            b[i] = i + 1;
+        }
+        for (int i = 0; i < m * n; i++) {
+            c1[i] = 0;
+            c2[i] = 0;
+        }
+
+        float alpha = 1f;
+        float beta = 0f;
+        int lda = m;
+        int ldb = k;
+        int ldc = m;
+
+        long packMem = MKL.sgemmAlloc('B', m, n, k);
+        MKL.sgemmPack('B', 'N', m, n, k, alpha, b, 0, ldb, packMem);
+        MKL.sgemmCompute('N', 'P', m, n, k, a, 0, lda,
+                b, 0, ldb, beta, c1, 0, ldc, packMem);
+        for (int i = 0; i < m * n; i++) {
+            System.out.println(c1[i]);
+        }
+        System.out.println("*");
+        MKL.sgemmFree(packMem);
+
+        MKL.vsgemm('N', 'N', m, n, k, alpha, a, 0,
+                lda, b, 0, ldb, beta, c2, 0, ldc);
+
+        for (int i = 0; i < m * n; i++) {
+            System.out.println(c2[i]);
+        }
+
+        for (int i = 0; i < m * n; i++) {
+            assertTrue(c1[i] == c2[i]);
+        }
+    }
 }
