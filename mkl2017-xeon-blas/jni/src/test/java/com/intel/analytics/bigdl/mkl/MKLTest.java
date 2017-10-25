@@ -86,4 +86,10 @@ public class MKLTest {
         MKL.getMklWaitPolicy();
     }
 
+    @Test
+    public void getNumThreads() throws Exception {
+        assertTrue(MKL.isMKLLoaded());
+        MKL.setNumThreads(10);
+        assertTrue(MKL.getNumThreads() == 10);
+    }
 }
