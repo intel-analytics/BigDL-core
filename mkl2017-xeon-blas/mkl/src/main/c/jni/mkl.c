@@ -70,7 +70,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_waitPolicy
  */
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_getNumThreads
   (JNIEnv * env, jclass cls) {
-    return omp_get_num_threads();
+    return omp_get_max_threads();
 }
 /*
   * Class:     com_intel_analytics_bigdl_mkl_MKL
