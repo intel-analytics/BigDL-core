@@ -39,6 +39,7 @@ public class MKLTest {
     @Test(expected = UnsupportedOperationException.class)
     public void getMklNumThreads() throws Exception {
         assertTrue(1 == MKL.getMklNumThreads());
+        MKL.setNumThreads(1);
         assertTrue(1 == MKL.getNumThreads());
 
         System.setProperty("bigdl.mklNumThreads", "10");
@@ -85,4 +86,10 @@ public class MKLTest {
         MKL.getMklWaitPolicy();
     }
 
+    @Test
+    public void getNumThreads() throws Exception {
+        assertTrue(MKL.isMKLLoaded());
+        MKL.setNumThreads(10);
+        assertTrue(MKL.getNumThreads() == 10);
+    }
 }
