@@ -1,0 +1,29 @@
+CC       = icc
+MAKE     = make
+SUFFIX  ?= so
+CFLAGS  += -c -Wall -I ${JAVA_HOME}/include -std=c99 -fPIC
+LDFLAGS += -shared -L./target/classes -lbigquant_rt
+
+SOURCES_DIR = ../src/main/c
+OBJECTS_DIR = target/c
+EXECUTABLE  = target/classes/libbigquant.$(SUFFIX)
+
+SOURCES = $(SOURCES_DIR)/quant.c
+OBJECTS = $(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o, $(SOURCES))
+
+NATIVE_DIR = ../native
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	cd $(NATIVE_DIR) && $(MAKE) -f Makefile LOAD_METHOD=MANUAL all && cd -
+	cp $(NATIVE_DIR)/*.$(SUFFIX) ./target/classes/
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+$(OBJECTS): $(SOURCES)
+	mkdir -p $(OBJECTS_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	cd $(NATIVE_DIR) && $(MAKE) -f Makefile clean && cd -
+	rm -rf $(OBJECTS_DIR) $(EXECUTABLE)

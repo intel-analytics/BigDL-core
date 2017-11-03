@@ -1,80 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>bigdl-parent</artifactId>
-        <groupId>com.intel.analytics.bigdl</groupId>
-        <version>0.4.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>parent</artifactId>
+  <groupId>com.intel.analytics.bigdl.core</groupId>
+  <packaging>pom</packaging>
+  <version>0.4.0-SNAPSHOT</version>
 
-    <artifactId>bigdl-core-parent</artifactId>
-    <groupId>com.intel.analytics.bigdl</groupId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>mkl2017-xeon-blas</module>
-        <module>bigquant</module>
-        <module>dist</module>
-    </modules>
-    <properties>
-        <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</compilerStartOptionDirectory>
-        <linkerStartOptionDirectory>-I ${JAVA_HOME}/include/linux/</linkerStartOptionDirectory>
-        <dynamicLibType>so</dynamicLibType>
-        <native-project>mkl</native-project>
-        <iompLib>libiomp5.so</iompLib>
-        <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
-        <destFileName>libjmkl.so</destFileName>
-        <bigquant-java-os>bigquant-java</bigquant-java-os>
-        <bigquantLib>libbigquant_rt.so</bigquantLib>
-        <bigquantDestFileName>libbigquant.so</bigquantDestFileName>
-        <bigquantProject>quant</bigquantProject>
-        <make_exe>make</make_exe>
-    </properties>
-    <profiles>
-        <profile>
-            <id>dnn</id>
-            <modules>
-                <module>mkl2017-xeon-dnn</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>mac</id>
-            <properties>
-                <iompLibDir>/opt/intel/lib</iompLibDir>
-                <compilerStartOptionDirectory>-I ${JAVA_HOME}/include/darwin/</compilerStartOptionDirectory>
-                <linkerStartOptionDirectory>-I ${JAVA_HOME}/include/darwin/</linkerStartOptionDirectory>
-                <dynamicLibType>dylib</dynamicLibType>
-                <iompLib>libiomp5.dylib</iompLib>
-                <destFileName>libjmkl.dylib</destFileName>
-                <bigquantLib>libbigquant_rt.dylib</bigquantLib>
-                <bigquantDestFileName>libbigquant.dylib</bigquantDestFileName>
-                <bigquant-java-os>bigquant-java-mac</bigquant-java-os>
-            </properties>
-        </profile>
-        <profile>
-            <id>win64</id>
-            <properties>
-                <iompLib>libiomp5md.dll</iompLib>
-                <!-- change this property if it's another on your machine via -DiompLibDir -->
-                <iompLibDir>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.4.210\windows\redist\intel64\compiler</iompLibDir>
-                <native-project>mkl-win64</native-project>
-                <dynamicLibType>dll</dynamicLibType>
-                <destFileName>libjmkl.dll</destFileName>
-                <bigquantLib>libbigquant_rt.dll</bigquantLib>
-                <bigquantDestFileName>libbigquant.dll</bigquantDestFileName>
-                <bigquantProject>quant-win64</bigquantProject>
-                <make_exe>mingw32-make</make_exe>
-                <bigquant-java-os>bigquant-java-win64</bigquant-java-os>
-            </properties>
-        </profile>
-    </profiles>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <modules>
+    <module>mkl2017-xeon-blas</module>
+    <module>bigquant</module>
+    <module>dist</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>sign</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.qunix</groupId>
+      <artifactId>structure-maven-plugin</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.qunix</groupId>
+        <artifactId>structure-maven-plugin</artifactId>
+        <version>0.0.2</version>
+        <inherited>false</inherited>
+        <configuration>
+          <detailed>true</detailed>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>modules</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
