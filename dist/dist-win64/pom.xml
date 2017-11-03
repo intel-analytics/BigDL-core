@@ -13,12 +13,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
       <artifactId>mkl-java-win64</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.bigquant</groupId>
       <artifactId>bigquant-java-win64</artifactId>
       <version>${project.version}</version>
     </dependency>

@@ -13,32 +13,32 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
       <artifactId>mkl-java-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.bigquant</groupId>
       <artifactId>bigquant-java-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
       <artifactId>mkl-java-mac</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.bigquant</groupId>
       <artifactId>bigquant-java-mac</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
       <artifactId>mkl-java-win64</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native</groupId>
+      <groupId>com.intel.analytics.bigdl.core.native.bigquant</groupId>
       <artifactId>bigquant-java-win64</artifactId>
       <version>${project.version}</version>
     </dependency>
