@@ -6,3 +6,5 @@ target/
 *.lib
 *.exp
 *.obj
+*.o
+*.dylib
