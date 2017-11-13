@@ -14,14 +14,6 @@
   <artifactId>mkl-java-mac</artifactId>
   <packaging>jar</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-    </dependency>
-  </dependencies>
-
   <properties>
     <iompLib>libiomp5.dylib</iompLib>
     <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
