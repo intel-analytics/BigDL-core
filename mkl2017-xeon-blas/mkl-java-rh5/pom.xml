@@ -14,14 +14,6 @@
   <artifactId>mkl-java-x86_64-rh5</artifactId>
   <packaging>jar</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-    </dependency>
-  </dependencies>
-
   <properties>
     <iompLib>libiomp5.so</iompLib>
     <iompLibDir>/opt/intel/lib/intel64</iompLibDir>

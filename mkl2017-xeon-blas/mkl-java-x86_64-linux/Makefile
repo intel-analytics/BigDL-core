@@ -5,6 +5,6 @@ CFLAGS = -I ${JAVA_HOME}/include/linux
 SUFFIX = so
 
 all:
-ifeq ($(UNAME_S), LINUX)
+ifeq ($(PLATFORM), LINUX)
 include ../Makefile.common
 endif

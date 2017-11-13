@@ -14,14 +14,6 @@
   <artifactId>mkl-java-win64</artifactId>
   <packaging>jar</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-    </dependency>
-  </dependencies>
-
   <properties>
     <iompLib>libiomp5md.dll</iompLib>
     <!-- change this property if it's another on your machine via -DiompLibDir -->

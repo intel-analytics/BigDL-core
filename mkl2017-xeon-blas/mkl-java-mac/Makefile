@@ -5,6 +5,6 @@ CFLAGS = -I ${JAVA_HOME}/include/darwin
 SUFFIX = dylib
 
 all:
-ifeq ($(UNAME_S), MACOS)
+ifeq ($(PLATFORM), MACOS)
 include ../Makefile.common
 endif
