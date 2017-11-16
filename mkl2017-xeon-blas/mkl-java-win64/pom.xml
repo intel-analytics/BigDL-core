@@ -17,7 +17,7 @@
   <properties>
     <iompLib>libiomp5md.dll</iompLib>
     <!-- change this property if it's another on your machine via -DiompLibDir -->
-    <iompLibDir>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017.4.210\windows\redist\intel64\compiler</iompLibDir>
+    <iompLibDir>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries\windows\redist\intel64\compiler</iompLibDir>
     <make_exe>make</make_exe>
   </properties>
 
