@@ -8,3 +8,4 @@ target/
 *.obj
 *.o
 *.dylib
+dependency-reduced-pom.xml

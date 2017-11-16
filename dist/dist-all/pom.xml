@@ -9,7 +9,7 @@
 
   <groupId>com.intel.analytics.bigdl.core.dist</groupId>
   <artifactId>all</artifactId>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
@@ -43,4 +43,35 @@
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <!-- put your configurations here -->
+          <minimizeJar>true</minimizeJar>
+          <filters>
+            <filter>
+              <artifact>com.intel.analytics.bigdl.core*</artifact>
+              <includes>
+                <include>**</include>
+              </includes>
+            </filter>
+          </filters>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

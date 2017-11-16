@@ -16,7 +16,7 @@
 
   <properties>
     <iompLib>libiomp5.dylib</iompLib>
-    <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
+    <iompLibDir>/opt/intel/lib/</iompLibDir>
     <make_exe>make</make_exe>
   </properties>
 
