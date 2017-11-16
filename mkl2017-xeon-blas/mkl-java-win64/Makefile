@@ -7,6 +7,7 @@ LD = link.exe
 CFLAGS  = /EHsc /LD /I "${JAVA_HOME}\include" /I "${JAVA_HOME}\include\win32"
 LDFLAGS = /DLL mkl_intel_lp64.lib mkl_intel_thread.lib mkl_core.lib libiomp5md.lib 
 SUFFIX  = dll
+SHELL 	= cmd
 
 SOURCES_DIR = ..\src\main\c
 OBJECTS_DIR = target\c
