@@ -8,6 +8,7 @@ CFLAGS  = /EHsc /LD /I "${JAVA_HOME}\include" /I "${JAVA_HOME}\include\win32"
 LDFLAGS = /LIBPATH:.\target\classes libbigquant_rt.lib /DLL
 SUFFIX  = dll
 MAKE    = mingw32-make
+SHELL   = cmd
 
 SOURCES_DIR = ..\src\main\c
 OBJECTS_DIR = target\c
