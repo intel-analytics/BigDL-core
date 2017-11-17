@@ -11,38 +11,70 @@
   <artifactId>all</artifactId>
   <packaging>jar</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-      <artifactId>mkl-java-x86_64-linux</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.bigquant</groupId>
-      <artifactId>bigquant-java-x86_64-linux</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-      <artifactId>mkl-java-mac</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.bigquant</groupId>
-      <artifactId>bigquant-java-mac</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-      <artifactId>mkl-java-win64</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.bigquant</groupId>
-      <artifactId>bigquant-java-win64</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+  <profiles>
+    <profile>
+      <id>linux</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.intel.analytics.bigdl.core.dist</groupId>
+          <artifactId>linux</artifactId>
+          <version>${project.version}</version>
+          <type>pom</type>
+        </dependency>
+      </dependencies>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>win64</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.intel.analytics.bigdl.core.dist</groupId>
+          <artifactId>win64</artifactId>
+          <version>${project.version}</version>
+          <type>pom</type>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>mac</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.intel.analytics.bigdl.core.dist</groupId>
+          <artifactId>mac</artifactId>
+          <version>${project.version}</version>
+          <type>pom</type>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>deploy</id>
+      <dependencies>
+        <dependency>
+          <groupId>com.intel.analytics.bigdl.core.dist</groupId>
+          <artifactId>linux</artifactId>
+          <version>${project.version}</version>
+          <type>pom</type>
+        </dependency>
+        <dependency>
+          <groupId>com.intel.analytics.bigdl.core.dist</groupId>
+          <artifactId>win64</artifactId>
+          <version>${project.version}</version>
+          <type>pom</type>
+        </dependency>
+        <dependency>
+          <groupId>com.intel.analytics.bigdl.core.dist</groupId>
+          <artifactId>mac</artifactId>
+          <version>${project.version}</version>
+          <type>pom</type>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
