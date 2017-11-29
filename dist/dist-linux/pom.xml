@@ -22,5 +22,10 @@
       <artifactId>bigquant-java-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.intel.analytics.bigdl.core.native.opencv</groupId>
+      <artifactId>opencv-java-x86_64-linux</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

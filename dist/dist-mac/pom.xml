@@ -22,5 +22,10 @@
       <artifactId>bigquant-java-mac</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.intel.analytics.bigdl.core.native.opencv</groupId>
+      <artifactId>opencv-java-mac</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
