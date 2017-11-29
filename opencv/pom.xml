@@ -41,6 +41,10 @@
         </profile>
 
         <profile>
+            <id>rh5</id>
+        </profile>
+
+        <profile>
             <id>deploy</id>
             <modules>
                 <module>opencv-java-x86_64-linux</module>
