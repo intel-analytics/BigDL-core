@@ -1,4 +1,4 @@
-CC       = icc
+CC       = gcc
 MAKE     = make
 SUFFIX  ?= so
 CFLAGS  += -c -Wall -I ${JAVA_HOME}/include -std=c99 -fPIC
