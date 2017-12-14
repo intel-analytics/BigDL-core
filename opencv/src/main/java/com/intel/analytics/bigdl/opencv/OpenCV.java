@@ -36,6 +36,8 @@ public class OpenCV {
             String jopencvFileName = "libopencv_java320.so";
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                 jopencvFileName = "libopencv_java320.dylib";
+            } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                jopencvFileName = "opencv_java320.dll";
             }
             tmpFile = extract(jopencvFileName);
             System.load(tmpFile.getAbsolutePath());
@@ -69,20 +71,32 @@ public class OpenCV {
 
     // Extract so file from jar to a temp path
     private static File extract(String path) {
-        URL url = OpenCV.class.getResource("/" + path);
-        if (url == null) {
-            throw new Error("Can't find so file in jar, path = " + path);
-        }
         try {
+            URL url = OpenCV.class.getResource("/" + path);
+            if (url == null) {
+                throw new Error("Can't find dynamic lib file in jar, path = " + path);
+            }
+
             InputStream in = OpenCV.class.getResourceAsStream("/" + path);
-            File file = createTempFile("dlNativeLoader", path.substring(path.lastIndexOf("/") + 1));
+            File file = null;
+
+            // Windows won't allow to change the dll name, so we keep the name
+            // It's fine as windows is consider in a desktop env, so there won't multiple instance
+            // produce the dynamic lib file
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                file = new File(System.getProperty("java.io.tmpdir") + File.separator + path);
+            } else {
+                file = createTempFile("dlNativeLoader", path);
+            }
 
             ReadableByteChannel src = newChannel(in);
             FileChannel dest = new FileOutputStream(file).getChannel();
             dest.transferFrom(src, 0, Long.MAX_VALUE);
+            dest.close();
+            src.close();
             return file;
         } catch (Throwable e) {
-            throw new Error("Can't extract so file to /tmp dir");
+            throw new Error("Can't extract dynamic lib file to /tmp dir.\n" + e);
         }
     }
 }
