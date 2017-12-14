@@ -26,6 +26,7 @@
                 <directory>${opencvDir}</directory>
                 <includes>
                     <include>${opencvlib}</include>
+                    <include>${opencvjar}</include>
                 </includes>
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>
@@ -38,11 +39,12 @@
                 <version>1.3</version>
                 <executions>
                     <execution>
-                        <phase>generate-sources</phase>
+                        <id>process-resources</id>
+                        <phase>process-resources</phase>
                         <configuration>
                             <tasks>
                                 <echo>Extracting Java classes.</echo>
-                                <unjar src="${opencvDir}/opencv-320.jar"
+                                <unjar src="${project.build.directory}/classes/opencv-320.jar"
                                        dest="${project.build.directory}/classes">
                                     <patternset>
                                         <include name="**/*.class"/>
@@ -50,12 +52,25 @@
                                 </unjar>
 
                                 <echo>Extracting Java sources.</echo>
-                                <unjar src="${opencvDir}/opencv-320.jar"
+                                <unjar src="${project.build.directory}/classes/opencv-320.jar"
                                        dest="${project.build.directory}/upstream-sources">
                                     <patternset>
                                         <include name="**/*.java"/>
                                     </patternset>
                                 </unjar>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>prepare-package</id>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>Delete opencv-320.jar.</echo>
+                                <delete file="${project.build.directory}/classes/${opencvjar}"/>
                             </tasks>
                         </configuration>
                         <goals>
