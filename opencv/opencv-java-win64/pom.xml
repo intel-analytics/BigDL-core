@@ -11,13 +11,13 @@
     </parent>
 
     <groupId>com.intel.analytics.bigdl.core.native.opencv</groupId>
-    <artifactId>opencv-java-mac</artifactId>
+    <artifactId>opencv-java-win64</artifactId>
     <packaging>jar</packaging>
 
     <properties>
-        <opencvlib>libopencv_java320.dylib</opencvlib>
+        <opencvlib>opencv_java320.dll</opencvlib>
         <opencvjar>opencv-320.jar</opencvjar>
-        <opencvDir>/opt/opencv/</opencvDir>
+        <opencvDir>C:\opencv\</opencvDir>
     </properties>
 
     <build>
