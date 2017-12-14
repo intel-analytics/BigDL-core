@@ -26,7 +26,6 @@
                 <directory>${opencvDir}</directory>
                 <includes>
                     <include>${opencvlib}</include>
-                    <include>${opencvjar}</include>
                 </includes>
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>
