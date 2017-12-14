@@ -17,7 +17,7 @@
     <properties>
         <opencvlib>opencv_java320.dll</opencvlib>
         <opencvjar>opencv-320.jar</opencvjar>
-        <opencvDir>/opt/opencv/</opencvDir>
+        <opencvDir>C:\opencv\</opencvDir>
     </properties>
 
     <build>
