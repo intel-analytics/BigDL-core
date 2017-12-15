@@ -64,19 +64,6 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>prepare-package</id>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <tasks>
-                                <echo>Delete opencv-320.jar.</echo>
-                                <delete file="${project.build.directory}/classes/${opencvjar}"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
                 </executions>
             </plugin>
         </plugins>

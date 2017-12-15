@@ -96,6 +96,12 @@
                 <include>**</include>
               </includes>
             </filter>
+            <filter>
+              <artifact>*:*</artifact>
+              <excludes>
+                <exclude>opencv-320.jar</exclude>
+              </excludes>
+            </filter>
           </filters>
         </configuration>
         <executions>
