@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.intel.analytics.bigdl.core</groupId>
+    <version>0.4.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>mkl-parent</artifactId>
+  <groupId>com.intel.analytics.bigdl.core.native</groupId>
+  <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
+    </dependencies>
+
+  <profiles>
+    <profile>
+      <id>linux</id>
+      <modules>
+        <module>mkl-java-x86_64-linux</module>
+      </modules>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>win64</id>
+      <modules>
+        <module>mkl-java-win64</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>mac</id>
+      <modules>
+        <module>mkl-java-mac</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>rh5</id>
+      <modules>
+        <module>mkl-java-rh5</module>
+      </modules>
+    </profile>
+
+    <profile>
+      <id>deploy</id>
+      <modules>
+        <module>mkl-java-x86_64-linux</module>
+        <module>mkl-java-mac</module>
+        <module>mkl-java-win64</module>
+        <module>mkl-java-rh5</module>
+      </modules>
+    </profile>
+  </profiles>
+
+</project>
