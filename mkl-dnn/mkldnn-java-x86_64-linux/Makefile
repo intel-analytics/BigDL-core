@@ -1,7 +1,10 @@
 # vim:noet
 include ../../Makefile.common
 
-CFLAGS = -I ${JAVA_HOME}/include/linux 
+MKLDNN_INC_DIR=../native/include
+MKLDNN_LIB_DIR=../native/build/src/
+
+CFLAGS = -I ${JAVA_HOME}/include/linux
 SUFFIX = so
 
 all:

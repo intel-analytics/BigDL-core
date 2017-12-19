@@ -1,15 +1,17 @@
 CC       = icc
 SUFFIX  ?= so
-CFLAGS  += -c -I ${JAVA_HOME}/include -std=c99 -fPIC
-LDFLAGS += -Wall -ldl -liomp5 -shared -mkl=parallel -qopenmp \
+CFLAGS  += -c -I ${JAVA_HOME}/include -I $(MKLDNN_INC_DIR) -std=c99 -fPIC \
+					 -Wextra -Wall -Werror
+LDFLAGS += -Wall -ldl -liomp5 -shared -qopenmp \
+					 -L$(MKLDNN_LIB_DIR) -lmkldnn \
 				   -static-intel -no-intel-extensions
 
 
 SOURCES_DIR = ../src/main/c
 OBJECTS_DIR = target/c
-EXECUTABLE  = target/classes/libjmkl.$(SUFFIX)
+EXECUTABLE  = target/classes/libjmkldnn.$(SUFFIX)
 
-SOURCES=$(SOURCES_DIR)/mkl.c
+SOURCES=$(wildcard $(SOURCES_DIR)/*.c)
 OBJECTS=$(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o, $(SOURCES))
 
 all: $(EXECUTABLE)
@@ -17,7 +19,7 @@ all: $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS)
 		$(CC) $(LDFLAGS) $(OBJECTS) -lm -o $@
 
-$(OBJECTS): $(SOURCES)
+$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c
 		mkdir -p $(OBJECTS_DIR)
 		$(CC) $(CFLAGS) $< -o $@
 

@@ -27,5 +27,10 @@
       <artifactId>opencv-java-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.intel.analytics.bigdl.core.native.mkldnn</groupId>
+      <artifactId>mkldnn-java-x86_64-linux</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

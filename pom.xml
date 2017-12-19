@@ -93,6 +93,7 @@
 
   <modules>
     <module>mkl2017-xeon-blas</module>
+    <module>mkl-dnn</module>
     <module>bigquant</module>
     <module>opencv</module>
     <module>dist</module>

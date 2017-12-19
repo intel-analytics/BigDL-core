@@ -10,23 +10,23 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>mkl-parent</artifactId>
+  <artifactId>mkldnn-parent</artifactId>
   <groupId>com.intel.analytics.bigdl.core.native</groupId>
   <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+    </dependency>
+  </dependencies>
 
   <profiles>
     <profile>
       <id>linux</id>
       <modules>
-        <module>mkl-java-x86_64-linux</module>
+        <module>mkldnn-java-x86_64-linux</module>
       </modules>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -34,33 +34,9 @@
     </profile>
 
     <profile>
-      <id>win64</id>
-      <modules>
-        <module>mkl-java-win64</module>
-      </modules>
-    </profile>
-
-    <profile>
-      <id>mac</id>
-      <modules>
-        <module>mkl-java-mac</module>
-      </modules>
-    </profile>
-
-    <profile>
-      <id>rh5</id>
-      <modules>
-        <module>mkl-java-rh5</module>
-      </modules>
-    </profile>
-
-    <profile>
       <id>deploy</id>
       <modules>
-        <module>mkl-java-x86_64-linux</module>
-        <module>mkl-java-mac</module>
-        <module>mkl-java-win64</module>
-        <module>mkl-java-rh5</module>
+        <module>mkldnn-java-x86_64-linux</module>
       </modules>
     </profile>
   </profiles>
