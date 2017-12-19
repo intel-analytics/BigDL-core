@@ -34,101 +34,101 @@ public class MklDnn {
     }
 
     public static class EngineType {
-        final int any = 0;
-        final int cpu = 1;
+        public static final int any = 0;
+        public static final int cpu = 1;
     }
 
     public static class StreamType {
-        final static int any           = 0;
-        final static int eager         = 0;
-        final static int lazy          = 0;
+        public static final int any           = 0;
+        public static final int eager         = 0;
+        public static final int lazy          = 0;
     }
 
     public static class DataType {
-        final static int undef       = 0;
-        final static int f32         = 1;
-        final static int s32         = 2;
-        final static int s16         = 4;
-        final static int s8          = 5;
-        final static int u8          = 6;
+        public static final int undef       = 0;
+        public static final int f32         = 1;
+        public static final int s32         = 2;
+        public static final int s16         = 4;
+        public static final int s8          = 5;
+        public static final int u8          = 6;
     }
 
     public static class MemoryFormat {
-        final static int undef         = 0;
-        final static int any           = 1;
-        final static int blocked       = 2;
-        final static int x             = 3;
-        final static int nc            = 4;
-        final static int nchw          = 5;
-        final static int nhwc          = 6;
-        final static int chwn          = 7;
-        final static int nChw8c        = 8;
-        final static int nChw16c       = 9;
-        final static int oi            = 10;
-        final static int io            = 11;
-        final static int oihw          = 12;
-        final static int ihwo          = 13;
-        final static int hwio          = 14;
-        final static int OIhw8i8o      = 15;
-        final static int OIhw16i16o    = 16;
-        final static int OIhw8i16o2i   = 17;
-        final static int OIhw8o16i2o   = 18;
-        final static int OIhw8o8i      = 19;
-        final static int OIhw16o16i    = 20;
-        final static int IOhw16o16i    = 21;
-        final static int Oihw8o        = 22;
-        final static int Oihw16o       = 23;
-        final static int Ohwi8o        = 24;
-        final static int Ohwi16o       = 25;
-        final static int OhIw16o4i     = 26;
-        final static int goihw         = 27;
-        final static int gOIhw8i8o     = 28;
-        final static int gOIhw16i16o   = 29;
-        final static int gOIhw8i16o2i  = 30;
-        final static int gOIhw8o16i2o  = 31;
-        final static int gOIhw8o8i     = 32;
-        final static int gOIhw16o16i   = 33;
-        final static int gIOhw16o16i   = 34;
-        final static int gOihw8o       = 35;
-        final static int gOihw16o      = 36;
-        final static int gOhwi8o       = 37;
-        final static int gOhwi16o      = 38;
-        final static int gOhIw16o4i    = 39;
-        final static int oIhw8i        = nChw8c;
-        final static int oIhw16i       = nChw16c;
+        public static final int undef         = 0;
+        public static final int any           = 1;
+        public static final int blocked       = 2;
+        public static final int x             = 3;
+        public static final int nc            = 4;
+        public static final int nchw          = 5;
+        public static final int nhwc          = 6;
+        public static final int chwn          = 7;
+        public static final int nChw8c        = 8;
+        public static final int nChw16c       = 9;
+        public static final int oi            = 10;
+        public static final int io            = 11;
+        public static final int oihw          = 12;
+        public static final int ihwo          = 13;
+        public static final int hwio          = 14;
+        public static final int OIhw8i8o      = 15;
+        public static final int OIhw16i16o    = 16;
+        public static final int OIhw8i16o2i   = 17;
+        public static final int OIhw8o16i2o   = 18;
+        public static final int OIhw8o8i      = 19;
+        public static final int OIhw16o16i    = 20;
+        public static final int IOhw16o16i    = 21;
+        public static final int Oihw8o        = 22;
+        public static final int Oihw16o       = 23;
+        public static final int Ohwi8o        = 24;
+        public static final int Ohwi16o       = 25;
+        public static final int OhIw16o4i     = 26;
+        public static final int goihw         = 27;
+        public static final int gOIhw8i8o     = 28;
+        public static final int gOIhw16i16o   = 29;
+        public static final int gOIhw8i16o2i  = 30;
+        public static final int gOIhw8o16i2o  = 31;
+        public static final int gOIhw8o8i     = 32;
+        public static final int gOIhw16o16i   = 33;
+        public static final int gIOhw16o16i   = 34;
+        public static final int gOihw8o       = 35;
+        public static final int gOihw16o      = 36;
+        public static final int gOhwi8o       = 37;
+        public static final int gOhwi16o      = 38;
+        public static final int gOhIw16o4i    = 39;
+        public static final int oIhw8i        = nChw8c;
+        public static final int oIhw16i       = nChw16c;
     }
 
     public class PropKind {
-        final static int undef            = 0;
-        final static int forwardTraining  = 64;
-        final static int forwardInference = 96;
-        final static int forwardScoring   = forwardInference;
-        final static int forward          = forwardTraining;
-        final static int backward         = 128;
-        final static int backwardData     = 160;
-        final static int backwardWeights  = 192;
-        final static int backwardBias     = 193;
+        public static final int undef            = 0;
+        public static final int forwardTraining  = 64;
+        public static final int forwardInference = 96;
+        public static final int forwardScoring   = forwardInference;
+        public static final int forward          = forwardTraining;
+        public static final int backward         = 128;
+        public static final int backwardData     = 160;
+        public static final int backwardWeights  = 192;
+        public static final int backwardBias     = 193;
     }
 
     public class AlgKind {
-        final static int convolutionDirect        = 1;
-        final static int convolutionWinograd      = 2;
-        final static int eltwiseRelu              = 8;
-        final static int eltwiseTanh              = 9;
-        final static int eltwiseElu               = 10;
-        final static int eltwiseSquare            = 11;
-        final static int eltwiseAbs               = 12;
-        final static int eltwiseSqrt              = 13;
-        final static int eltwiseLinear            = 14;
-        final static int eltwiseBoundedRelu       = 15;
-        final static int eltwisesoftRelu          = 16;
-        final static int eltwiselogistic          = 17;
-        final static int poolingMax               = 34;
-        final static int poolingAvgIncludePadding = 40;
-        final static int poolingAvgExcludePadding = 41;
-        final static int poolingAvg               = poolingAvgExcludePadding;
-        final static int lrnAcrossChannels        = 65;
-        final static int lrnWithinChannel         = 66;
+        public static final int convolutionDirect        = 1;
+        public static final int convolutionWinograd      = 2;
+        public static final int eltwiseRelu              = 8;
+        public static final int eltwiseTanh              = 9;
+        public static final int eltwiseElu               = 10;
+        public static final int eltwiseSquare            = 11;
+        public static final int eltwiseAbs               = 12;
+        public static final int eltwiseSqrt              = 13;
+        public static final int eltwiseLinear            = 14;
+        public static final int eltwiseBoundedRelu       = 15;
+        public static final int eltwisesoftRelu          = 16;
+        public static final int eltwiselogistic          = 17;
+        public static final int poolingMax               = 34;
+        public static final int poolingAvgIncludePadding = 40;
+        public static final int poolingAvgExcludePadding = 41;
+        public static final int poolingAvg               = poolingAvgExcludePadding;
+        public static final int lrnAcrossChannels        = 65;
+        public static final int lrnWithinChannel         = 66;
     }
 
     public static boolean isLoaded() {

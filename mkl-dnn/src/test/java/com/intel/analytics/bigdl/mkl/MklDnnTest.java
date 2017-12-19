@@ -27,4 +27,11 @@ public class MklDnnTest {
     public void isMKLLoaded() throws Exception {
         assertTrue(MklDnn.isLoaded());
     }
+
+    @Test
+    public void EngineCreate() throws Exception {
+        long ptr = MklDnn.EngineCreate(MklDnn.EngineType.cpu, 0);
+        System.out.println(ptr);
+        MklDnn.EngineDestroy(ptr);
+    }
 }
