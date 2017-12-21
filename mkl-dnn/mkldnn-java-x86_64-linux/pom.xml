@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>mkldnn-parent</artifactId>
     <groupId>com.intel.analytics.bigdl.core.native</groupId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.5.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -17,9 +17,10 @@
   <properties>
     <iompLib>libiomp5.so</iompLib>
     <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
+
+    <mkldnnBuild>${project.basedir}/../native/build</mkldnnBuild>
+    <mkldnnLibDir>${mkldnnBuild}/src</mkldnnLibDir>
     <mkldnnLib>libmkldnn.so</mkldnnLib>
-    <mkldnnLibDir>../native/build/src/</mkldnnLibDir>
-    <make_exe>make</make_exe>
   </properties>
 
   <build>
@@ -45,59 +46,55 @@
 
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <id>build-native</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>exec</goal>
-            </goals>
-            <configuration>
-              <executable>${make_exe}</executable>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.googlecode.cmake-maven-project</groupId>
-        <artifactId>cmake-maven-plugin</artifactId>
-        <version>3.7.2-b1</version>
-        <executions>
-          <execution>
-            <id>cmake-generate</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <sourcePath>
-                ../native
-              </sourcePath>
-              <targetPath>
-                ../native/build/
-              </targetPath>
-              <classifier>linux-x86_64</classifier>
-              <generator>Unix Makefiles</generator>
-            </configuration>
-          </execution>
-          <execution>
-            <id>cmake-compile</id>
+            <id>build-mkl-dnn</id>
             <phase>generate-resources</phase>
             <goals>
-              <goal>compile</goal>
+              <goal>run</goal>
             </goals>
             <configuration>
-              <config>
-                Release
-              </config>
-              <projectDirectory>
-                ../native/build
-              </projectDirectory>
-              <classifier>
-                linux-x86_64
-              </classifier>
+              <tasks>
+                <mkdir dir="${mkldnnBuild}"/>
+                <exec executable="cmake" dir="${mkldnnBuild}" failonerror="true">
+                  <env key = "CC" value = "icc"/>
+                  <env key = "CXX" value = "icpc"/>
+                  <arg line="../ -DCMAKE_BUILD_TYPE=Release -Dmkldnn_LINKER_LIBS='-mkl -static-intel -static-libstdc++ -liomp5 -no-intel-extensions' -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE -DCMAKE_SKIP_RPATH=TRUE -DMKL_cmake_included=TRUE"/>
+                </exec>
+                <exec executable="make" dir="${mkldnnBuild}" failonerror="true">
+                  <arg line="-j 4"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-jni</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <exec executable="make" dir="${project.basedir}/" failonerror="true">
+                  <arg line="-j 4"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>mkl-dnn-tests</id>
+            <phase>test</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <tasks>
+                <echo>${project.basedir}/../native/build/src</echo>
+                <exec executable="make" failonerror="true" dir="${mkldnnBuild}">
+                  <env key = "LD_LIBRARY_PATH" value = "${mkldnnBuild}/src:${env.LD_LIBRARY_PATH}"/>
+                  <arg value="test"/>
+                </exec>
+              </tasks>
             </configuration>
           </execution>
         </executions>
