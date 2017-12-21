@@ -83,6 +83,7 @@
               </tasks>
             </configuration>
           </execution>
+          <!--
           <execution>
             <id>mkl-dnn-tests</id>
             <phase>test</phase>
@@ -97,6 +98,7 @@
               </tasks>
             </configuration>
           </execution>
+          -->
         </executions>
       </plugin>
     </plugins>
