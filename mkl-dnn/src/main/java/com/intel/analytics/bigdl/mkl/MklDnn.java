@@ -40,8 +40,8 @@ public class MklDnn {
 
     public static class StreamType {
         public static final int any           = 0;
-        public static final int eager         = 0;
-        public static final int lazy          = 0;
+        public static final int eager         = 1;
+        public static final int lazy          = 2;
     }
 
     public static class DataType {
@@ -98,7 +98,7 @@ public class MklDnn {
         public static final int oIhw16i       = nChw16c;
     }
 
-    public class PropKind {
+    public static class PropKind {
         public static final int undef            = 0;
         public static final int forwardTraining  = 64;
         public static final int forwardInference = 96;
@@ -110,7 +110,7 @@ public class MklDnn {
         public static final int backwardBias     = 193;
     }
 
-    public class AlgKind {
+    public static class AlgKind {
         public static final int convolutionDirect        = 1;
         public static final int convolutionWinograd      = 2;
         public static final int eltwiseRelu              = 8;
@@ -139,22 +139,26 @@ public class MklDnn {
     public native static void EngineDestroy(long engine);
 
     public native static long StreamCreate(int streamKind);
-    public native static long StreamSubmit(long loc, int block, long[] primitives);
+    public native static long StreamSubmit(long loc, int block, long[] primitives, int length);
     public native static long StreamWait(long loc, int block);
     public native static void StreamDestroy(long loc);
 
     public native static long MemoryDescInit(int ndims, int[] dims,
                                              int dataType, int dataFormat);
-    public native static long MemoryPrimitiveDescCreate(long desc, int engine);
+    public native static long MemoryPrimitiveDescCreate(long desc, long engine);
 
     public native static long MemoryGetDataHandle(long memory);
-    public native static void MemorySetDataHandle(long memory, long data);
+    public native static long MemorySetDataHandle(long memory, float[] data);
+    public native static void MemoryReleaseDataHandle(float[] data, long ptr);
 
     public native static long PrimitiveCreate(long desc, long[] inputs, long[] outputs);
-    public native static long PrimitiveDescCreate(long opDesc, int engine,
+    public native static long PrimitiveDescCreate(long opDesc, long engine,
                                                   long hingForwardPrimitiveDesc);
     public native static void PrimitiveDescDestroy(long desc);
     public native static void PrimitiveDestroy(long primitive);
+
+    public native static long PrimitiveCreateForSubmit(long desc, long[] inputs, int length1, long[] outputs, int length2);
+
 
     public native static long EltwiseForwardDescInit(int propKind, int algKind,
                                                      long srcDesc, float alpha, float beta);

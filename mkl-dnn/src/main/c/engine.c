@@ -11,9 +11,9 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EngineCreate(
 {
   mkldnn_engine_t *engine = malloc(sizeof(mkldnn_engine_t));
 
-  mkldnn_engine_create(engine,
+  CHECK(mkldnn_engine_create(engine,
   (mkldnn_engine_kind_t)kind,
-  (size_t)index);
+  (size_t)index));
 
   return (long)engine;
 }
@@ -23,7 +23,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EngineDestroy(
   long engine)
 {
   mkldnn_engine_t *j_engine = (mkldnn_engine_t *)engine;
-  mkldnn_engine_destroy(*j_engine);
+  CHECK(mkldnn_engine_destroy(*j_engine));
   free(j_engine);
 }
 

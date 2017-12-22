@@ -17,18 +17,20 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamCreate(
 }
 
 JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamSubmit(
-  JNIEnv *env, jclass cls, long loc, int block, jlongArray primitives)
+  JNIEnv *env, jclass cls, long loc, int block, jlongArray primitives, int length)
 {
-  jlong * j_primitives = (*env)->GetPrimitiveArrayCritical(env,
-                                                           primitives,
-                                                           JNI_FALSE);
-
+  jlong * j_primitives = (*env)->GetPrimitiveArrayCritical(env, primitives, JNI_FALSE);
   mkldnn_stream_t *stream = (mkldnn_stream_t *)loc;
-  mkldnn_primitive_t *prim = (mkldnn_primitive_t *)j_primitives;
+  mkldnn_primitive_t prim[length];
+  int i = 0;
+  while (i < length) {
+    mkldnn_primitive_t *temp = (mkldnn_primitive_t *)j_primitives[i];
+    prim[i] = *temp;
+    i ++;
+  }
   CHECK(mkldnn_stream_submit(*stream, block, prim, NULL)); // TODO here should not be NULL
 
   (*env)->ReleasePrimitiveArrayCritical(env, primitives, j_primitives, 0);
-
   return (long)loc;
 }
 

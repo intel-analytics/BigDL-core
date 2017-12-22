@@ -34,15 +34,15 @@ JNIEXPORT long
   JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescCreate(
   JNIEnv *env, jclass cls,
   long memory_desc,
-  int engine)
+  long engine)
 {
-  mkldnn_primitive_desc_t *primitive_desc =
-    malloc(sizeof(mkldnn_primitive_desc_t));
+  mkldnn_engine_t *j_engine = (mkldnn_engine_t *)engine;
+  mkldnn_primitive_desc_t *primitive_desc = malloc(sizeof(mkldnn_primitive_desc_t));
   CHECK(
     mkldnn_memory_primitive_desc_create(
       primitive_desc,
       (const mkldnn_memory_desc_t *)memory_desc,
-      (mkldnn_engine_t)engine)
+      *j_engine)
     );
   return (long)primitive_desc;
 }
@@ -62,18 +62,29 @@ JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataHandle(
 }
 
 // TODO data should be java array
-JNIEXPORT void JNICALL
+JNIEXPORT long JNICALL
 Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandle(
   JNIEnv *env, jclass cls,
-  long memory, long data)
+  long memory, jfloatArray data)
 {
-  float *j_data = (float*) data;
+  float *j_data = (*env)->GetPrimitiveArrayCritical(env, data, JNI_FALSE);
   mkldnn_primitive_t *j_memory = (mkldnn_primitive_t*)(memory);
 
   CHECK(
     mkldnn_memory_set_data_handle(*j_memory, j_data)
     );
+
+  return (long)j_data;
 }
+
+JNIEXPORT void JNICALL
+Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryReleaseDataHandle(
+  JNIEnv *env, jclass cls,
+  jfloatArray data, long j_data)
+{
+  (*env)->ReleasePrimitiveArrayCritical(env, data, (float *)j_data, 0);
+}
+
 #ifdef __cplusplus
 }
 #endif

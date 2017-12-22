@@ -37,7 +37,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamCreate
  * Signature: (JI[J)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamSubmit
-  (JNIEnv *, jclass, jlong, jint, jlongArray);
+  (JNIEnv *, jclass, jlong, jint, jlongArray, int);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
@@ -69,7 +69,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescInit
  * Signature: (JI)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescCreate
-  (JNIEnv *, jclass, jlong, jint);
+  (JNIEnv *, jclass, jlong, jlong);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
@@ -84,8 +84,11 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataH
  * Method:    MemorySetDataHandle
  * Signature: (JJ)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandle
-  (JNIEnv *, jclass, jlong, jlong);
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandle
+  (JNIEnv *, jclass, jlong, jfloatArray);
+
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryReleaseDataHandle
+  (JNIEnv *, jclass, jfloatArray, jlong);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
@@ -101,7 +104,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreat
  * Signature: (JIJ)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCreate
-  (JNIEnv *, jclass, jlong, jint, jlong);
+  (JNIEnv *, jclass, jlong, jlong, jlong);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
@@ -118,6 +121,14 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescDe
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDestroy
   (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PrimitiveCreateForSubmit
+ * Signature: (JIJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreateForSubmit(
+  JNIEnv *, jclass, jlong, jlongArray, int, jlongArray, int);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
