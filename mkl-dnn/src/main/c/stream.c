@@ -9,44 +9,46 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamCreate(
   JNIEnv *env, jclass cls,
   int stream_kind)
 {
-  mkldnn_stream_t *stream = malloc(sizeof(mkldnn_stream_t));
-  CHECK(mkldnn_stream_create(stream,
+  mkldnn_stream_t stream;
+  CHECK(mkldnn_stream_create(&stream,
                              (mkldnn_stream_kind_t)stream_kind));
 
   return (long)stream;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamSubmit(
-  JNIEnv *env, jclass cls, long loc, int block, jlongArray primitives, int length)
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamSubmit(
+  JNIEnv *env, jclass cls, long stream, int length, jlongArray primitives)
 {
   jlong * j_primitives = (*env)->GetPrimitiveArrayCritical(env, primitives, JNI_FALSE);
-  mkldnn_stream_t *stream = (mkldnn_stream_t *)loc;
+
   mkldnn_primitive_t prim[length];
-  int i = 0;
-  while (i < length) {
-    mkldnn_primitive_t *temp = (mkldnn_primitive_t *)j_primitives[i];
-    prim[i] = *temp;
-    i ++;
+  for (int i = 0; i < length; i++) {
+    prim[i] = (mkldnn_primitive_t)(j_primitives[i]);
   }
-  CHECK(mkldnn_stream_submit(*stream, block, prim, NULL)); // TODO here should not be NULL
+  CHECK(mkldnn_stream_submit((mkldnn_stream_t)stream,
+                             length, prim, NULL)); // TODO here should not be NULL
 
   (*env)->ReleasePrimitiveArrayCritical(env, primitives, j_primitives, 0);
-  return (long)loc;
 }
 
 JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamWait(
-  JNIEnv *env, jclass cls, long loc, int block)
+  JNIEnv *env, jclass cls, long stream, int block)
 {
-  mkldnn_stream_t *stream = (mkldnn_stream_t *)loc;
-  CHECK(mkldnn_stream_wait(*stream, block, NULL));
-  return (long)loc;
+  CHECK(mkldnn_stream_wait((mkldnn_stream_t)stream, block, NULL));
+  return stream;
+}
+
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamRerun(
+  JNIEnv *env, jclass cls, long stream)
+{
+  CHECK(mkldnn_stream_rerun((mkldnn_stream_t)stream, NULL));
+  return stream;
 }
 
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamDestroy(
-  JNIEnv *env, jclass cls, long loc)
+  JNIEnv *env, jclass cls, long stream)
 {
-  mkldnn_stream_t *stream = (mkldnn_stream_t *)loc;
-  CHECK(mkldnn_stream_destroy(*stream));
+  CHECK(mkldnn_stream_destroy((mkldnn_stream_t)stream));
   return;
 }
 #ifdef __cplusplus

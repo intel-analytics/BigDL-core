@@ -135,12 +135,13 @@ public class MklDnn {
         return _isLoaded;
     }
 
-    public native static long EngineCreate(long id, long index);
+    public native static long EngineCreate(int id, int index);
     public native static void EngineDestroy(long engine);
 
     public native static long StreamCreate(int streamKind);
-    public native static long StreamSubmit(long loc, int block, long[] primitives, int length);
+    public native static void StreamSubmit(long stream, int length, long[] primitives);
     public native static long StreamWait(long loc, int block);
+    public native static long StreamRerun(long stream);
     public native static void StreamDestroy(long loc);
 
     public native static long MemoryDescInit(int ndims, int[] dims,
@@ -148,20 +149,38 @@ public class MklDnn {
     public native static long MemoryPrimitiveDescCreate(long desc, long engine);
 
     public native static long MemoryGetDataHandle(long memory);
-    public native static long MemorySetDataHandle(long memory, float[] data);
+    public native static long MemorySetDataHandle(long memory, float[] data, int offset);
     public native static void MemoryReleaseDataHandle(float[] data, long ptr);
 
-    public native static long PrimitiveCreate(long desc, long[] inputs, long[] outputs);
+    public native static long PrimitiveCreate0(long desc);
+    public native static long PrimitiveCreate2(long desc,
+                                               long[] inputs,
+                                               int[] indexes,
+                                               int inputLen,
+                                               long[] outputs,
+                                               int outputLen);
+
     public native static long PrimitiveDescCreate(long opDesc, long engine,
                                                   long hingForwardPrimitiveDesc);
     public native static void PrimitiveDescDestroy(long desc);
     public native static void PrimitiveDestroy(long primitive);
 
-    public native static long PrimitiveCreateForSubmit(long desc, long[] inputs, int length1, long[] outputs, int length2);
-
-
     public native static long EltwiseForwardDescInit(int propKind, int algKind,
                                                      long srcDesc, float alpha, float beta);
     public native static long EltwiseBackwardDescInit(int algKind, long diffDataDesc,
                                                       long dataDesc, float alpha, float beta);
+
+    public native static long LinearForwardDescInit(int propKind,
+                                                    long srcMemDesc,
+                                                    long weightMemDesc,
+                                                    long biasMemDesc,
+                                                    long dstMemDesc);
+
+    public native static long LinearBackwardDataDescInit(long diffSrcMemDesc,
+                                                         long weightMemDesc,
+                                                         long diffDstMemDesc);
+    public native static long LinearBackwardWeightsDescInit(long srcMemDesc,
+                                                            long diffWeightMemDesc,
+                                                            long diffBiasMemDesc,
+                                                            long diffDstMemDesc);
 }

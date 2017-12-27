@@ -49,6 +49,8 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseBackward
   return (long)relu_desc;
 }
 
+// TODO free the eltwise desc
+
 #ifdef __cplusplus
 }
 #endif

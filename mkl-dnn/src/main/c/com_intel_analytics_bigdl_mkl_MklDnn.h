@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (II)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EngineCreate
-  (JNIEnv *, jclass, jint , jint);
+  (JNIEnv *, jclass, jint, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
@@ -34,10 +34,10 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamCreate
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    StreamSubmit
- * Signature: (JI[J)J
+ * Signature: (JI[J)V
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamSubmit
-  (JNIEnv *, jclass, jlong, jint, jlongArray, int);
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamSubmit
+  (JNIEnv *, jclass, jlong, jint, jlongArray);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
@@ -46,6 +46,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamSubmit
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamWait
   (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    StreamRerun
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_StreamRerun
+  (JNIEnv *, jclass, jlong);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
@@ -66,7 +74,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescInit
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    MemoryPrimitiveDescCreate
- * Signature: (JI)J
+ * Signature: (JJ)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescCreate
   (JNIEnv *, jclass, jlong, jlong);
@@ -82,26 +90,39 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataH
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    MemorySetDataHandle
- * Signature: (JJ)V
+ * Signature: (J[FI)J
  */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandle
-  (JNIEnv *, jclass, jlong, jfloatArray);
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandle
+  (JNIEnv *, jclass, jlong, jfloatArray, jint);
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryReleaseDataHandle
+ * Signature: ([FJ)V
+ */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryReleaseDataHandle
   (JNIEnv *, jclass, jfloatArray, jlong);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
- * Method:    PrimitiveCreate
- * Signature: (J[J[J)J
+ * Method:    PrimitiveCreate0
+ * Signature: (J)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate
-  (JNIEnv *, jclass, jlong, jlongArray, jlongArray);
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate0
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PrimitiveCreate2
+ * Signature: (J[J[II[JI)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate2
+  (JNIEnv *, jclass, jlong, jlongArray, jintArray, jint, jlongArray, jint);
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    PrimitiveDescCreate
- * Signature: (JIJ)J
+ * Signature: (JJJ)J
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCreate
   (JNIEnv *, jclass, jlong, jlong, jlong);
@@ -124,14 +145,6 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDestro
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
- * Method:    PrimitiveCreateForSubmit
- * Signature: (JIJ)J
- */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreateForSubmit(
-  JNIEnv *, jclass, jlong, jlongArray, int, jlongArray, int);
-
-/*
- * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    EltwiseForwardDescInit
  * Signature: (IIJFF)J
  */
@@ -145,6 +158,30 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseForward
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseBackwardDescInit
   (JNIEnv *, jclass, jint, jlong, jlong, jfloat, jfloat);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    LinearForwardDescInit
+ * Signature: (IJJJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearForwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jlong, jlong, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    LinearBackwardDataDescInit
+ * Signature: (JJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardDataDescInit
+  (JNIEnv *, jclass, jlong, jlong, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    LinearBackwardWeightsDescInit
+ * Signature: (JJJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardWeightsDescInit
+  (JNIEnv *, jclass, jlong, jlong, jlong, jlong);
 
 #ifdef __cplusplus
 }
