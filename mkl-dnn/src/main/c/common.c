@@ -94,44 +94,60 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDestro
   mkldnn_primitive_destroy((mkldnn_primitive_t)primitive);
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreateForSubmit(
-  JNIEnv *env, jclass cls,
-  long primitive_desc,
-  jlongArray inputs, // TODO java array
-  int length_inputs,
-  jlongArray outputs,
-  int length_outputs) // java array
-{
-  jlong * j_inputs = (*env)->GetPrimitiveArrayCritical(env, inputs, JNI_FALSE);
-  jlong * j_outputs = (*env)->GetPrimitiveArrayCritical(env, outputs, JNI_FALSE);
-  mkldnn_primitive_t primitive;
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ReorderPrimitiveDescCreate(
+  JNIEnv *env, jclass cls, long input, long output) {
 
-  mkldnn_primitive_at_t primitive_at[length_inputs];
-  const_mkldnn_primitive_t const_primitive[length_outputs];
-  int i = 0;
-  while (i < length_inputs) {
-    const_mkldnn_primitive_t *temp = (const_mkldnn_primitive_t *)j_inputs[i];
-    primitive_at[i] = mkldnn_primitive_at(*temp, 0);
-    i ++;
-  }
-  i = 0;
-  while (i < length_outputs) {
-    const_mkldnn_primitive_t *temp = (const_mkldnn_primitive_t *)j_outputs[i];
-    const_primitive[i] = *temp;
-    i ++;
+     mkldnn_primitive_desc_t reorder_primitive_desc;
+
+     CHECK(
+       mkldnn_reorder_primitive_desc_create(
+         &reorder_primitive_desc,
+         (const_mkldnn_primitive_desc_t)input,
+         (const_mkldnn_primitive_desc_t)output)
+     );
+     return (long)reorder_primitive_desc;
   }
 
-  CHECK(
-    mkldnn_primitive_create(
-      &primitive,
-      (const_mkldnn_primitive_desc_t)primitive_desc,
-      primitive_at,
-      const_primitive));
+/** Compares two descriptors of memory primitives.
+  * @return 1 if the descriptors are the same.
+  * @return 0 if the descriptors are different.
+  *
+  * Use this function to identify whether a reorder is required for the memory
+  * primitives.
+  */
+JNIEXPORT int JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescEqual(
+JNIEnv *env, jclass cls, long lhs, long rhs) {
+   return mkldnn_memory_primitive_desc_equal(
+       (const_mkldnn_primitive_desc_t)lhs,
+       (const_mkldnn_primitive_desc_t)rhs);
+}
 
-  (*env)->ReleasePrimitiveArrayCritical(env, inputs, j_inputs, 0);
-  (*env)->ReleasePrimitiveArrayCritical(env, outputs, j_outputs, 0);
+/** Retrieves a reference to the @p primitive_desc descriptor of given @p
+  * primitive.
+  *
+  * @warning
+  *     Returned object must not be destroyed by user. 'const' qualifier of the
+  *     returned object prevents such attempts.
+  */
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveGetPrimitiveDesc(
+  JNIEnv *env, jclass cls, long primitive) {
 
-  return (long)primitive;
+     const_mkldnn_primitive_desc_t primitive_desc;
+     CHECK(mkldnn_primitive_get_primitive_desc((const_mkldnn_primitive_t)primitive, &primitive_desc));
+     return (long)primitive_desc;
+  }
+
+/** Queries primitive descriptor for primitive descriptor
+  *
+  * @returns NULL in case of any error
+  */
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryPd(
+JNIEnv *env, jclass cls, long primitive, int what, int index) {
+
+  const_mkldnn_primitive_desc_t pd;
+  pd = mkldnn_primitive_desc_query_pd((const_mkldnn_primitive_desc_t)primitive,
+  (mkldnn_query_t)what, index);
+  return (long)pd;
 }
 
 #ifdef __cplusplus

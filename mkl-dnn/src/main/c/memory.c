@@ -82,6 +82,19 @@ Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryReleaseDataHandle(
   (*env)->ReleasePrimitiveArrayCritical(env, data, (float *)j_data, 0);
 }
 
+
+/** Queries primitive descriptor for memory descriptor
+ *
+ * @returns NULL in case of any error
+ */
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryMemory(
+  JNIEnv *env, jclass cls, long primitive_desc)
+{
+  const mkldnn_memory_desc_t *qmd = mkldnn_primitive_desc_query_memory_d(
+  (const_mkldnn_primitive_desc_t) primitive_desc);
+  return (long)qmd;
+}
+
 #ifdef __cplusplus
 }
 #endif

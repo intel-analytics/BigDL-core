@@ -183,6 +183,86 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackward
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardWeightsDescInit
   (JNIEnv *, jclass, jlong, jlong, jlong, jlong);
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    ConvForwardDescInit
+ * Signature: (IIJJJJ[I[I[II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvForwardDescInit
+  (JNIEnv *, jclass, jint, jint, jlong, jlong, jlong, jlong, jintArray, jintArray, jintArray, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    ConvBackwardWeightsDescInit
+ * Signature: (IJJJJ[I[I[II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardWeightsDescInit
+  (JNIEnv *, jclass, jint, jlong, jlong, jlong, jlong, jintArray, jintArray, jintArray, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    ConvBackwardDataDescInit
+ * Signature: (IJJJ[I[I[II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardDataDescInit
+  (JNIEnv *, jclass, jint, jlong, jlong, jlong, jintArray, jintArray, jintArray, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PoolingForwardDescInit
+ * Signature: (IIJJ[I[I[I[II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingForwardDescInit
+  (JNIEnv *, jclass, jint, jint, jlong, jlong, jintArray, jintArray, jintArray, jintArray, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PoolingBackwardDescInit
+ * Signature: (IJJ[I[I[I[II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingBackwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jlong, jintArray, jintArray, jintArray, jintArray, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    ReorderPrimitiveDescCreate
+ * Signature: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ReorderPrimitiveDescCreate
+  (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryPrimitiveDescEqual
+ * Signature: (JJ)I
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescEqual
+  (JNIEnv *, jclass, jlong, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PrimitiveGetPrimitiveDesc
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveGetPrimitiveDesc
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PrimitiveDescQueryPd
+ * Signature: (JII)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryPd
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PrimitiveDescQueryMemory
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryMemory
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif
