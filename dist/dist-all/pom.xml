@@ -115,15 +115,9 @@
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.1.0</version>
         <configuration>
-          <!-- put your configurations here -->
-          <minimizeJar>true</minimizeJar>
           <filters>
-            <filter>
-              <artifact>com.intel.analytics.bigdl.core*</artifact>
-              <includes>
-                <include>**</include>
-              </includes>
-            </filter>
+            <!-- windows has this jar for passing building.
+                 we don't have to need this in our all jar. -->
             <filter>
               <artifact>*:*</artifact>
               <excludes>
@@ -138,6 +132,13 @@
             <goals>
               <goal>shade</goal>
             </goals>
+            <configuration>
+              <artifactSet> 
+                <includes>
+                  <include>com.intel.analytics.bigdl.core*:*</include>
+                </includes>
+              </artifactSet> 
+            </configuration>
           </execution>
         </executions>
       </plugin>
