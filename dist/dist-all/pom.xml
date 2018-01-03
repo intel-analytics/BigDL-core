@@ -116,6 +116,8 @@
         <version>3.1.0</version>
         <configuration>
           <filters>
+            <!-- windows has this jar for passing building.
+                 we don't have to need this in our all jar. -->
             <filter>
               <artifact>*:*</artifact>
               <excludes>
