@@ -180,6 +180,7 @@ public class MklDnn {
 
     public native static long StreamCreate(int streamKind);
     public native static void StreamSubmit(long stream, int length, long[] primitives);
+
     public native static long StreamWait(long loc, int block);
     public native static long StreamRerun(long stream);
     public native static void StreamDestroy(long loc);
@@ -262,4 +263,12 @@ public class MklDnn {
     public native static long PrimitiveDescQueryPd(long primitive, int what, int index);
 
     public native static long PrimitiveDescQueryMemory(long primitive_desc);
+
+    public native static long PrimitiveDescGetSize(long primitive_desc);
+
+    public native static long LRNForwardDescInit(int prop_kind, int alg_kind, long data_desc,
+                                                int local_size, float alpha, float beta, float k);
+
+    public native static long LRNBackwardDescInit(int alg_kind, long diff_data_desc, long data_desc,
+                                                 int local_size, float alpha, float beta, float k);
 }

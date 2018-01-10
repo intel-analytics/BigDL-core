@@ -92,8 +92,20 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQu
 {
   const mkldnn_memory_desc_t *qmd = mkldnn_primitive_desc_query_memory_d(
   (const_mkldnn_primitive_desc_t) primitive_desc);
+
   return (long)qmd;
 }
+
+/** Returns the size (in bytes) that is required for given @p
+ * memory_primitive_desc */
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescGetSize(
+  JNIEnv *env, jclass cls, long primitive_desc)
+{
+  size_t res =  mkldnn_memory_primitive_desc_get_size(
+  (const_mkldnn_primitive_desc_t)primitive_desc);
+  return (long)res;
+}
+
 
 #ifdef __cplusplus
 }
