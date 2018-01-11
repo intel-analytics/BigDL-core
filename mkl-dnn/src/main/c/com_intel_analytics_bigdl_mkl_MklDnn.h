@@ -185,6 +185,30 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackward
 
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    BatchNormForwardDescInit
+ * Signature: (IJFJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_BatchNormForwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jfloat, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    BatchNormBackwardDescInit
+ * Signature: (IJJFJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_BatchNormBackwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jlong, jfloat, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    SoftMaxForwardDescInit
+ * Signature: (IJI)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxForwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    ConvForwardDescInit
  * Signature: (IIJJJJ[I[I[II)J
  */
