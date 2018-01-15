@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 #include <time.h>
+#include <omp.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -50,6 +50,7 @@ public class Loader {
 
         copyAll(tempDir);
 
+        loadLibrary("iomp5", tempDir);
         loadLibrary("mkldnn", tempDir);
         loadLibrary("jmkldnn", tempDir);
 

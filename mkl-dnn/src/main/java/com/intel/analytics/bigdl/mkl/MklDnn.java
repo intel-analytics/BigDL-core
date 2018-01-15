@@ -213,6 +213,7 @@ public class MklDnn {
     public static boolean isLoaded() {
         return _isLoaded;
     }
+    public native static void setNumThreads(int num);
 
     public native static long EngineCreate(int id, int index);
     public native static void EngineDestroy(long engine);

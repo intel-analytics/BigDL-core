@@ -9,6 +9,14 @@ extern "C" {
 #endif
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    setNumThreads
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_setNumThreads
+  (JNIEnv *, jclass, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    EngineCreate
  * Signature: (II)J
  */
@@ -286,6 +294,30 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQ
  */
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryMemory
   (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PrimitiveDescGetSize
+ * Signature: (J)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescGetSize
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    LRNForwardDescInit
+ * Signature: (IIJIFFF)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNForwardDescInit
+  (JNIEnv *, jclass, jint, jint, jlong, jint, jfloat, jfloat, jfloat);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    LRNBackwardDescInit
+ * Signature: (IJJIFFF)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNBackwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jlong, jint, jfloat, jfloat, jfloat);
 
 #ifdef __cplusplus
 }
