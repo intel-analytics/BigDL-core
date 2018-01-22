@@ -319,6 +319,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNForwardDesc
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNBackwardDescInit
   (JNIEnv *, jclass, jint, jlong, jlong, jint, jfloat, jfloat, jfloat);
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    getFormat
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif

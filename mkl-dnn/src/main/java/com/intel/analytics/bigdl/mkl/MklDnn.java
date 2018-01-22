@@ -327,4 +327,7 @@ public class MklDnn {
 
     public native static long LRNBackwardDescInit(int alg_kind, long diff_data_desc, long data_desc,
                                                  int local_size, float alpha, float beta, float k);
+
+    // get format from memory desc
+    public native static int getFormat(long memoryDesc);
 }

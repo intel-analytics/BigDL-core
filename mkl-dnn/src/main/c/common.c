@@ -150,6 +150,18 @@ JNIEnv *env, jclass cls, long primitive, int what, int index) {
   return (long)pd;
 }
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    getFormat
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
+  (JNIEnv *env, jclass cls, jlong desc)
+{
+  mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
+  return jni_desc->format;
+}
+
 #ifdef __cplusplus
 }
 #endif

@@ -61,12 +61,18 @@
                 <exec executable="cmake" dir="${mkldnnBuild}" failonerror="true">
                   <env key = "CC" value = "icc"/>
                   <env key = "CXX" value = "icpc"/>
-                  <!--
-                  <arg line="../ -DCMAKE_BUILD_TYPE=Debug -Dmkldnn_LINKER_LIBS='-liomp5 -mkl=parallel -static-intel -static-libstdc++ -no-intel-extensions' -DCMAKE_RULE_MESSAGES:BOOL=OFF -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE -DCMAKE_SKIP_RPATH=TRUE -DMKL_cmake_included=TRUE -DHAVE_MKL=TRUE -DUSE_MKL -DUSE_CBLAS"/> -->
-                  <arg line="../ -DCMAKE_BUILD_TYPE=Release -Dmkldnn_LINKER_LIBS='-liomp5 -mkl=parallel -static-intel -static-libstdc++ -no-intel-extensions' -DCMAKE_RULE_MESSAGES:BOOL=OFF -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE -DCMAKE_SKIP_RPATH=TRUE -DHAVE_MKL=TRUE"/>
-                  <!--
-                  <arg line="../ -DCMAKE_BUILD_TYPE=Release"/>
-                  -->
+                  <arg line="../
+                    -DCMAKE_BUILD_TYPE=Release
+                    -Dmkldnn_LINKER_LIBS='-liomp5
+                                          -mkl=parallel
+                                          -static-intel
+                                          -static-libstdc++
+                                          -no-intel-extensions'
+                    -DCMAKE_RULE_MESSAGES:BOOL=OFF
+                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+                    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE
+                    -DCMAKE_SKIP_RPATH=TRUE
+                    -DHAVE_MKL=TRUE"/>
                 </exec>
                 <exec executable="make" dir="${mkldnnBuild}" failonerror="true">
                   <arg line="-j 4"/>
