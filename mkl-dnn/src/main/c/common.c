@@ -162,6 +162,18 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
   return jni_desc->format;
 }
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    getSize
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getSize
+  (JNIEnv *env, jclass cls, jlong memory_primitive_desc)
+{
+  const_mkldnn_primitive_desc_t mpd = (const_mkldnn_primitive_desc_t)memory_primitive_desc;
+  return mkldnn_memory_primitive_desc_get_size(mpd);
+}
+
 #ifdef __cplusplus
 }
 #endif

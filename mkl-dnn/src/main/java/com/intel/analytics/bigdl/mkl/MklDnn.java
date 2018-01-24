@@ -330,4 +330,7 @@ public class MklDnn {
 
     // get format from memory desc
     public native static int getFormat(long memoryDesc);
+
+    // get size from memory primitive desc
+    public native static int getSize(long memoryPrimDesc);
 }

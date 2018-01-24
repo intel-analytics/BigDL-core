@@ -327,6 +327,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNBackwardDes
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
   (JNIEnv *, jclass, jlong);
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    getSize
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getSize
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif
