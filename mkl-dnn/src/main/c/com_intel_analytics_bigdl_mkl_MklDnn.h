@@ -335,6 +335,78 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getSize
   (JNIEnv *, jclass, jlong);
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    copyFloatBuffer2Array
+ * Signature: (Ljava/nio/FloatBuffer;I[FII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyFloatBuffer2Array
+  (JNIEnv *, jclass, jobject, jint, jfloatArray, jint, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    copyArray2FloatBuffer
+ * Signature: (Ljava/nio/FloatBuffer;I[FII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyArray2FloatBuffer
+  (JNIEnv *, jclass, jobject, jint, jfloatArray, jint, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    fillFloatBuffer
+ * Signature: (Ljava/nio/FloatBuffer;IFI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_fillFloatBuffer
+  (JNIEnv *, jclass, jobject, jint, jfloat, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryGetDataHandleOfArray
+ * Signature: ([F)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataHandleOfArray
+  (JNIEnv *, jclass, jfloatArray);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemorySetDataHandleWithBuffer
+ * Signature: (JJIILjava/nio/FloatBuffer;I)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandleWithBuffer
+  (JNIEnv *, jclass, jlong, jlong, jint, jint, jobject, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemorySetDataHandleWithPtr
+ * Signature: (JJIIJI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandleWithPtr
+  (JNIEnv *, jclass, jlong, jlong, jint, jint, jlong, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    copyPtr2Array
+ * Signature: (JI[FII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyPtr2Array
+  (JNIEnv *, jclass, jlong, jint, jfloatArray, jint, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryAlignedMalloc
+ * Signature: (II)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedMalloc
+  (JNIEnv *, jclass, jint, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryAlignedFree
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedFree
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif

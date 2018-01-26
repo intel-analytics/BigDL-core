@@ -16,6 +16,8 @@
 
 package com.intel.analytics.bigdl.mkl;
 
+import java.nio.FloatBuffer;
+
 public class MklDnn {
     private static boolean _isLoaded = false;
 
@@ -333,4 +335,32 @@ public class MklDnn {
 
     // get size from memory primitive desc
     public native static int getSize(long memoryPrimDesc);
+
+    // direct buffer
+    public native static void copyFloatBuffer2Array(FloatBuffer buffer, int bufferOffset,
+                                                    float[] array, int arrayOffset, int length);
+    public native static void copyArray2FloatBuffer(FloatBuffer buffer, int bufferOffset,
+                                                    float[] array, int arrayOffset, int length);
+    public native static void fillFloatBuffer(FloatBuffer buffer, int bufferOffset,
+                                              float value, int length);
+
+    public native static long MemoryGetDataHandleOfArray(float[] array);
+
+    public native static void MemorySetDataHandleWithBuffer(long primitive,
+                                                            long array,
+                                                            int offset,
+                                                            int length,
+                                                            FloatBuffer buffer,
+                                                            int position);
+
+    public native static void MemorySetDataHandleWithPtr(long primitive,
+                                                         long array,
+                                                         int offset,
+                                                         int length,
+                                                         long buffer,
+                                                         int position);
+    public native static void copyPtr2Array(long buffer, int bufferOffset,
+                                            float[] array, int arrayOffset, int length);
+    public native static long MemoryAlignedMalloc(int capacity, int align);
+    public native static void MemoryAlignedFree(long ptr);
 }

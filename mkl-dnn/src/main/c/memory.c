@@ -1,5 +1,8 @@
+#define _POSIX_C_SOURCE 200112L
 #include "utils.h"
 #include "com_intel_analytics_bigdl_mkl_MklDnn.h"
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -106,6 +109,153 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescGe
   return (long)res;
 }
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    copyFloatBuffer2Array
+ * Signature: (Ljava/nio/FloatBuffer;I[FII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyFloatBuffer2Array
+  (JNIEnv *env, jclass cls, jobject buffer, jint bufferOffset,
+   jfloatArray array, jint arrayOffset, jint length)
+{
+  float *src = (float*)(*env)->GetDirectBufferAddress(env, buffer);
+  float *dst = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);              
+  memcpy(dst + arrayOffset, src + bufferOffset, length * sizeof(float));
+
+  (*env)->ReleasePrimitiveArrayCritical(env, array, dst, 0);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    copyArray2FloatBuffer
+ * Signature: (Ljava/nio/FloatBuffer;I[FII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyArray2FloatBuffer
+  (JNIEnv *env, jclass cls, jobject buffer, jint bufferOffset,
+   jfloatArray array, jint arrayOffset, jint length)
+{
+  float *dst = (float*)(*env)->GetDirectBufferAddress(env, buffer);
+  float *src = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);              
+  memcpy(dst + bufferOffset, src + arrayOffset, length * sizeof(float));
+
+  (*env)->ReleasePrimitiveArrayCritical(env, array, src, 0);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    fillFloatBuffer
+ * Signature: (Ljava/nio/FloatBuffer;IFI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_fillFloatBuffer
+  (JNIEnv *env, jclass cls, jobject buffer, jint bufferOffset, jfloat value,
+   jint length)
+{
+  float *j_buffer = (float*)(*env)->GetDirectBufferAddress(env, buffer);
+  if (value == 0) {
+    memset(j_buffer + bufferOffset, value, length * sizeof(float));
+  } else {
+    int i;
+    for (i = 0; i < length; i++) {
+      j_buffer[bufferOffset + i] = value;
+    }
+  }
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryGetDataHandleOfArray
+ * Signature: ([F)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataHandleOfArray
+  (JNIEnv *env, jclass cls, jfloatArray array)
+{
+  float *j_data = (*env)->GetPrimitiveArrayCritical(env, array, JNI_FALSE);
+  return (jlong)(j_data);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemorySetDataHandleWithBuffer
+ * Signature: (JJIILjava/nio/FloatBuffer;)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandleWithBuffer
+  (JNIEnv *env, jclass cls, jlong primitive, jlong array, jint offset, jint length, jobject buffer, jint position)
+{
+  char *j_buffer = (char*)(*env)->GetDirectBufferAddress(env, buffer);
+  float *j_array = (float*)array;
+
+  if (array != 0) {
+    memcpy(j_buffer + position, j_array + offset, length * sizeof(float));
+  }
+
+  CHECK(
+    mkldnn_memory_set_data_handle(
+      (mkldnn_primitive_t)primitive,
+      (float*)(j_buffer + position)));
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryAlignedMalloc
+ * Signature: (II)L
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedMalloc
+  (JNIEnv *env, jclass cls, jint capacity, jint align)
+{
+#ifdef WIN32
+    return (long)_aligned_malloc(capacity, align);
+#else
+    void *p;
+    return !posix_memalign(&p, align, capacity) ? (long)p : (long)NULL;
+#endif
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemorySetDataHandleWithPtr
+ * Signature: (JJIIJI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandleWithPtr
+  (JNIEnv *env, jclass cls, jlong primitive, jlong array, jint offset, jint length, jlong buffer, jint position)
+{
+  char *j_buffer = (char*)buffer;
+  float *j_array = (float*)array;
+
+  if (array != 0) {
+    memcpy(j_buffer + position, j_array + offset, length * sizeof(float));
+  }
+
+  CHECK(
+    mkldnn_memory_set_data_handle(
+      (mkldnn_primitive_t)primitive,
+      (float*)(j_buffer + position)));
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    copyPtr2Array
+ * Signature: (JI[FII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyPtr2Array
+  (JNIEnv *env, jclass cls, jlong ptr, jint position, jfloatArray array, jint offset, jint length)
+{
+  float *src = (float*)ptr;
+  float *dst = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);              
+  memcpy(dst + offset, src + position, length * sizeof(float));
+
+  (*env)->ReleasePrimitiveArrayCritical(env, array, dst, 0);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    MemoryAlignedFree
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedFree
+  (JNIEnv *env, jclass cls, jlong ptr)
+{
+  free((void*)ptr);
+}
 
 #ifdef __cplusplus
 }
