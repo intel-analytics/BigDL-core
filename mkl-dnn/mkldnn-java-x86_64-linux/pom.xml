@@ -62,7 +62,7 @@
                   <env key = "CC" value = "icc"/>
                   <env key = "CXX" value = "icpc"/>
                   <arg line="../
-                    -DCMAKE_BUILD_TYPE=Release
+                    -DCMAKE_BUILD_TYPE=Debug
                     -Dmkldnn_LINKER_LIBS='-liomp5
                                           -mkl=parallel
                                           -static-intel

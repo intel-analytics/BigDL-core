@@ -48,27 +48,15 @@ public class Memory {
         public static final int oIhw16i       = nChw16c;
     }
 
-    public native static long desc(int ndims, int[] dims,
-                                   int dataType, int dataFormat);
-    public native static int format(long desc);
-
-    public native static long primitiveDesc(long desc, long engine);
-    public native static int size(long primitiveDesc);
-
-    public native static long setDataHandle(long memory, float[] data, int offset);
-    public native static void releaseDataHandle(float[] data, long ptr);
-    public native static long getDataHandleOfArray(float[] array);
-    public native static void setDataHandleWithBuffer(long primitive, long array, int offset,
-                                                      int length, FloatBuffer buffer, int position);
-
-    // direct buffer
-    public native static void copyFloatBuffer2Array(FloatBuffer buffer, int bufferOffset,
-                                                    float[] array, int arrayOffset, int length);
-
-    public native static void copyArray2FloatBuffer(FloatBuffer buffer, int bufferOffset,
-                                                    float[] array, int arrayOffset, int length);
-
-    public native static void fillFloatBuffer(FloatBuffer buffer, int bufferOffset,
-                                              float value, int length);
-
+    public native static long SetDataHandle(long memoryPrimitive, long data, int offset);
+    public native static long Zero(long data, int length, int elementSize);
+    // TODO use override methods
+    public native static long CopyPtr2Ptr(long src, int srcOffset, long dst, int dstOffset,
+                                          int length, int elementSize);
+    public native static long CopyArray2Ptr(float[] src, int srcOffset, long dst, int dstOffset,
+                                            int length, int elementSize);
+    public native static long CopyPtr2Array(long src, int srcOffset, float[] dst, int dstOffset,
+                                            int length, int elementSize);
+    public native static long AlignedMalloc(int capacity, int size);
+    public native static void AlignedFree(long ptr);
 }
