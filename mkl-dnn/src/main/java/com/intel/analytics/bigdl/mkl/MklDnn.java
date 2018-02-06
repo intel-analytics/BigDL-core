@@ -364,4 +364,12 @@ public class MklDnn {
     public native static long MemoryAlignedMalloc(int capacity, int align);
     public native static void MemoryAlignedFree(long ptr);
     public native static long ConvolutionReluDescInit(long conv_desc, float negative_slope);
+
+    public native static long ConcatPrimitiveDescCreate(long output_desc, int n,
+                                                        int concat_dimension,
+                                                        long input_pds);
+
+    public native static long ViewPrimitiveDescCreate(long memory_primitive_desc,
+                                                      int[] dims,
+                                                      int[] offsets);
 }
