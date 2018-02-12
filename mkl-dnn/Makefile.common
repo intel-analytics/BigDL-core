@@ -2,7 +2,7 @@ CC       = icc
 SUFFIX  ?= so
 CFLAGS  += -c -I ${JAVA_HOME}/include -I $(MKLDNN_INC_DIR) -std=c99 -fPIC \
 					 -Wextra -Wall -Werror -g -qopenmp
-LDFLAGS += -Wall -ldl -liomp5 -shared -qopenmp \
+LDFLAGS += -Wall -ldl -liomp5 -shared -qopenmp -mkl \
 					 -L$(MKLDNN_LIB_DIR) -lmkldnn \
 				   -static-intel -no-intel-extensions
 

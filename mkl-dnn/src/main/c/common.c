@@ -159,7 +159,7 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
   (JNIEnv *env, jclass cls, jlong desc)
 {
   mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
-  return jni_desc->format;
+  return (int)(jni_desc->format);
 }
 
 /*

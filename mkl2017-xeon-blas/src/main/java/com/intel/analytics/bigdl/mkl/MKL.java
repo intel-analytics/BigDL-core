@@ -180,7 +180,7 @@ public class MKL {
      * to directly use the system malloc/free functions.
      * It's an substitute of environment variable: MKL_DISABLE_FAST_MM
      */
-    public native static void disableFastMM();
+    public native static int disableFastMM();
 
     /**
      * Sets the time (milliseconds) that a thread should wait before sleeping,

@@ -75,6 +75,12 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_CopyPtr2Array
    jfloatArray dst, jint dstOffset, jint length, jint element_size)
   {
     float *j_dst = (*env)->GetPrimitiveArrayCritical(env, dst, JNI_FALSE);
+    // float *j_src = (float *)src;
+    // int i = 0;
+    // for (i = 0; i < 10; i++) {
+    //   printf("%f\n", j_src[i + srcOffset]);
+    // }
+    // fflush(stdout);
     memcpy(j_dst + dstOffset, (float *)src + srcOffset, length * element_size);
     (*env)->ReleasePrimitiveArrayCritical(env, dst, j_dst, 0);
     return 0;
