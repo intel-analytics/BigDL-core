@@ -367,7 +367,7 @@ public class MklDnn {
 
     public native static long ConcatPrimitiveDescCreate(long output_desc, int n,
                                                         int concat_dimension,
-                                                        long input_pds);
+                                                        long[] input_pds);
 
     public native static long ViewPrimitiveDescCreate(long memory_primitive_desc,
                                                       int[] dims,

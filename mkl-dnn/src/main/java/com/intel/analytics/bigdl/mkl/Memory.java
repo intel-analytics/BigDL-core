@@ -59,4 +59,7 @@ public class Memory {
                                             int length, int elementSize);
     public native static long AlignedMalloc(int capacity, int size);
     public native static void AlignedFree(long ptr);
+
+    public native static void SAdd(int n, long aPtr, int aOffset, long bPtr, int bOffset,
+                                    long yPtr, int yOffset);
 }

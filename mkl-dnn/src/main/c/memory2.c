@@ -3,6 +3,7 @@
 #include "com_intel_analytics_bigdl_mkl_Memory.h"
 #include <stdlib.h>
 #include <string.h>
+#include <mkl.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -112,6 +113,19 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedFree
   (JNIEnv *env, jclass cls, jlong ptr)
   {
     free((void*)ptr);
+  }
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    SAdd
+ * Signature: (IJIIIJI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_SAdd
+  (JNIEnv *env, jclass cls, jint n, jlong aPtr, jint aOffset,
+   jlong bPtr, jint bOffset, jlong yPtr, jint yOffset)
+  {
+    vsAdd( n, (float*)aPtr + aOffset, (float*)bPtr + bOffset,
+           (float*)yPtr + yOffset);
   }
 #ifdef __cplusplus
 }

@@ -63,6 +63,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedMalloc
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedFree
   (JNIEnv *, jclass, jlong);
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    SAdd
+ * Signature: (IJI[FIJI)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_SAdd
+  (JNIEnv *, jclass, jint, jlong, jint, jlong, jint, jlong, jint);
+
 #ifdef __cplusplus
 }
 #endif
