@@ -62,4 +62,8 @@ public class Memory {
 
     public native static void SAdd(int n, long aPtr, int aOffset, long bPtr, int bOffset,
                                     long yPtr, int yOffset);
+
+    public native static void scale(int n, float scaleFactor, long from, long to);
+    public native static void axpby(int n, float a, long x, float b, long y);
+    public native static void set(long data, float value, int length, int elementSize);
 }

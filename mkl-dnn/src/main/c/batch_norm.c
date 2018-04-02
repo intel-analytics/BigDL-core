@@ -16,7 +16,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_BatchNormForwa
       (mkldnn_prop_kind_t)prop_kind,
       (mkldnn_memory_desc_t *)src_desc,
       epsilon,
-      mkldnn_use_scaleshift));
+      flags));
 
   return (long)bn_desc;
 }
@@ -39,7 +39,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_BatchNormBackw
       (mkldnn_memory_desc_t *)diff_dst_desc,
       (mkldnn_memory_desc_t *)src_desc,
       epsilon,
-      mkldnn_use_scaleshift));
+      flags));
 
   return (long)bn_desc;
 }

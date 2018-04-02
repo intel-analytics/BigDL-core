@@ -127,6 +127,43 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_SAdd
     vsAdd( n, (float*)aPtr + aOffset, (float*)bPtr + bOffset,
            (float*)yPtr + yOffset);
   }
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    scale
+ * Signature: (IFJJ)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_scale
+  (JNIEnv *env, jclass cls, jint num, jfloat scale, jlong x, jlong y)
+  {
+    cblas_scopy(num, (float *)x, 1, (float *)y, 1);
+    cblas_sscal(num, scale, (float *)y, 1);
+  }
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    axpby
+ * Signature: (IFJFJ)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_axpby
+  (JNIEnv *env, jclass cls, jint n, jfloat alpha, jlong x, jfloat beta, jlong y)
+  {
+    cblas_saxpby(n, alpha, (float *)x, 1, beta, (float *)y, 1);
+  }
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    set
+ * Signature: (JFII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_set
+  (JNIEnv *env, jclass cls, jlong ptr, jfloat value, jint length, jint elementSize)
+  {
+    jfloat *data = (jfloat*)ptr;
+    for (int i = 0; i < length; i++) {
+      data[i] = value;
+    }
+  }
 #ifdef __cplusplus
 }
 #endif

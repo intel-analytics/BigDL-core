@@ -66,10 +66,34 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedFree
 /*
  * Class:     com_intel_analytics_bigdl_mkl_Memory
  * Method:    SAdd
- * Signature: (IJI[FIJI)V
+ * Signature: (IJIJIJI)V
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_SAdd
   (JNIEnv *, jclass, jint, jlong, jint, jlong, jint, jlong, jint);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    scale
+ * Signature: (IFJJ)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_scale
+  (JNIEnv *, jclass, jint, jfloat, jlong, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    axpby
+ * Signature: (IFJFJ)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_axpby
+  (JNIEnv *, jclass, jint, jfloat, jlong, jfloat, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    set
+ * Signature: (JFII)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_set
+  (JNIEnv *, jclass, jlong, jfloat, jint, jint);
 
 #ifdef __cplusplus
 }
