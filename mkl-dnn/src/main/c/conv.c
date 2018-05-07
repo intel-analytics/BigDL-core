@@ -133,6 +133,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvolutionRelu
   return (long)conv_relu_desc;
 }
 
+
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConvDescInit
+(JNIEnv *env, jclass cls, jlong conv_desc)
+{
+  free((mkldnn_convolution_desc_t *)conv_desc);
+  return;
+}
+
 #ifdef __cplusplus
 }
 #endif

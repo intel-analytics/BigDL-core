@@ -44,8 +44,13 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_BatchNormBackw
   return (long)bn_desc;
 }
 
-// TODO free the eltwise desc
-
+// TODO free the batchnorm desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeBatchNormDescInit
+(JNIEnv *env, jclass cls, jlong bn_desc)
+{
+  free((mkldnn_batch_normalization_desc_t *) bn_desc);
+  return;
+}
 #ifdef __cplusplus
 }
 #endif

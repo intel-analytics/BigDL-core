@@ -174,6 +174,13 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getSize
   return mkldnn_memory_primitive_desc_get_size(mpd);
 }
 
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeUnuse
+  (JNIEnv *env, jclass cls, jlong dnn_desc)
+{
+ free((mkldnn_primitive_desc_t)dnn_desc);
+ return;
+}
+
 #ifdef __cplusplus
 }
 #endif

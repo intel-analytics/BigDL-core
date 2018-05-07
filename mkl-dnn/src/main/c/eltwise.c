@@ -50,6 +50,12 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseBackward
 }
 
 // TODO free the eltwise desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeEltwiseDescInit
+(JNIEnv *env, jclass cls, jlong relu_desc)
+{
+  free((mkldnn_eltwise_desc_t *) relu_desc);
+  return;
+}
 
 #ifdef __cplusplus
 }

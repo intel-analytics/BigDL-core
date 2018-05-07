@@ -71,31 +71,21 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ViewPrimitiveDe
   return (long)view_primitive_desc;
 }
 
+// TODO free the concat desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConcatDescInit
+(JNIEnv *env, jclass cls, jlong concat_desc)
+{
+  free((mkldnn_primitive_desc_t) concat_desc);
+  return;
+}
 
-
-
-//mkldnn_status_t MKLDNN_API mkldnn_concat_inplace_by_input_primitive_desc_create(
-//        mkldnn_primitive_desc_t *concat_primitive_desc,
-//        int n, int concat_dimension, const_mkldnn_primitive_desc_t *inputs);
-
-//JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConcatInplaceByInputPrimitiveDescCreate(
-//  JNIEnv *env, jclass cls,
-//  long output_desc,
-//  int n,
-//  int concat_dimension,
-//  long inputs)
-//{
-//  mkldnn_primitive_desc_t *concat_primitive_desc = malloc(sizeof(mkldnn_primitive_desc_t));
-//  CHECK(mkldnn_concat_inplace_by_input_primitive_desc_create(
-//     concat_primitive_desc,
-//     (mkldnn_memory_desc_t *)output_desc,
-//     n,
-//     concat_dimension,
-//     (const_mkldnn_primitive_desc_t *)inputs
-//    )
-//  );
-//  return (long)concat_primitive_desc;
-//}
+// TODO free the View desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeViewDescInit
+(JNIEnv *env, jclass cls, jlong view_primitive_desc)
+{
+  free((mkldnn_primitive_desc_t *) view_primitive_desc);
+  return;
+}
 
 #ifdef __cplusplus
 }

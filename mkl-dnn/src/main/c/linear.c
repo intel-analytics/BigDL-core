@@ -67,7 +67,13 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardW
   return (long)ip_desc;
 }
 
-// TODO free the eltwise desc
+// TODO free the inner product desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeLinearDescInit
+(JNIEnv *env, jclass cls, jlong ip_desc)
+{
+  free((mkldnn_inner_product_desc_t *) ip_desc);
+  return;
+}
 
 #ifdef __cplusplus
 }

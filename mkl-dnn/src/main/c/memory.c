@@ -32,6 +32,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescInit(
   return (long)desc;
 }
 
+// TODO free the memory desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeMemoryDescInit
+(JNIEnv *env, jclass cls, jlong memory_desc)
+{
+  free((mkldnn_memory_desc_t *) memory_desc);
+  return;
+}
+
 JNIEXPORT long
   JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescCreate(
   JNIEnv *env, jclass cls,

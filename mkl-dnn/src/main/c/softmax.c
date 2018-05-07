@@ -20,7 +20,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxForward
   return (long)sm_desc;
 }
 
-// TODO free the eltwise desc
+// TODO free the pooling desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeSoftMaxDescInit
+(JNIEnv *env, jclass cls, jlong sm_desc)
+{
+  free((mkldnn_softmax_desc_t *) sm_desc);
+  return;
+}
+
 
 #ifdef __cplusplus
 }

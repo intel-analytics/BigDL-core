@@ -85,6 +85,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingBackward
   return (long)pool_desc;
 }
 
+// TODO free the pooling desc
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreePoolDescInit
+(JNIEnv *env, jclass cls, jlong pool_desc)
+{
+  free((mkldnn_pooling_desc_t *) pool_desc);
+  return;
+}
+
 #ifdef __cplusplus
 }
 #endif

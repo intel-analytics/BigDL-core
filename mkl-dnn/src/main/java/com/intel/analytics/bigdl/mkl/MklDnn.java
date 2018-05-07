@@ -372,4 +372,31 @@ public class MklDnn {
     public native static long ViewPrimitiveDescCreate(long memory_primitive_desc,
                                                       int[] dims,
                                                       int[] offsets);
+
+
+    public native static long ConcatPrimitive(long output_desc, int n,
+                                              int concat_dimension,
+                                              long[] input_pds, long engine,
+                                              long input1_memory,
+                                              long input2_memory,
+                                              long dst_memory);
+
+    public native static long PrimitiveCreateNew(long concat_desc,
+                                              long input1_memory,
+                                              long input2_memory,
+                                              long dst_memory);
+
+    public native static void FreeUnuse(long dnn_desc);
+
+    public native static void FreeBatchNormDescInit(long bn_desc);
+    public native static void FreeConcatDescInit(long concat_desc);
+    public native static void FreeViewDescInit(long view_primitive_desc);
+    public native static void FreeConvDescInit(long conv_desc);
+    public native static void FreeEltwiseDescInit(long relu_desc);
+    public native static void FreeLinearDescInit(long ip_desc);
+    public native static void FreeLRNDescInit(long lrn_desc);
+    public native static void FreeMemoryDescInit(long memory_desc);
+    public native static void FreePoolDescInit(long pool_desc);
+    public native static void FreeSoftMaxDescInit(long sm_desc);
+
 }
