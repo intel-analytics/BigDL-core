@@ -4,10 +4,32 @@
 #include <stdlib.h>
 #include <string.h>
 #include <mkl.h>
+#include <omp.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+void fast_copy(float* dst, float *src, const size_t n)
+{
+  int threshold = omp_get_max_threads();
+  const int run_parallel = (n >= threshold) && (omp_in_parallel() == 0);
+
+  if (run_parallel) {
+    const int block_mem_size = 256 * 1024;
+    const int block_size = block_mem_size / sizeof(float);
+    #pragma omp parallel for
+    for (size_t i = 0; i < n; i += block_size)
+      memcpy(dst + i, src + i,
+              (i + block_size > n) ? (n - i) * sizeof(float) : block_mem_size);
+
+    return;
+  }
+
+  memcpy(dst, src, sizeof(float) * n);
+}
+
 /*
  * Class:     com_intel_analytics_bigdl_mkl_Memory
  * Method:    SetDataHandle
@@ -46,7 +68,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_CopyPtr2Ptr
   (JNIEnv *env, jclass cls, jlong src, jint srcOffset,
    jlong dst, jint dstOffset, jint length, jint element_size)
   {
-    memcpy((float*)dst + dstOffset, (float*)src + srcOffset, length * element_size);
+    fast_copy((float*)dst + dstOffset, (float*)src + srcOffset, length);
     return 0;
   }
 
@@ -61,7 +83,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_CopyArray2Ptr
   {
     float *j_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
     float *j_dst = (float*)dst;
-    memcpy(j_dst + dstOffset, j_src + srcOffset, length * element_size);
+    fast_copy(j_dst + dstOffset, j_src + srcOffset, length);
     (*env)->ReleasePrimitiveArrayCritical(env, src, j_src, 0);
     return 0;
   }
@@ -82,7 +104,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_CopyPtr2Array
     //   printf("%f\n", j_src[i + srcOffset]);
     // }
     // fflush(stdout);
-    memcpy(j_dst + dstOffset, (float *)src + srcOffset, length * element_size);
+    fast_copy(j_dst + dstOffset, (float *)src + srcOffset, length);
     (*env)->ReleasePrimitiveArrayCritical(env, dst, j_dst, 0);
     return 0;
   }
@@ -98,6 +120,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedMalloc
     void *p;
     int ret = posix_memalign(&p, align, capacity);
     if (!ret) {
+      memset(p, 0.1, capacity);
       return (long)p;
     } else {
       return (long)0;
@@ -164,6 +187,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_set
       data[i] = value;
     }
   }
+
 #ifdef __cplusplus
 }
 #endif

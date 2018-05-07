@@ -10,3 +10,4 @@ target/
 *.dylib
 dependency-reduced-pom.xml
 .idea/
+.vscode/

@@ -214,7 +214,13 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedM
     return (long)_aligned_malloc(capacity, align);
 #else
     void *p;
-    return !posix_memalign(&p, align, capacity) ? (long)p : (long)NULL;
+    int ret = posix_memalign(&p, align, capacity);
+    if (!ret) {
+      memset(p, 0.1, capacity);
+      return (long)p;
+    } else {
+      return (long)0;
+    }
 #endif
 }
 
