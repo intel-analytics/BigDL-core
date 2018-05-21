@@ -3,6 +3,7 @@
 #include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 #include <stdlib.h>
 #include <string.h>
+#include <mkl.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -214,9 +215,9 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedM
     return (long)_aligned_malloc(capacity, align);
 #else
     void *p;
-    int ret = posix_memalign(&p, align, capacity);
-    if (!ret) {
-      memset(p, 0.1, capacity);
+    // int ret = posix_memalign(&p, align, capacity);
+    p = mkl_malloc(capacity, align);
+    if (p != NULL) {
       return (long)p;
     } else {
       return (long)0;
@@ -268,7 +269,8 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyPtr2Array
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedFree
   (JNIEnv *env, jclass cls, jlong ptr)
 {
-  free((void*)ptr);
+  // free((void*)ptr);
+  mkl_free((void*)ptr);
 }
 
 #ifdef __cplusplus

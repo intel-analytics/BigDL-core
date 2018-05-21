@@ -4,6 +4,7 @@
 
 #include <jni.h>
 #include <sched.h>
+#include <omp.h>
 
 #define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_hardware_platform_linux_LinuxAffinity_##func
 
@@ -62,6 +63,17 @@ JNIEXPORT jint JNICALL
   return ret;
 }
 
+JNIEXPORT void JNICALL PREFIX(setOmpAffinity0)(JNIEnv *env, jclass class, jint size)
+{
+#pragma omp parallel
+  {
+    int id = omp_get_thread_num();
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+    CPU_SET(id, &mask);
+    sched_setaffinity(0, sizeof(mask), &mask);
+  }
+}
 #ifdef __cplusplus
 }
 #endif

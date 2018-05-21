@@ -28,4 +28,8 @@ public enum Affinity {
     public static int[] getAffinity() {
         return IMPL.getAffinity();
     }
+
+    public static void setOmpAffinity() {
+        IMPL.setOmpAffinity();
+    }
 }

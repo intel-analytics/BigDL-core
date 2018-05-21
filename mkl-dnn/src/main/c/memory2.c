@@ -118,9 +118,9 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedMalloc
   (JNIEnv *env, jclass cls, jint capacity, jint align)
   {
     void *p;
-    int ret = posix_memalign(&p, align, capacity);
-    if (!ret) {
-      memset(p, 0.1, capacity);
+    // int ret = posix_memalign(&p, align, capacity);
+    p = mkl_malloc(capacity, align);
+    if (p != NULL) {
       return (long)p;
     } else {
       return (long)0;
@@ -135,7 +135,8 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedMalloc
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_AlignedFree
   (JNIEnv *env, jclass cls, jlong ptr)
   {
-    free((void*)ptr);
+    // free((void*)ptr);
+    mkl_free((void*)ptr);
   }
 
 /*

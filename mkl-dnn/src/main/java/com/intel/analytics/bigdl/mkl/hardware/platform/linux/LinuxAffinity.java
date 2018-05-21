@@ -8,6 +8,7 @@ import java.util.BitSet;
 public class LinuxAffinity implements IAAffinity {
     public static native int setAffinity0(int[] sets);
     public static native int getAffinity0(int[] sets, int cpuCounts);
+    public static native void setOmpAffinity0(int size);
 
     private int cpuCounts;
     private boolean[] availableCPUs;
@@ -41,6 +42,10 @@ public class LinuxAffinity implements IAAffinity {
         }
 
         setAffinity0(sets);
+    }
+
+    public synchronized void setOmpAffinity() {
+        setOmpAffinity0(cpuCounts / 2);
     }
 
     public synchronized int[] getAffinity() {
