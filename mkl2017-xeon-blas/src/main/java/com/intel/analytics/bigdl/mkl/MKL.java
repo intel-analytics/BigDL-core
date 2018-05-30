@@ -93,7 +93,7 @@ public class MKL {
      */
     private static void setMklEnv() {
         setNumThreads(getMklNumThreads());
-        setBlockTime(getMklBlockTime());
+//        setBlockTime(getMklBlockTime());
         waitPolicy(getMklWaitPolicy());
         if (getMklDisableFastMM()) {
             disableFastMM();

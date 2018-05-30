@@ -270,8 +270,9 @@ public class MklDnn {
                                                int inputLen,
                                                long[] outputs,
                                                int outputLen);
-
     public native static long PrimitiveDescCreate(long opDesc, long engine,
+                                                  long hingForwardPrimitiveDesc);
+    public native static long PrimitiveDescCreateV2(long opDesc, long attr, long engine,
                                                   long hingForwardPrimitiveDesc);
     public native static void PrimitiveDescDestroy(long desc);
     public native static void PrimitiveDestroy(long primitive);
@@ -427,4 +428,15 @@ public class MklDnn {
     public native static void FreePoolDescInit(long pool_desc);
     public native static void FreeSoftMaxDescInit(long sm_desc);
 
+    // post ops
+    public native static long CreatePostOps();
+    public native static void DestroyPostOps(long postOps);
+    public native static void PostOpsAppendEltwise(long postOps, float scale,
+                                                   int kind, float alpha, float beta);
+    public native static void PostOpsAppendSum(long postOps, float scale);
+    public native static void AttrSetPostOps(long attr, long postOps);
+
+    // attr
+    public native static long CreateAttr();
+    public native static void DestroyAttr(long attr);
 }

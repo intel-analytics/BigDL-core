@@ -181,6 +181,114 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeUnuse
  return;
 }
 
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PrimitiveDescCreateV2
+ * Signature: (JJJJ)J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCreateV2
+  (JNIEnv *env, jclass cls, jlong op_desc, jlong attr, jlong engine, jlong hint_desc)
+{
+  mkldnn_primitive_desc_t primitive_desc;
+
+  CHECK(mkldnn_primitive_desc_create_v2(
+      &primitive_desc,
+      (const_mkldnn_op_desc_t)op_desc,
+      (const_mkldnn_primitive_attr_t)attr,
+      (mkldnn_engine_t)engine,
+      (const_mkldnn_primitive_desc_t)hint_desc));
+
+  return (long)primitive_desc;
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    CreatePostOps
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreatePostOps
+  (JNIEnv *env, jclass cls)
+{
+  mkldnn_post_ops_t post_ops;
+  CHECK(mkldnn_post_ops_create(&post_ops));
+  return (long)post_ops;
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    DestroyPostOps
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyPostOps
+  (JNIEnv *env, jclass cls, jlong post_ops)
+{
+  mkldnn_post_ops_t ptr_post_ops = (mkldnn_post_ops_t)post_ops;
+  CHECK(mkldnn_post_ops_destroy(ptr_post_ops));
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    PostOpsAppendEltwise
+ * Signature: (JFIFF)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendEltwise
+  (JNIEnv *env, jclass cls, jlong post_ops, jfloat scale, jint alg, jfloat alpha, jfloat beta)
+{
+  mkldnn_post_ops_append_eltwise(
+    (mkldnn_post_ops_t)post_ops,
+    scale,
+    (mkldnn_alg_kind_t)alg,
+    alpha,
+    beta);
+}
+
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendSum
+  (JNIEnv *env, jclass cls, jlong post_ops, jfloat scale)
+{
+  mkldnn_post_ops_append_sum(
+    (mkldnn_post_ops_t)post_ops,
+    scale);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    AttrSetPostOps
+ * Signature: (JJ)V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_AttrSetPostOps
+  (JNIEnv *env, jclass cls, jlong attr, jlong post_ops)
+{
+  mkldnn_primitive_attr_set_post_ops(
+    (mkldnn_primitive_attr_t)attr,
+    (const_mkldnn_post_ops_t)post_ops);
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    CreateAttr
+ * Signature: ()J
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreateAttr
+  (JNIEnv *env, jclass cls)
+{
+  mkldnn_primitive_attr_t attr;
+  CHECK(mkldnn_primitive_attr_create(&attr));
+  return (long)attr;
+}
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    DestroyAttr
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyAttr
+  (JNIEnv *env, jclass cls,  long attr)
+{
+  mkldnn_primitive_attr_t ptr_attr = (mkldnn_primitive_attr_t)attr;
+  CHECK(mkldnn_primitive_attr_destroy(ptr_attr));
+}
+
 #ifdef __cplusplus
 }
 #endif
