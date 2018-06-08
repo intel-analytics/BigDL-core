@@ -5,6 +5,7 @@ public class Memory {
     public static class Format {
         public static final int format_undef = 0;
         public static final int any = 1;
+        public static final int auto = any;
         public static final int blocked = 2;
         public static final int x = 3;
         public static final int nc = 4;
