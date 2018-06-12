@@ -2,6 +2,10 @@ package com.intel.analytics.bigdl.mkl;
 
 public class Memory {
 
+    static {
+        MklDnn.isLoaded();
+    }
+
     public static class Format {
         public static final int format_undef = 0;
         public static final int any = 1;
