@@ -35,97 +35,8 @@ public class MklDnn {
         }
     }
 
-    public static class EngineType {
-        public static final int any = 0;
-        public static final int cpu = 1;
-    }
-
-    public static class StreamType {
-        public static final int any           = 0;
-        public static final int eager         = 1;
-        public static final int lazy          = 2;
-    }
-
-    public static class DataType {
-        public static final int undef       = 0;
-        public static final int f32         = 1;
-        public static final int s32         = 2;
-        public static final int s16         = 4;
-        public static final int s8          = 5;
-        public static final int u8          = 6;
-    }
-
-    public static class PropKind {
-        public static final int undef            = 0;
-        public static final int forwardTraining  = 64;
-        public static final int forwardInference = 96;
-        public static final int forwardScoring   = forwardInference;
-        public static final int forward          = forwardTraining;
-        public static final int backward         = 128;
-        public static final int backwardData     = 160;
-        public static final int backwardWeights  = 192;
-        public static final int backwardBias     = 193;
-    }
-
-    public static class AlgKind {
-        public static final int convolutionDirect        = 1;
-        public static final int convolutionWinograd      = 2;
-        public static final int eltwiseRelu              = 8;
-        public static final int eltwiseTanh              = 9;
-        public static final int eltwiseElu               = 10;
-        public static final int eltwiseSquare            = 11;
-        public static final int eltwiseAbs               = 12;
-        public static final int eltwiseSqrt              = 13;
-        public static final int eltwiseLinear            = 14;
-        public static final int eltwiseBoundedRelu       = 15;
-        public static final int eltwisesoftRelu          = 16;
-        public static final int eltwiselogistic          = 17;
-        public static final int poolingMax               = 34;
-        public static final int poolingAvgIncludePadding = 40;
-        public static final int poolingAvgExcludePadding = 41;
-        public static final int poolingAvg               = poolingAvgExcludePadding;
-        public static final int lrnAcrossChannels        = 65;
-        public static final int lrnWithinChannel         = 66;
-    }
-
     public static class PaddingKind {
         public static final int mkldnnPaddingZero        = 0;
-    }
-
-
-
-    public static class Query {
-        public static final int undef                      = 0;
-        public static final int engine                     = 1;
-        public static final int primitive_kind             = 2;
-        public static final int num_of_inputs_s32          = 3;
-        public static final int num_of_outputs_s32         = 4;
-        public static final int time_estimate_f64          = 5;
-        public static final int memory_consumption_s64     = 6;
-        public static final int impl_info_str              = 7;
-        /* memory and op descriptor section */
-        public static final int some_d                     = 64;
-        public static final int memory_d                   = 65;
-        public static final int convolution_d              = 66;
-        public static final int eltwise_d                  = 67;
-        public static final int relu_d                     = eltwise_d;
-        public static final int softmax_d                  = 68;
-        public static final int pooling_d                  = 69;
-        public static final int lrn_d                      = 70;
-        public static final int batch_normalization_d      = 71;
-        public static final int inner_product_d            = 72;
-        public static final int convolution_relu_d         = 73;
-        /* (memory) primitive descriptor section */
-        public static final int some_pd                    = 128;
-        public static final int input_pd                   = 129;
-        public static final int output_pd                  = 130;
-        public static final int src_pd                     = 131;
-        public static final int diff_src_pd                = 132;
-        public static final int weights_pd                 = 133;
-        public static final int diff_weights_pd            = 134;
-        public static final int dst_pd                     = 135;
-        public static final int diff_dst_pd                = 136;
-        public static final int workspace_pd               = 137;
     }
 
     public static class BatchNormFlag {
@@ -171,16 +82,6 @@ public class MklDnn {
         return _isLoaded;
     }
     public native static void setNumThreads(int num);
-
-    public native static long EngineCreate(int id, int index);
-    public native static void EngineDestroy(long engine);
-
-    public native static long StreamCreate(int streamKind);
-    public native static void StreamSubmit(long stream, int length, long[] primitives);
-
-    public native static long StreamWait(long loc, int block);
-    public native static long StreamRerun(long stream);
-    public native static void StreamDestroy(long loc);
 
     public native static long MemoryDescInit(int ndims, int[] dims,
                                              int dataType, int dataFormat);
