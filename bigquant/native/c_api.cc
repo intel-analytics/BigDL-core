@@ -112,10 +112,6 @@ void InternalQuantizedConvKernelInit(QuantizedTensorDesc *quantized_tensor, floa
 void InternalQuantizedConvKernelLoadFromModel(QuantizedTensorDesc *quantized_tensor, int8_t *src, float *min,
                                               float *max, size_t c_out, size_t c_in, size_t kernel_h, size_t kernel_w,
                                               float threshold, LAYOUT layout) {
-  aligned_malloc(&(quantized_tensor->min), 64, quantized_tensor->workspace_size_per_meta_info);
-  aligned_malloc(&(quantized_tensor->max), 64, quantized_tensor->workspace_size_per_meta_info);
-  aligned_malloc(&(quantized_tensor->ratio), 64, quantized_tensor->workspace_size_per_meta_info);
-  aligned_malloc(&(quantized_tensor->data), 64, quantized_tensor->workspace_size);
   std::vector<float> fp_model(c_out * c_in * kernel_h * kernel_w);
   DequantizeModel(fp_model.data(), src, min, max, c_out, c_in, kernel_h, kernel_w);
   float *tmp;
@@ -230,10 +226,6 @@ void InternalQuantizedFCKernelInit(QuantizedTensorDesc *quantized_tensor, float 
 void InternalQuantizedFCKernelLoadFromModel(QuantizedTensorDesc *quantized_tensor, int8_t *src, float *min, float *max,
                                             size_t c_out, size_t c_in, float threshold, LAYOUT layout) {
   assert((layout == NCHW) || (layout == NHWC));
-  aligned_malloc(&(quantized_tensor->min), 64, quantized_tensor->workspace_size_per_meta_info);
-  aligned_malloc(&(quantized_tensor->max), 64, quantized_tensor->workspace_size_per_meta_info);
-  aligned_malloc(&(quantized_tensor->ratio), 64, quantized_tensor->workspace_size_per_meta_info);
-  aligned_malloc(&(quantized_tensor->data), 64, quantized_tensor->workspace_size);
   std::vector<float> fp_model(c_out * c_in);
   DequantizeModel(fp_model.data(), src, min, max, c_out, c_in, 1, 1);
   shuffle::PadQuantizeShuffle2D<float, FC_SHUFFLE_KERNEL_M, FC_SHUFFLE_KERNEL_K>(
