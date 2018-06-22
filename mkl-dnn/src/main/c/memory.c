@@ -26,8 +26,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescInit(
                             j_dims,
                             (mkldnn_data_type_t)data_type,
                             (mkldnn_memory_format_t)format);
-  printf("%d\n", ret);
-  fflush(stdout);
   CHECK(ret);
 
   (*env)->ReleasePrimitiveArrayCritical(env, dims, j_dims, 0);
