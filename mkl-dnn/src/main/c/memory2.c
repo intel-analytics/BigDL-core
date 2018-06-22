@@ -120,6 +120,23 @@ JNIEXPORT void JNICALL PREFIX(Set)(JNIEnv *env, jclass cls, jlong ptr,
   }
 }
 
+JNIEXPORT jintArray JNICALL PREFIX(GetShape)
+  (JNIEnv *env, jclass cls, jlong desc) {
+    mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
+    int *dims = jni_desc->dims;
+    int ndims = jni_desc->ndims;
+
+    jintArray result = (*env)->NewIntArray(env, ndims);
+    (*env)->SetIntArrayRegion(env, result, 0, ndims, dims);
+    return result;
+  }
+
+JNIEXPORT jint JNICALL PREFIX(GetLayout)
+  (JNIEnv *env, jclass cls, jlong desc) {
+    mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
+    return (int)(jni_desc->format);
+  }
+
 #ifdef __cplusplus
 }
 #endif

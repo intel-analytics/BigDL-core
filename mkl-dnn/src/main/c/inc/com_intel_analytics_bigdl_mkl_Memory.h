@@ -95,6 +95,22 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_Axpby
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_Set
   (JNIEnv *, jclass, jlong, jfloat, jint, jint);
 
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    GetShape
+ * Signature: (J)[I
+ */
+JNIEXPORT jintArray JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_GetShape
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_Memory
+ * Method:    GetLayout
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_Memory_GetLayout
+  (JNIEnv *, jclass, jlong);
+
 #ifdef __cplusplus
 }
 #endif

@@ -114,4 +114,7 @@ public class Memory {
     public native static void Scale(int n, float scaleFactor, long from, long to);
     public native static void Axpby(int n, float a, long x, float b, long y);
     public native static void Set(long data, float value, int length, int elementSize);
+
+    public native static int[] GetShape(long desc);
+    public native static int GetLayout(long desc);
 }
