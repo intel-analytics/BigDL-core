@@ -53,13 +53,13 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ViewPrimitiveDe
   jintArray dims,
   jintArray offsets)
 {
-  mkldnn_primitive_desc_t *view_primitive_desc = malloc(sizeof(mkldnn_primitive_desc_t));
+  mkldnn_primitive_desc_t view_primitive_desc = malloc(sizeof(mkldnn_primitive_desc_t));
 
   int *j_dims = (*env)->GetPrimitiveArrayCritical(env, dims, JNI_FALSE);
   int *j_offsets = (*env)->GetPrimitiveArrayCritical(env, offsets, JNI_FALSE);
 
   CHECK(mkldnn_view_primitive_desc_create(
-     view_primitive_desc,
+     &view_primitive_desc,
      (const_mkldnn_primitive_desc_t )memory_primitive_desc,
      j_dims,
      j_offsets)
