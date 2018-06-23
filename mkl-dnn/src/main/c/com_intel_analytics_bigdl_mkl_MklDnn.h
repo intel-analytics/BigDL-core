@@ -439,6 +439,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConcatPrimitiv
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ViewPrimitiveDescCreate
   (JNIEnv *, jclass, jlong, jintArray, jintArray);
 
+  /*
+   * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+   * Method:    SumPrimitiveDescCreate
+   * Signature: (J[I[I)J
+   */
+  JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SumPrimitiveDescCreate
+    (JNIEnv *, jclass, jlong, jint, jfloatArray, jlongArray);
+
 /*
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    ConcatPrimitive

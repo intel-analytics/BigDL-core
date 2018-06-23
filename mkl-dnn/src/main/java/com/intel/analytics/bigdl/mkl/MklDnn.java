@@ -230,6 +230,9 @@ public class MklDnn {
                                                       int[] dims,
                                                       int[] offsets);
 
+    public native static long SumPrimitiveDescCreate(long output_mem_desc, int n, float[] scales,
+                                                     long[] input_pds);
+
 
     public native static long ConcatPrimitive(long output_desc, int n,
                                               int concat_dimension,
