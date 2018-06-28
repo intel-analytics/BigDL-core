@@ -37,7 +37,7 @@ public class Loader {
 
     public void init() throws IOException {
         libraries.add("iomp5");
-        libraries.add("jmkldnn");
+        libraries.add("jdnn");
         libraries.add("mkldnn");
 
         // TODO for windows, we don't create bigquant.native dir
@@ -52,7 +52,7 @@ public class Loader {
 
         loadLibrary("iomp5", tempDir);
         loadLibrary("mkldnn", tempDir);
-        loadLibrary("jmkldnn", tempDir);
+        loadLibrary("jdnn", tempDir);
 
         // deleteAll(tempDir);
     }

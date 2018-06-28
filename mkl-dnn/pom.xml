@@ -10,7 +10,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>mkldnn-parent</artifactId>
+  <artifactId>dnn-parent</artifactId>
   <groupId>com.intel.analytics.bigdl.core.native</groupId>
   <packaging>pom</packaging>
 
@@ -26,7 +26,7 @@
     <profile>
       <id>linux</id>
       <modules>
-        <module>mkldnn-java-x86_64-linux</module>
+        <module>dnn-java-x86_64-linux</module>
       </modules>
       <activation>
         <activeByDefault>true</activeByDefault>
@@ -36,7 +36,7 @@
     <profile>
       <id>deploy</id>
       <modules>
-        <module>mkldnn-java-x86_64-linux</module>
+        <module>dnn-java-x86_64-linux</module>
       </modules>
     </profile>
   </profiles>

@@ -3,24 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>mkldnn-parent</artifactId>
+    <artifactId>dnn-parent</artifactId>
     <groupId>com.intel.analytics.bigdl.core.native</groupId>
     <version>0.6.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.intel.analytics.bigdl.core.native.mkldnn</groupId>
-  <artifactId>mkldnn-java-x86_64-linux</artifactId>
+  <groupId>com.intel.analytics.bigdl.core.native.dnn</groupId>
+  <artifactId>dnn-java-x86_64-linux</artifactId>
   <packaging>jar</packaging>
 
   <properties>
     <iompLib>libiomp5.so</iompLib>
     <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
 
-    <mkldnnBuild>${project.basedir}/../native/build</mkldnnBuild>
-    <mkldnnLibDir>${mkldnnBuild}/src</mkldnnLibDir>
-    <mkldnnLib>libmkldnn.so</mkldnnLib>
+    <nativednnBuild>${project.basedir}/../native/build</nativednnBuild>
+    <nativednnLibDir>${nativednnBuild}/src</nativednnLibDir>
+    <nativednnLib>libmkldnn.so</nativednnLib>
   </properties>
 
   <build>
@@ -33,9 +33,9 @@
         <targetPath>${project.build.directory}/classes</targetPath>
       </resource>
       <resource>
-        <directory>${mkldnnLibDir}</directory>
+        <directory>${nativednnLibDir}</directory>
         <includes>
-          <include>${mkldnnLib}</include>
+          <include>${nativednnLib}</include>
         </includes>
         <targetPath>${project.build.directory}/classes</targetPath>
       </resource>
@@ -50,19 +50,19 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <id>build-mkl-dnn</id>
+            <id>build-native-dnn</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>run</goal>
             </goals>
             <configuration>
               <tasks>
-                <mkdir dir="${mkldnnBuild}"/>
-                <exec executable="cmake" dir="${mkldnnBuild}" failonerror="true">
+                <mkdir dir="${nativednnBuild}"/>
+                <exec executable="cmake" dir="${nativednnBuild}" failonerror="true">
                   <env key = "CC" value = "icc"/>
                   <env key = "CXX" value = "icpc"/>
                   <arg line="../
-                    -DCMAKE_INSTALL_PREFIX=/opt/mkl-dnn
+                    -DCMAKE_INSTALL_PREFIX=/opt/native-dnn
                     -DCMAKE_BUILD_TYPE=Release
                     -Dmkldnn_LINKER_LIBS='-liomp5
                                           -mkl=parallel
@@ -75,7 +75,7 @@
                     -DCMAKE_SKIP_RPATH=TRUE
                     -DHAVE_MKL=TRUE"/>
                 </exec>
-                <exec executable="make" dir="${mkldnnBuild}" failonerror="true">
+                <exec executable="make" dir="${nativednnBuild}" failonerror="true">
                   <arg line="-j 4"/>
                 </exec>
               </tasks>
@@ -97,7 +97,7 @@
           </execution>
           <!--
           <execution>
-            <id>mkl-dnn-tests</id>
+            <id>native-dnn-tests</id>
             <phase>test</phase>
             <goals><goal>run</goal></goals>
             <configuration>
