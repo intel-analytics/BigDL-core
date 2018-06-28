@@ -40,41 +40,8 @@ public class MklDnn {
     }
 
     public static class BatchNormFlag {
-        /** Use global statistics
-         *
-         * If specified
-         *  - on forward propagation use mean and variance provided by user (input)
-         *  - on backward propagation reduces the amount of computations, since
-         *    mean and variance are considered as constants
-         *
-         *  If not specified:
-         *   - on forward propagation mean and variance are computed and stored in
-         *     output
-         *   - on backward propagation compute full derivative wrt to data
-         */
-        // TODO 0x1 original value is 0x1U
         public static final long mkldnn_use_global_stats = 0x1;
-        /** Use scale and shift parameters
-         *
-         * If specified:
-         *  - on forward propagation use scale and shift (aka scale and bias) for
-         *    the batch normalization results
-         *  - on backward propagation (for prop_kind == #mkldnn_backward) compute
-         *    diff wrt to scale and shift (hence one extra output used)
-         *
-         * If no specified:
-         *  - on backward propagation prop_kind == #mkldnn_backward_data has the
-         *    same behavior as prop_kind == #mkldnn_backward
-         */
         public static final long mkldnn_use_scaleshift = 0x2;
-        /** Omit statistics
-         *
-         * @warning: deprecated, use #mkldnn_use_global_stats instead
-         *
-         * For time being had an affect on backward propagation only which allowed
-         * skipping some computations (the same semantics as
-         * #mkldnn_use_global_stats)
-         */
         public static final long mkldnn_omit_stats = mkldnn_use_global_stats;
     }
 
