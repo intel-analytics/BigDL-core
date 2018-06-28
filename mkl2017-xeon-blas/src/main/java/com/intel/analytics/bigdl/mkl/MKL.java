@@ -92,8 +92,13 @@ public class MKL {
      *      + default value: true
      */
     private static void setMklEnv() {
+        String disableStr = System.getProperty("bigdl.disable.mklBlockTime", "false");
+        boolean disable = Boolean.parseBoolean(disableStr);
+
         setNumThreads(getMklNumThreads());
-        setBlockTime(getMklBlockTime());
+        if (!disable) {
+            setBlockTime(getMklBlockTime());
+        }
         waitPolicy(getMklWaitPolicy());
         if (getMklDisableFastMM()) {
             disableFastMM();
@@ -180,7 +185,7 @@ public class MKL {
      * to directly use the system malloc/free functions.
      * It's an substitute of environment variable: MKL_DISABLE_FAST_MM
      */
-    public native static void disableFastMM();
+    public native static int disableFastMM();
 
     /**
      * Sets the time (milliseconds) that a thread should wait before sleeping,

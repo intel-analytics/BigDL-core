@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>dnn-parent</artifactId>
+    <groupId>com.intel.analytics.bigdl.core.native</groupId>
+    <version>0.6.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.intel.analytics.bigdl.core.native.dnn</groupId>
+  <artifactId>dnn-java-x86_64-linux</artifactId>
+  <packaging>jar</packaging>
+
+  <properties>
+    <iompLib>libiomp5.so</iompLib>
+    <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
+
+    <nativednnBuild>${project.basedir}/../native/build</nativednnBuild>
+    <nativednnLibDir>${nativednnBuild}/src</nativednnLibDir>
+    <nativednnLib>libmkldnn.so</nativednnLib>
+  </properties>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${iompLibDir}</directory>
+        <includes>
+          <include>${iompLib}</include>
+        </includes>
+        <targetPath>${project.build.directory}/classes</targetPath>
+      </resource>
+      <resource>
+        <directory>${nativednnLibDir}</directory>
+        <includes>
+          <include>${nativednnLib}</include>
+        </includes>
+        <targetPath>${project.build.directory}/classes</targetPath>
+      </resource>
+    </resources>
+
+    <sourceDirectory>../src/main/java</sourceDirectory>
+    <testSourceDirectory>../src/test/java</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>build-native-dnn</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="${nativednnBuild}"/>
+                <exec executable="cmake" dir="${nativednnBuild}" failonerror="true">
+                  <env key = "CC" value = "icc"/>
+                  <env key = "CXX" value = "icpc"/>
+                  <arg line="../
+                    -DCMAKE_INSTALL_PREFIX=/opt/native-dnn
+                    -DCMAKE_BUILD_TYPE=Release
+                    -Dmkldnn_LINKER_LIBS='-liomp5
+                                          -mkl=parallel
+                                          -static-intel
+                                          -static-libstdc++
+                                          -no-intel-extensions'
+                    -DCMAKE_RULE_MESSAGES:BOOL=OFF
+                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+                    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE
+                    -DCMAKE_SKIP_RPATH=TRUE
+                    -DHAVE_MKL=TRUE"/>
+                </exec>
+                <exec executable="make" dir="${nativednnBuild}" failonerror="true">
+                  <arg line="-j 4"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-jni</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <exec executable="make" dir="${project.basedir}/" failonerror="true">
+                  <arg line="-j 4"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <!--
+          <execution>
+            <id>native-dnn-tests</id>
+            <phase>test</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <tasks>
+                <echo>${project.basedir}/../native/build/src</echo>
+                <exec executable="make" failonerror="true" dir="${mkldnnBuild}">
+                  <env key = "LD_LIBRARY_PATH" value = "${mkldnnBuild}/src:${env.LD_LIBRARY_PATH}"/>
+                  <arg value="test"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          -->
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
