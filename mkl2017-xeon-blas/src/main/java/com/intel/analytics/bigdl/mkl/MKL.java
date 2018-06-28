@@ -92,8 +92,13 @@ public class MKL {
      *      + default value: true
      */
     private static void setMklEnv() {
+        String disableStr = System.getProperty("bigdl.disable.mklBlockTime", "false");
+        boolean disable = Boolean.parseBoolean(disableStr);
+
         setNumThreads(getMklNumThreads());
-//        setBlockTime(getMklBlockTime());
+        if (!disable) {
+            setBlockTime(getMklBlockTime());
+        }
         waitPolicy(getMklWaitPolicy());
         if (getMklDisableFastMM()) {
             disableFastMM();
