@@ -68,10 +68,23 @@ JNIEXPORT void JNICALL PREFIX(setOmpAffinity0)(JNIEnv *env, jclass class, jint s
 #pragma omp parallel
   {
     int id = omp_get_thread_num();
-    cpu_set_t mask;
-    CPU_ZERO(&mask);
-    CPU_SET(id, &mask);
-    sched_setaffinity(0, sizeof(mask), &mask);
+    /* if (id != 0) { */
+      cpu_set_t mask;
+      CPU_ZERO(&mask);
+      CPU_SET(id, &mask);
+      printf("set the id %d\n", id);
+      fflush(stdout);
+      sched_setaffinity(0, sizeof(mask), &mask);
+    /* } */
+    /* else { */
+    /*   cpu_set_t mask; */
+    /*   CPU_ZERO(&mask); */
+    /*   CPU_SET(id, &mask); */
+    /*   printf("set the pid %d\n", getpid()); */
+    /*   printf("set the pid %ld\n", syscall(SYS_gettid)); */
+    /*   fflush(stdout); */
+    /*   sched_setaffinity(syscall(SYS_gettid), sizeof(mask), &mask); */
+    /* } */
   }
 }
 #ifdef __cplusplus
