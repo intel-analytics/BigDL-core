@@ -1,5 +1,6 @@
 package com.intel.analytics.bigdl.mkl.hardware;
 
+import com.intel.analytics.bigdl.mkl.MklDnn;
 import com.intel.analytics.bigdl.mkl.hardware.platform.IACpuInfo;
 import com.intel.analytics.bigdl.mkl.hardware.platform.linux.LinuxCpuInfo;
 
@@ -9,6 +10,7 @@ public enum CpuInfo {
     private final static IACpuInfo IMPL;
 
     static {
+        MklDnn.isLoaded();
         IMPL = new LinuxCpuInfo();
     }
 
