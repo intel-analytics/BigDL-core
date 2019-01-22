@@ -1,5 +1,6 @@
 package com.intel.analytics.bigdl.mkl.hardware;
 
+import com.intel.analytics.bigdl.mkl.MklDnn;
 import com.intel.analytics.bigdl.mkl.hardware.platform.IANativeUtils;
 import com.intel.analytics.bigdl.mkl.hardware.platform.linux.LinuxNativeUtils;
 
@@ -9,6 +10,7 @@ public enum NativeUtils {
     private final static IANativeUtils IMPL;
 
     static {
+        MklDnn.isLoaded();
         IMPL = new LinuxNativeUtils();
     }
 

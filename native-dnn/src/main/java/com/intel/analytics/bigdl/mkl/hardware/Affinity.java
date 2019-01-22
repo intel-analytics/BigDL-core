@@ -1,5 +1,6 @@
 package com.intel.analytics.bigdl.mkl.hardware;
 
+import com.intel.analytics.bigdl.mkl.MklDnn;
 import com.intel.analytics.bigdl.mkl.hardware.platform.IAAffinity;
 import com.intel.analytics.bigdl.mkl.hardware.platform.linux.LinuxAffinity;
 
@@ -9,6 +10,7 @@ public enum Affinity {
     private static final IAAffinity IMPL;
 
     static {
+        MklDnn.isLoaded();
         IMPL = new LinuxAffinity(CpuInfo.INSTANCE.getLogicalProcessorCount());
     }
 

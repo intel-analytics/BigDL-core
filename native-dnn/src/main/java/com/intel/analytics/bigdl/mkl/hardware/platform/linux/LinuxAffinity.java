@@ -53,12 +53,15 @@ public class LinuxAffinity implements IAAffinity {
         Arrays.fill(temp, 0);
         getAffinity0(temp, cpuCounts);
 
+        int rIndex = 0;
         int[] ret = new int[getSetted(temp)];
-        int j = 0;
-        for (int elem : temp) {
+
+        for (int tIndex = 0; tIndex < cpuCounts; tIndex++) {
+            int elem = temp[tIndex];
+
             if (elem == 1) {
-                ret[j] = elem;
-                j++;
+                ret[rIndex] = tIndex;
+                rIndex++;
             }
         }
 
