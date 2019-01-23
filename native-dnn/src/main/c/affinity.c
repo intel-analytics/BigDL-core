@@ -72,8 +72,6 @@ JNIEXPORT void JNICALL PREFIX(setOmpAffinity0)(JNIEnv *env, jclass class, jint s
       cpu_set_t mask;
       CPU_ZERO(&mask);
       CPU_SET(id, &mask);
-      printf("set the id %d\n", id);
-      fflush(stdout);
       sched_setaffinity(0, sizeof(mask), &mask);
     /* } */
     /* else { */
