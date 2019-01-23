@@ -12,7 +12,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCr
 {
   mkldnn_primitive_desc_t primitive_desc;
 
-  CHECK(mkldnn_primitive_desc_create(
+  CHECK_EXCEPTION(env, mkldnn_primitive_desc_create(
       &primitive_desc,
       (const_mkldnn_op_desc_t)op_desc,
       (mkldnn_engine_t)engine,

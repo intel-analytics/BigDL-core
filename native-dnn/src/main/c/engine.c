@@ -21,6 +21,17 @@ JNIEXPORT void PREFIX(Destroy)(JNIEnv *env, jclass cls, long engine) {
   CHECK(mkldnn_engine_destroy((mkldnn_engine_t)engine));
 }
 
+JNIEXPORT void PREFIX(Query)(JNIEnv *env, jclass cls, long primitive_desc) {
+  mkldnn_engine_t engine;
+
+  CHECK(mkldnn_primitive_desc_query((mkldnn_primitive_desc_t) primitive_desc,
+                                    mkldnn_query_engine,
+                                    0,
+                                    &engine));
+
+  return (long) engine;
+}
+
 #ifdef __cplusplus
 }
 #endif
