@@ -7,16 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 public class AffinityTest {
     @Test
-    public void NoAffinity() {
-        int[] cores = Affinity.getAffinity();
-
-        assertTrue(cores.length == Runtime.getRuntime().availableProcessors());
-
-        for (int i = 0; i < Runtime.getRuntime().availableProcessors(); i++) {
-            assertTrue(cores[i] == i);
-        }
-    }
-    @Test
     public void SetSingleAffinity() {
         Affinity.setAffinity(3);
 
