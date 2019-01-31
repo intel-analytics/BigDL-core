@@ -221,8 +221,6 @@ public class Memory {
     public native static long CopyArray2Ptr(float[] src, int srcOffset, long dst, int dstOffset,
                                             int length, int elementSize);
 
-    public native static long CopyPtr2ByteArray(long src, int srcOffset, byte[] dst, int dstOffset,
-                                                int length, int elementSize);
     public native static long AlignedMalloc(int capacity, int size);
     public native static void AlignedFree(long ptr);
 
