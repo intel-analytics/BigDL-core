@@ -8,42 +8,22 @@
 
 #define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_Memory_##func
 
-static void fast_copy(float *dst, float *src, const size_t n,
-                      const size_t element_size) {
+static void fast_copy(float *dst, float *src, const size_t n) {
   int threshold = omp_get_max_threads();
   const int run_parallel = (n >= threshold) && (omp_in_parallel() == 0);
 
   if (run_parallel) {
     const int block_mem_size = 256 * 1024;
-    const int block_size = block_mem_size / element_size;
+    const int block_size = block_mem_size / sizeof(float);
 #pragma omp parallel for
     for (size_t i = 0; i < n; i += block_size)
       memcpy(dst + i, src + i,
-             (i + block_size > n) ? (n - i) * element_size : block_mem_size);
+             (i + block_size > n) ? (n - i) * sizeof(float) : block_mem_size);
 
     return;
   }
 
-  memcpy(dst, src, element_size * n);
-}
-
-static void fast_copy_byte(char *dst, char *src, const size_t n,
-                           const size_t element_size) {
-  int threshold = omp_get_max_threads();
-  const int run_parallel = (n >= threshold) && (omp_in_parallel() == 0);
-
-  if (run_parallel) {
-    const int block_mem_size = 256 * 1024;
-    const int block_size = block_mem_size / element_size;
-#pragma omp parallel for
-    for (size_t i = 0; i < n; i += block_size)
-      memcpy(dst + i, src + i,
-             (i + block_size > n) ? (n - i) * element_size : block_mem_size);
-
-    return;
-  }
-
-  memcpy(dst, src, element_size * n);
+  memcpy(dst, src, sizeof(float) * n);
 }
 
 #ifdef __cplusplus
@@ -70,7 +50,7 @@ JNIEXPORT jlong JNICALL PREFIX(CopyPtr2Ptr)(JNIEnv *env, jclass cls, jlong src,
                                             jint srcOffset, jlong dst,
                                             jint dstOffset, jint length,
                                             jint element_size) {
-  fast_copy((float *)dst + dstOffset, (float *)src + srcOffset, length, element_size);
+  fast_copy((float *)dst + dstOffset, (float *)src + srcOffset, length);
   return 0;
 }
 
@@ -80,7 +60,7 @@ JNIEXPORT jlong JNICALL PREFIX(CopyArray2Ptr)(JNIEnv *env, jclass cls,
                                               jint length, jint element_size) {
   float *j_src = (*env)->GetPrimitiveArrayCritical(env, src, JNI_FALSE);
   float *j_dst = (float *)dst;
-  fast_copy(j_dst + dstOffset, j_src + srcOffset, length, element_size);
+  fast_copy(j_dst + dstOffset, j_src + srcOffset, length);
   (*env)->ReleasePrimitiveArrayCritical(env, src, j_src, 0);
   return 0;
 }
@@ -90,7 +70,7 @@ JNIEXPORT jlong JNICALL PREFIX(CopyPtr2Array)(JNIEnv *env, jclass cls,
                                               jfloatArray dst, jint dstOffset,
                                               jint length, jint element_size) {
   float *j_dst = (*env)->GetPrimitiveArrayCritical(env, dst, JNI_FALSE);
-  fast_copy(j_dst + dstOffset, (float *)src + srcOffset, length, element_size);
+  fast_copy(j_dst + dstOffset, (float *)src + srcOffset, length);
   (*env)->ReleasePrimitiveArrayCritical(env, dst, j_dst, 0);
   return 0;
 }
@@ -140,17 +120,16 @@ JNIEXPORT void JNICALL PREFIX(Set)(JNIEnv *env, jclass cls, jlong ptr,
   }
 }
 
-JNIEXPORT jintArray JNICALL PREFIX(GetShape)(JNIEnv* env,
-                                             jclass cls,
-                                             jlong desc) {
-  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
-  int ndims = jni_desc->ndims;
-  int* dims = jni_desc->dims;
+JNIEXPORT jintArray JNICALL PREFIX(GetShape)
+  (JNIEnv *env, jclass cls, jlong desc) {
+    mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
+    int *dims = jni_desc->dims;
+    int ndims = jni_desc->ndims;
 
-  jintArray result = (*env)->NewIntArray(env, ndims);
-  (*env)->SetIntArrayRegion(env, result, 0, ndims, dims);
-  return result;
-}
+    jintArray result = (*env)->NewIntArray(env, ndims);
+    (*env)->SetIntArrayRegion(env, result, 0, ndims, dims);
+    return result;
+  }
 
 JNIEXPORT jintArray JNICALL PREFIX(GetPaddingShape)(JNIEnv* env,
                                                     jclass cls,
@@ -166,31 +145,11 @@ JNIEXPORT jintArray JNICALL PREFIX(GetPaddingShape)(JNIEnv* env,
   return result;
 }
 
-JNIEXPORT jint JNICALL PREFIX(GetLayout)(JNIEnv* env, jclass cls, jlong desc) {
-  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
-  return (int)(jni_desc->format);
-}
-
-JNIEXPORT jint JNICALL PREFIX(GetDataType)(JNIEnv* env,
-                                           jclass cls,
-                                           jlong desc) {
-  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
-  return (int)(jni_desc->data_type);
-}
-
-JNIEXPORT jlong JNICALL PREFIX(CopyPtr2ByteArray)(JNIEnv* env,
-                                                  jclass cls,
-                                                  jlong src,
-                                                  jint srcOffset,
-                                                  jbyteArray dst,
-                                                  jint dstOffset,
-                                                  jint length,
-                                                  jint element_size) {
-  char* j_dst = (*env)->GetPrimitiveArrayCritical(env, dst, JNI_FALSE);
-  fast_copy_byte(j_dst + dstOffset, (char*)src + srcOffset, length, 1);
-  (*env)->ReleasePrimitiveArrayCritical(env, dst, j_dst, 0);
-  return 0;
-}
+JNIEXPORT jint JNICALL PREFIX(GetLayout)
+  (JNIEnv *env, jclass cls, jlong desc) {
+    mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
+    return (int)(jni_desc->format);
+  }
 
 #ifdef __cplusplus
 }

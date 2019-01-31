@@ -40,8 +40,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setNumThreads
  */
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
   (JNIEnv * env, jclass cls) {
-  // return mkl_disable_fast_mm();
-  return 1;
+  return mkl_disable_fast_mm();
 }
 
 /*
@@ -51,7 +50,7 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_disableFastMM
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setBlockTime
   (JNIEnv * env, jclass cls, jint time) {
-  // kmp_set_blocktime(time);
+  kmp_set_blocktime(time);
 }
 
 /*
@@ -61,7 +60,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_setBlockTime
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_waitPolicy
   (JNIEnv * env, jclass cls, int mode) {
-  // kmp_set_library(mode);
+  kmp_set_library(mode);
 }
 
 /*

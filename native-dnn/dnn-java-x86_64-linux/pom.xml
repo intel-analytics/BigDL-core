@@ -16,7 +16,7 @@
 
   <properties>
     <iompLib>libiomp5.so</iompLib>
-    <iompLibDir>/opt/mklml/lib</iompLibDir>
+    <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
 
     <nativednnBuild>${project.basedir}/../native/build</nativednnBuild>
     <nativednnLibDir>${nativednnBuild}/src</nativednnLibDir>
@@ -25,7 +25,6 @@
 
   <build>
     <resources>
-      <!--
       <resource>
         <directory>${iompLibDir}</directory>
         <includes>
@@ -33,7 +32,6 @@
         </includes>
         <targetPath>${project.build.directory}/classes</targetPath>
       </resource>
-      -->
       <resource>
         <directory>${nativednnLibDir}</directory>
         <includes>
@@ -61,22 +59,11 @@
               <tasks>
                 <mkdir dir="${nativednnBuild}"/>
                 <exec executable="cmake" dir="${nativednnBuild}" failonerror="true">
-                  <env key = "CC" value = "gcc"/>
-                  <env key = "CXX" value = "g++"/>
+                  <env key = "CC" value = "icc"/>
+                  <env key = "CXX" value = "icpc"/>
                   <arg line="../
                     -DCMAKE_INSTALL_PREFIX=/opt/native-dnn
                     -DCMAKE_BUILD_TYPE=Release
-                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-                    -DMKLROOT=/opt/mklml
-                    "/>
-                  <!--
-                    -Dmkldnn_LINKER_LIBS='-liomp5
-                                          -static-libstdc++'
-                    -DCMAKE_RULE_MESSAGES:BOOL=OFF
-                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-                    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE
-                    -DCMAKE_SKIP_RPATH=TRUE
-                    -DHAVE_MKL=TRUE"/>
                     -Dmkldnn_LINKER_LIBS='-liomp5
                                           -mkl=parallel
                                           -static-intel
@@ -87,10 +74,9 @@
                     -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE
                     -DCMAKE_SKIP_RPATH=TRUE
                     -DHAVE_MKL=TRUE"/>
-                    -->
                 </exec>
                 <exec executable="make" dir="${nativednnBuild}" failonerror="true">
-                  <arg line="mkldnn -j 4"/>
+                  <arg line="-j 4"/>
                 </exec>
               </tasks>
             </configuration>

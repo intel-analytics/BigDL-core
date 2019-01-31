@@ -24,5 +24,4 @@ public class Engine {
 
     public native static long Create(int id, int index);
     public native static void Destroy(long engine);
-    public native static long Query(long primitiveDescriptor);
 }

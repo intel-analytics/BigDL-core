@@ -1,7 +1,9 @@
-CC       = gcc
+CC       = icc
 SUFFIX  ?= so
-CFLAGS  += -c -DMKL_ILP64 -m64 -I ${JAVA_HOME}/include -I /opt/mklml/include -std=c99 -fPIC -fopenmp
-LDFLAGS += -L /opt/mklml/lib -Wall -ldl -shared -lmklml_intel -liomp5 -lm -ldl
+CFLAGS  += -c -I ${JAVA_HOME}/include -std=c99 -fPIC
+LDFLAGS += -Wall -ldl -liomp5 -shared -mkl=parallel -qopenmp \
+				   -static-intel -no-intel-extensions
+
 
 SOURCES_DIR = ../src/main/c
 OBJECTS_DIR = target/c

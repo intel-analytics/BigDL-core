@@ -13,7 +13,7 @@ JNIEXPORT
   omp_set_num_threads(num);
   mkl_set_dynamic(0);
   mkl_set_num_threads(num);
-  // mkl_disable_fast_mm();
+  mkl_disable_fast_mm();
 }
 
 #ifdef __cplusplus

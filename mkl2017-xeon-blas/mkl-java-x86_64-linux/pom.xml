@@ -16,7 +16,7 @@
 
   <properties>
     <iompLib>libiomp5.so</iompLib>
-    <iompLibDir>/opt/mklml/lib/</iompLibDir>
+    <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
     <make_exe>make</make_exe>
   </properties>
 
@@ -26,7 +26,6 @@
         <directory>${iompLibDir}</directory>
         <includes>
           <include>${iompLib}</include>
-          <include>libmklml_intel.so</include>
         </includes>
         <targetPath>${project.build.directory}/classes</targetPath>
       </resource>

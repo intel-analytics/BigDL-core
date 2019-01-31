@@ -137,7 +137,6 @@ public class MklDnn {
                                                       int[] padding_r, int padding_kind);
 
     public native static long ReorderPrimitiveDescCreate(long input, long output);
-    public native static long ReorderPrimitiveDescCreateV2(long input, long output, long attr);
 
     public native static int MemoryPrimitiveDescEqual(long lhs, long rhs);
 
@@ -238,6 +237,4 @@ public class MklDnn {
     // attr
     public native static long CreateAttr();
     public native static void DestroyAttr(long attr);
-    public native static void AttrSetIntOutputRoundMode(long attr, int roundMode);
-    public native static void AttrSetOutputScales(long attr, int count, int mask, float[] scales);
 }

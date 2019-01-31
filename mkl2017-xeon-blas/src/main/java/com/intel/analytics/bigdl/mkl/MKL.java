@@ -39,7 +39,6 @@ public class MKL {
     static {
         try {
             String iomp5FileName = "libiomp5.so";
-            String mklFileName = "libmklml_intel.so";
             String jmklFileName = "libjmkl.so";
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                 iomp5FileName = "libiomp5.dylib";
@@ -54,13 +53,6 @@ public class MKL {
                 System.load(tmpFile.getAbsolutePath());
             } finally {
                 tmpFile.delete(); // delete so temp file after loaded
-            }
-
-            tmpFile = extract(mklFileName);
-            try {
-                System.load(tmpFile.getAbsolutePath());
-            } finally {
-                tmpFile.delete();
             }
 
             tmpFile = extract(jmklFileName);
