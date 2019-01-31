@@ -220,8 +220,6 @@ public class Memory {
                                           int length, int elementSize);
     public native static long CopyArray2Ptr(float[] src, int srcOffset, long dst, int dstOffset,
                                             int length, int elementSize);
-    public native static long CopyPtr2Array(long src, int srcOffset, float[] dst, int dstOffset,
-                                            int length, int elementSize);
 
     public native static long CopyPtr2ByteArray(long src, int srcOffset, byte[] dst, int dstOffset,
                                                 int length, int elementSize);
@@ -238,6 +236,4 @@ public class Memory {
     public native static int[] GetShape(long desc);
     public native static int[] GetPaddingShape(long desc);
     public native static int GetLayout(long desc);
-    public native static int GetDataType(long desc);
-    public native static long GetSize(long desc);
 }
