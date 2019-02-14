@@ -12,7 +12,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCr
 {
   mkldnn_primitive_desc_t primitive_desc;
 
-  CHECK(mkldnn_primitive_desc_create(
+  CHECK_EXCEPTION(env, mkldnn_primitive_desc_create(
       &primitive_desc,
       (const_mkldnn_op_desc_t)op_desc,
       (mkldnn_engine_t)engine,
@@ -62,7 +62,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate
 
   mkldnn_primitive_at_t srcs[input_len];
   const_mkldnn_primitive_t dsts[output_len];
-  
+
   for (int i = 0; i < input_len; i++) {
     srcs[i] = mkldnn_primitive_at(
       (mkldnn_primitive_t)(j_inputs[i]),
@@ -73,12 +73,10 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate
     dsts[i] = (const_mkldnn_primitive_t)(j_outputs[i]);
   }
 
-  CHECK(
-    mkldnn_primitive_create(
-      &primitive,
-      (const_mkldnn_primitive_desc_t)primitive_desc,
-      srcs,
-      dsts));
+  CHECK_EXCEPTION(
+      env, mkldnn_primitive_create(
+               &primitive, (const_mkldnn_primitive_desc_t)primitive_desc, srcs,
+               dsts));
 
   (*env)->ReleasePrimitiveArrayCritical(env, inputs, j_inputs, 0);
   (*env)->ReleasePrimitiveArrayCritical(env, indexes, j_indexes, 0);
@@ -287,6 +285,50 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyAttr
 {
   mkldnn_primitive_attr_t ptr_attr = (mkldnn_primitive_attr_t)attr;
   CHECK(mkldnn_primitive_attr_destroy(ptr_attr));
+}
+
+#define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_MklDnn_##func
+
+JNIEXPORT void JNICALL PREFIX(AttrSetIntOutputRoundMode)(JNIEnv* env,
+                                                         jclass cls,
+                                                         long attr,
+                                                         int round_mode) {
+  CHECK_EXCEPTION(
+      env, mkldnn_primitive_attr_set_int_output_round_mode(
+               (mkldnn_primitive_attr_t)attr, (mkldnn_round_mode_t)round_mode));
+}
+
+JNIEXPORT void JNICALL PREFIX(AttrSetOutputScales)(JNIEnv* env,
+                                                   jclass cls,
+                                                   long attr,
+                                                   int count,
+                                                   int mask,
+                                                   jfloatArray scales) {
+  /* mkldnn will copy the j_scales to the internal buffer, so do not worry about
+   * the memory address moving by GC*/
+  float* j_scales = (*env)->GetPrimitiveArrayCritical(env, scales, JNI_FALSE);
+
+  CHECK_EXCEPTION(env,
+                  mkldnn_primitive_attr_set_output_scales(
+                      (mkldnn_primitive_attr_t)attr, count, mask, j_scales));
+  (*env)->ReleasePrimitiveArrayCritical(env, scales, j_scales, 0);
+}
+
+JNIEXPORT long JNICALL PREFIX(ReorderPrimitiveDescCreateV2)(JNIEnv* env,
+                                                            jclass cls,
+                                                            long input,
+                                                            long output,
+                                                            long attr) {
+  mkldnn_primitive_desc_t desc = NULL;
+
+  mkldnn_status_t ret = mkldnn_reorder_primitive_desc_create_v2(
+      &desc, (const_mkldnn_primitive_desc_t)input,
+      (const_mkldnn_primitive_desc_t)output,
+      (const_mkldnn_primitive_attr_t)attr);
+
+  CHECK_EXCEPTION(env, ret);
+
+  return (long)(desc);
 }
 
 #ifdef __cplusplus

@@ -21,12 +21,12 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescInit(
                                                     JNI_FALSE);
 
   mkldnn_memory_desc_t *desc = malloc(sizeof(mkldnn_memory_desc_t));
-  mkldnn_status_t ret = mkldnn_memory_desc_init(desc,
-                            ndims,
-                            j_dims,
-                            (mkldnn_data_type_t)data_type,
-                            (mkldnn_memory_format_t)format);
-  CHECK(ret);
+  CHECK_EXCEPTION(env,
+                  mkldnn_memory_desc_init(desc,
+                                          ndims,
+                                          j_dims,
+                                          (mkldnn_data_type_t)data_type,
+                                          (mkldnn_memory_format_t)format));
 
   (*env)->ReleasePrimitiveArrayCritical(env, dims, j_dims, 0);
 
