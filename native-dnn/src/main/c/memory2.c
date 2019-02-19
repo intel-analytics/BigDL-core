@@ -131,6 +131,20 @@ JNIEXPORT jintArray JNICALL PREFIX(GetShape)
     return result;
   }
 
+JNIEXPORT jintArray JNICALL PREFIX(GetPaddingShape)(JNIEnv* env,
+                                                    jclass cls,
+                                                    jlong desc) {
+  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
+  int ndims = jni_desc->ndims;
+
+  mkldnn_blocking_desc_t blocking_desc = jni_desc->layout_desc.blocking;
+  int* dims = blocking_desc.padding_dims;
+
+  jintArray result = (*env)->NewIntArray(env, ndims);
+  (*env)->SetIntArrayRegion(env, result, 0, ndims, dims);
+  return result;
+}
+
 JNIEXPORT jint JNICALL PREFIX(GetLayout)
   (JNIEnv *env, jclass cls, jlong desc) {
     mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
