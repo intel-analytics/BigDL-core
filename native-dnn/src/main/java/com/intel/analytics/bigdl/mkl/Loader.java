@@ -54,7 +54,7 @@ public class Loader {
         loadLibrary("mkldnn", tempDir);
         loadLibrary("jdnn", tempDir);
 
-        // deleteAll(tempDir);
+        deleteAll(tempDir);
     }
 
     private String libraryName(String name) {
