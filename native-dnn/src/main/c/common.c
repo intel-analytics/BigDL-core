@@ -304,8 +304,8 @@ JNIEXPORT void JNICALL PREFIX(AttrSetOutputScales)(JNIEnv* env,
                                                    int count,
                                                    int mask,
                                                    jfloatArray scales) {
-  /* mkldnn will copy the j_scales to the internal buffer, so do not worry about
-   * the memory address moving by GC*/
+  /* mkldnn will copy the j_scales to the internal buffer, so no need to worry
+   * about the memory address moving by GC*/
   float* j_scales = (*env)->GetPrimitiveArrayCritical(env, scales, JNI_FALSE);
 
   CHECK_EXCEPTION(env,
