@@ -1,6 +1,6 @@
 CXX := g++-7
 AR := ar
-CXXFLAGS = -Ofast -ftree-vectorize -fomit-frame-pointer -funroll-loops -DGIT_VERSION="\"`git rev-parse HEAD`\"" -Wdelete-incomplete -std=c++11
+CXXFLAGS = -Ofast -ftree-vectorize -fomit-frame-pointer -funroll-loops -DGIT_VERSION="\"`git rev-parse HEAD`\"" -Wdelete-incomplete -std=c++11 -fstack-protector-all
 LDFLAGS = -flto
 TARGET = HASWELL
 OPENMP = FALSE

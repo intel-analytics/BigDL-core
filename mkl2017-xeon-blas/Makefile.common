@@ -1,6 +1,6 @@
 CC       = icc
 SUFFIX  ?= so
-CFLAGS  += -c -I ${JAVA_HOME}/include -std=c99 -fPIC
+CFLAGS  += -c -I ${JAVA_HOME}/include -std=c99 -fPIC -fstack-protector-all
 LDFLAGS += -Wall -ldl -liomp5 -shared -mkl=parallel -qopenmp \
 				   -static-intel -no-intel-extensions
 

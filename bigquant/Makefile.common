@@ -1,7 +1,7 @@
 CC       = gcc
 MAKE     = make
 SUFFIX  ?= so
-CFLAGS  += -c -Wall -I ${JAVA_HOME}/include -std=c99 -fPIC
+CFLAGS  += -c -Wall -I ${JAVA_HOME}/include -std=c99 -fPIC -fstack-protector-all
 LDFLAGS += -shared -L./target/classes -lbigquant_rt
 
 SOURCES_DIR = ../src/main/c
