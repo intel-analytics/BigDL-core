@@ -23,18 +23,14 @@ JNIEXPORT void JNICALL PREFIX(Submit)(JNIEnv *env, jclass cls, long stream,
   jlong *j_primitives =
       (*env)->GetPrimitiveArrayCritical(env, primitives, JNI_FALSE);
 
-  // clock_t begin = clock();
   mkldnn_primitive_t prim[length];
   for (int i = 0; i < length; i++) {
     prim[i] = (mkldnn_primitive_t)(j_primitives[i]);
   }
-  CHECK(mkldnn_stream_submit((mkldnn_stream_t)stream, length, prim,
-                             NULL));  // TODO here should not be NULL
-  // clock_t end = clock();
-  // double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  // printf("time costs: %lf\n", time_spent);
-  // fflush(stdout);
 
+  CHECK_EXCEPTION(env,
+                  mkldnn_stream_submit((mkldnn_stream_t)stream, length, prim,
+                                       NULL));  // TODO here should not be NULL
   (*env)->ReleasePrimitiveArrayCritical(env, primitives, j_primitives, 0);
 }
 
