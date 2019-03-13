@@ -149,6 +149,10 @@ public class Memory {
 
     public native static long CopyPtr2ByteArray(long src, int srcOffset, byte[] dst, int dstOffset,
                                                 int length, int elementSize);
+
+    public native static long CopyPtr2IntArray(long src, int srcOffset, int[] dst, int dstOffset,
+                                                int length, int elementSize);
+
     public native static long AlignedMalloc(int capacity, int size);
     public native static void AlignedFree(long ptr);
 
