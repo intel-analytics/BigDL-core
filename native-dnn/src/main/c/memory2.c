@@ -27,6 +27,25 @@ static void fast_copy(float *dst, float *src, const size_t n,
   memcpy(dst, src, element_size * n);
 }
 
+static void fast_copy_int(int *dst, int *src, const size_t n,
+                          const size_t element_size) {
+  int threshold = omp_get_max_threads();
+  const int run_parallel = (n >= threshold) && (omp_in_parallel() == 0);
+
+  if (run_parallel) {
+    const int block_mem_size = 256 * 1024;
+    const int block_size = block_mem_size / element_size;
+#pragma omp parallel for
+    for (size_t i = 0; i < n; i += block_size)
+      memcpy(dst + i, src + i,
+             (i + block_size > n) ? (n - i) * element_size : block_mem_size);
+
+    return;
+  }
+
+  memcpy(dst, src, element_size * n);
+}
+
 static void fast_copy_byte(char *dst, char *src, const size_t n,
                            const size_t element_size) {
   int threshold = omp_get_max_threads();
@@ -188,6 +207,20 @@ JNIEXPORT jlong JNICALL PREFIX(CopyPtr2ByteArray)(JNIEnv* env,
                                                   jint element_size) {
   char* j_dst = (*env)->GetPrimitiveArrayCritical(env, dst, JNI_FALSE);
   fast_copy_byte(j_dst + dstOffset, (char*)src + srcOffset, length, 1);
+  (*env)->ReleasePrimitiveArrayCritical(env, dst, j_dst, 0);
+  return 0;
+}
+
+JNIEXPORT jlong JNICALL PREFIX(CopyPtr2IntArray)(JNIEnv* env,
+                                                 jclass cls,
+                                                 jlong src,
+                                                 jint srcOffset,
+                                                 jintArray dst,
+                                                 jint dstOffset,
+                                                 jint length,
+                                                 jint element_size) {
+  int* j_dst = (*env)->GetPrimitiveArrayCritical(env, dst, JNI_FALSE);
+  fast_copy_int(j_dst + dstOffset, (int*)src + srcOffset, length, 4);
   (*env)->ReleasePrimitiveArrayCritical(env, dst, j_dst, 0);
   return 0;
 }
