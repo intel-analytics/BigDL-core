@@ -6,7 +6,7 @@
   <artifactId>parent</artifactId>
   <groupId>com.intel.analytics.bigdl.core</groupId>
   <packaging>pom</packaging>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.9.0-SNAPSHOT</version>
 
   <name>BigDL-core</name>
   <description>Native library for BigDL.</description>
