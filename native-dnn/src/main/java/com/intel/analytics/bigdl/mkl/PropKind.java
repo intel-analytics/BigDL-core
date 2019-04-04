@@ -11,4 +11,3 @@ public class PropKind {
     public static final int BackwardWeights = 192;
     public static final int BackwardBias = 193;
 }
-

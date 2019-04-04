@@ -1,7 +1,7 @@
 # vim:noet
 include ../../Makefile.common
 
-MKLDNN_INC_DIR=../native/include
+MKLDNN_INC_DIR=../native/include -I ../native/build/include
 MKLDNN_LIB_DIR=../native/build/src/
 
 CFLAGS = -isystem ${JAVA_HOME}/include/linux
