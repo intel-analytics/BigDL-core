@@ -579,7 +579,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendEl
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    AttrSetPostOps
  * Signature: (JJ)V
- */
+ */ (i.e use) your function using a 'C' compatible header file that contains just the declaration of
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_AttrSetPostOps
   (JNIEnv *, jclass, jlong, jlong);
 
@@ -598,6 +598,49 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreateAttr
  */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyAttr
   (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    RNNCellDescInit
+ * Signature:
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNCellDescInit
+  (JNIEnv *, jclass, jint, jint, jint, jfloat, jfloat);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    RNNCellGetGatesCount
+ * Signature:
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNCellGetGatesCount
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    RNNCellGetStatesCount
+ * Signature:
+ */
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNCellGetStatesCount
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    RNNForwardDescInit
+ * Signature:
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNForwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jint, jlong, jlong, jlong, jlong, jlong, jlong, jlong);
+
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    RNNBackwardDescInit
+ * Signature:
+ */
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNBackwardDescInit
+  (JNIEnv *, jclass, jint, jlong, jint, jlong, jlong, jlong, jlong, jlong, jlong, jlong,
+  jlong, jlong, jlong, jlong, jlong, jlong, jlong);
+
+
 
 #ifdef __cplusplus
 }
