@@ -85,7 +85,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNBackwardDesc
   mkldnn_rnn_desc_t *rnn_desc = malloc(sizeof(mkldnn_rnn_desc_t));
 
   CHECK(
-      mkldnn_rnn_cell_desc_init(
+      mkldnn_rnn_backward_desc_init(
         rnn_desc,
         prop_kind,
         (mkldnn_rnn_cell_desc_t *)rnn_cell_desc,
