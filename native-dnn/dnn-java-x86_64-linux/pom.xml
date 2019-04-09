@@ -67,25 +67,6 @@
                     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
                     -DMKLROOT=/opt/mklml
                     "/>
-                  <!--
-                    -Dmkldnn_LINKER_LIBS='-liomp5
-                                          -static-libstdc++'
-                    -DCMAKE_RULE_MESSAGES:BOOL=OFF
-                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-                    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE
-                    -DCMAKE_SKIP_RPATH=TRUE
-                    -DHAVE_MKL=TRUE"/>
-                    -Dmkldnn_LINKER_LIBS='-liomp5
-                                          -mkl=parallel
-                                          -static-intel
-                                          -static-libstdc++
-                                          -no-intel-extensions'
-                    -DCMAKE_RULE_MESSAGES:BOOL=OFF
-                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-                    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE
-                    -DCMAKE_SKIP_RPATH=TRUE
-                    -DHAVE_MKL=TRUE"/>
-                    -->
                 </exec>
                 <exec executable="make" dir="${nativednnBuild}" failonerror="true">
                   <arg line="mkldnn -j 4"/>
@@ -107,22 +88,6 @@
               </tasks>
             </configuration>
           </execution>
-          <!--
-          <execution>
-            <id>native-dnn-tests</id>
-            <phase>test</phase>
-            <goals><goal>run</goal></goals>
-            <configuration>
-              <tasks>
-                <echo>${project.basedir}/../native/build/src</echo>
-                <exec executable="make" failonerror="true" dir="${mkldnnBuild}">
-                  <env key = "LD_LIBRARY_PATH" value = "${mkldnnBuild}/src:${env.LD_LIBRARY_PATH}"/>
-                  <arg value="test"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          -->
         </executions>
       </plugin>
     </plugins>
