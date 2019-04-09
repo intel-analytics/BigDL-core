@@ -579,7 +579,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendEl
  * Class:     com_intel_analytics_bigdl_mkl_MklDnn
  * Method:    AttrSetPostOps
  * Signature: (JJ)V
- */ (i.e use) your function using a 'C' compatible header file that contains just the declaration of
+ */
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_AttrSetPostOps
   (JNIEnv *, jclass, jlong, jlong);
 
