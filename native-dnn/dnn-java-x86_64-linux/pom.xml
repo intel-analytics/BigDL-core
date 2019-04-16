@@ -16,7 +16,7 @@
 
   <properties>
     <iompLib>libiomp5.so</iompLib>
-    <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
+    <iompLibDir>/opt/mklml/lib</iompLibDir>
 
     <nativednnBuild>${project.basedir}/../native/build</nativednnBuild>
     <nativednnLibDir>${nativednnBuild}/src</nativednnLibDir>
@@ -59,24 +59,17 @@
               <tasks>
                 <mkdir dir="${nativednnBuild}"/>
                 <exec executable="cmake" dir="${nativednnBuild}" failonerror="true">
-                  <env key = "CC" value = "icc"/>
-                  <env key = "CXX" value = "icpc"/>
+                  <env key = "CC" value = "gcc"/>
+                  <env key = "CXX" value = "g++"/>
                   <arg line="../
                     -DCMAKE_INSTALL_PREFIX=/opt/native-dnn
                     -DCMAKE_BUILD_TYPE=Release
-                    -Dmkldnn_LINKER_LIBS='-liomp5
-                                          -mkl=parallel
-                                          -static-intel
-                                          -static-libstdc++
-                                          -no-intel-extensions'
-                    -DCMAKE_RULE_MESSAGES:BOOL=OFF
                     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-                    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=FALSE
-                    -DCMAKE_SKIP_RPATH=TRUE
-                    -DHAVE_MKL=TRUE"/>
+                    -DMKLROOT=/opt/mklml
+                    "/>
                 </exec>
                 <exec executable="make" dir="${nativednnBuild}" failonerror="true">
-                  <arg line="-j 4"/>
+                  <arg line="mkldnn -j 4"/>
                 </exec>
               </tasks>
             </configuration>
@@ -95,22 +88,6 @@
               </tasks>
             </configuration>
           </execution>
-          <!--
-          <execution>
-            <id>native-dnn-tests</id>
-            <phase>test</phase>
-            <goals><goal>run</goal></goals>
-            <configuration>
-              <tasks>
-                <echo>${project.basedir}/../native/build/src</echo>
-                <exec executable="make" failonerror="true" dir="${mkldnnBuild}">
-                  <env key = "LD_LIBRARY_PATH" value = "${mkldnnBuild}/src:${env.LD_LIBRARY_PATH}"/>
-                  <arg value="test"/>
-                </exec>
-              </tasks>
-            </configuration>
-          </execution>
-          -->
         </executions>
       </plugin>
     </plugins>

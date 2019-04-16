@@ -122,18 +122,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardDat
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvolutionReluDescInit(
-  JNIEnv *env, jclass cls, long conv_desc, float negative_slope)
-{
-  mkldnn_convolution_relu_desc_t *conv_relu_desc = malloc(sizeof(mkldnn_convolution_relu_desc_t));
-  mkldnn_convolution_relu_desc_init(
-    conv_relu_desc,
-    (mkldnn_convolution_desc_t *) conv_desc,
-    negative_slope);
-  return (long)conv_relu_desc;
-}
-
-
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConvDescInit
 (JNIEnv *env, jclass cls, jlong conv_desc)
 {

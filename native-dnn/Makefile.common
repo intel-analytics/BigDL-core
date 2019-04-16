@@ -1,11 +1,9 @@
-CC       = icc
+CC       = gcc
 SUFFIX  ?= so
-CFLAGS  += -c -I ${JAVA_HOME}/include -I $(MKLDNN_INC_DIR) -std=c99 -fPIC \
-					 -Wextra -Wall -Werror -g -qopenmp -fstack-protector-all
-LDFLAGS += -Wall -ldl -liomp5 -g -shared -qopenmp -mkl \
-					 -L$(MKLDNN_LIB_DIR) -lmkldnn \
-				   -static-intel -no-intel-extensions
-
+CFLAGS  += -c -I ${JAVA_HOME}/include -I $(MKLDNN_INC_DIR) -I /opt/mklml/include \
+           -std=c99 -fPIC -Wall -fopenmp
+LDFLAGS += -ldl -shared -L$(MKLDNN_LIB_DIR) -lmkldnn -L/opt/mklml/lib \
+           -lmklml_intel -liomp5
 
 SOURCES_DIR = ../src/main/c
 OBJECTS_DIR = target/c
