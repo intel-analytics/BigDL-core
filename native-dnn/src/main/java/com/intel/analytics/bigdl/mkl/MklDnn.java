@@ -113,6 +113,13 @@ public class MklDnn {
                                                   int[] strides, int[] padding_l,
                                                   int[] padding_r, int padding_kind);
 
+    public native static long DilatedConvForwardDescInit(int prop_kind, int alg_kind,
+                                                  long src_desc, long weights_desc,
+                                                  long bias_desc, long dst_desc,
+                                                  int[] strides, int[] dilates,
+                                                  int[] padding_l, int[] padding_r,
+                                                  int padding_kind);
+
     public native static long ConvBackwardWeightsDescInit(int alg_kind, long src_desc,
                                                           long diff_weights_desc,
                                                           long diff_bias_desc,
@@ -120,9 +127,23 @@ public class MklDnn {
                                                           int[] padding_l, int[] padding_r,
                                                           int padding_kind);
 
+    public native static long DilatedConvBackwardWeightsDescInit(int alg_kind, long src_desc,
+                                                          long diff_weights_desc,
+                                                          long diff_bias_desc,
+                                                          long diff_dst_desc,
+                                                          int[] strides, int[] dilates,
+                                                          int[] padding_l, int[] padding_r,
+                                                          int padding_kind);
+
     public native static long ConvBackwardDataDescInit(int alg_kind, long diff_src_desc,
                                                        long weights_desc, long diff_dst_desc,
                                                        int[] strides, int[] padding_l,
+                                                       int[] padding_r, int padding_kind);
+
+    public native static long DilatedConvBackwardDataDescInit(int alg_kind, long diff_src_desc,
+                                                       long weights_desc, long diff_dst_desc,
+                                                       int[] strides,
+                                                       int[] padding_l, int[] dilates,
                                                        int[] padding_r, int padding_kind);
 
     public native static long PoolingForwardDescInit(int prop_kind, int alg_kind,
