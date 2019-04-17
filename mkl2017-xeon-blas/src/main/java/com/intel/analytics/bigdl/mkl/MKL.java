@@ -43,6 +43,7 @@ public class MKL {
             String jmklFileName = "libjmkl.so";
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                 iomp5FileName = "libiomp5.dylib";
+                mklFileName = "libmklml.dylib";
                 jmklFileName = "libjmkl.dylib";
             } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
                 iomp5FileName = "libiomp5md.dll";
@@ -56,11 +57,14 @@ public class MKL {
                 tmpFile.delete(); // delete so temp file after loaded
             }
 
-            tmpFile = extract(mklFileName);
-            try {
-                System.load(tmpFile.getAbsolutePath());
-            } finally {
-                tmpFile.delete();
+            // on windows/rh5, there's no libmklml_intel.so / libmklml.dylib.
+            if (MKL.class.getResource(mklFileName) != null) {
+                tmpFile = extract(mklFileName);
+                try {
+                    System.load(tmpFile.getAbsolutePath());
+                } finally {
+                    tmpFile.delete();
+                }
             }
 
             tmpFile = extract(jmklFileName);
