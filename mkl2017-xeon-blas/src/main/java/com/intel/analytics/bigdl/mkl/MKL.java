@@ -58,7 +58,7 @@ public class MKL {
             }
 
             // on windows/rh5, there's no libmklml_intel.so / libmklml.dylib.
-            if (MKL.class.getResource(mklFileName) != null) {
+            if (MKL.class.getResource("/" + mklFileName) != null) {
                 tmpFile = extract(mklFileName);
                 try {
                     System.load(tmpFile.getAbsolutePath());
