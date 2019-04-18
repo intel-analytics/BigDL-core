@@ -47,6 +47,7 @@ public class MKL {
                 jmklFileName = "libjmkl.dylib";
             } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
                 iomp5FileName = "libiomp5md.dll";
+                mklFileName = "mklml.dll";
                 jmklFileName = "libjmkl.dll";
             }
 
