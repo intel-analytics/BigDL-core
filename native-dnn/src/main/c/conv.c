@@ -68,6 +68,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvForw
   int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK_EXCEPTION(
+    env,
     mkldnn_dilated_convolution_forward_desc_init(
       conv_desc,
       prop_kind,
@@ -151,6 +152,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBack
   int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK_EXCEPTION(
+    env,
     mkldnn_dilated_convolution_backward_weights_desc_init(
       conv_desc,
       alg_kind,
@@ -230,6 +232,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBack
   int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK_EXCEPTION(
+    env,
     mkldnn_dilated_convolution_backward_data_desc_init(
       conv_desc,
       alg_kind,
