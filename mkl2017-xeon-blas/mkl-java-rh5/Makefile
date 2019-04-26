@@ -25,5 +25,10 @@ endif
 
 all:
 ifeq ($(BUILD), YES)
+override CC       = icc
+override CFLAGS   = -I ${JAVA_HOME}/include/linux -c -I ${JAVA_HOME}/include \
+                    -std=c99 -fPIC -fstack-protector-all
+override LDFLAGS  = -Wall -ldl -liomp5 -shared -mkl=parallel -qopenmp \
+                    -static-intel -no-intel-extensions
 include ../Makefile.common
 endif

@@ -1,6 +1,6 @@
 CC       = gcc
 SUFFIX  ?= so
-CFLAGS  += -c -DMKL_ILP64 -m64 -I ${JAVA_HOME}/include -I /opt/mklml/include -std=c99 -fPIC -fopenmp
+CFLAGS  += -c -I ${JAVA_HOME}/include -I /opt/mklml/include -std=c99 -fPIC -fopenmp
 LDFLAGS += -L /opt/mklml/lib -Wall -ldl -shared -lmklml_intel -liomp5 -lm -ldl
 
 SOURCES_DIR = ../src/main/c
