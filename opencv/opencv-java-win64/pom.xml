@@ -15,8 +15,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <opencvlib>opencv_java320.dll</opencvlib>
-        <opencvjar>opencv-320.jar</opencvjar>
+        <opencvlib>opencv_java410.dll</opencvlib>
+        <opencvjar>opencv-410.jar</opencvjar>
         <opencvDir>C:\opencv\</opencvDir>
     </properties>
 
@@ -44,7 +44,7 @@
                         <configuration>
                             <tasks>
                                 <echo>Extracting Java classes.</echo>
-                                <unjar src="${project.build.directory}/classes/opencv-320.jar"
+                                <unjar src="${project.build.directory}/classes/opencv-410.jar"
                                        dest="${project.build.directory}/classes">
                                     <patternset>
                                         <include name="**/*.class"/>
@@ -52,7 +52,7 @@
                                 </unjar>
 
                                 <echo>Extracting Java sources.</echo>
-                                <unjar src="${project.build.directory}/classes/opencv-320.jar"
+                                <unjar src="${project.build.directory}/classes/opencv-410.jar"
                                        dest="${project.build.directory}/upstream-sources">
                                     <patternset>
                                         <include name="**/*.java"/>
