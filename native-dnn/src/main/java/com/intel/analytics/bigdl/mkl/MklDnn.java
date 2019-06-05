@@ -195,7 +195,7 @@ public class MklDnn {
                                                   long dst_layer_desc, long dst_iter_desc,
                                                   long diff_src_layer_desc, long diff_src_iter_desc,
                                                   long diff_weights_layer_desc, long diff_weights_iter_desc,
-                                                  long diff_bias_desc, long diff_dst_layer,
+                                                  long diff_bias_desc, long diff_dst_layer_desc,
                                                   long diff_dst_iter_desc);
 
     // get format from memory desc
