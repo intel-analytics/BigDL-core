@@ -79,7 +79,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNBackwardDesc
   long dst_layer_desc, long dst_iter_desc,
   long diff_src_layer_desc, long diff_src_iter_desc,
   long diff_weights_layer_desc, long diff_weights_iter_desc,
-  long diff_bias_desc, long diff_dst_layer,
+  long diff_bias_desc, long diff_dst_layer_desc,
   long diff_dst_iter_desc)
 {
   mkldnn_rnn_desc_t *rnn_desc = malloc(sizeof(mkldnn_rnn_desc_t));
@@ -102,7 +102,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNBackwardDesc
         (mkldnn_memory_desc_t *)diff_weights_layer_desc,
         (mkldnn_memory_desc_t *)diff_weights_iter_desc,
         (mkldnn_memory_desc_t *)diff_bias_desc,
-        (mkldnn_memory_desc_t *)diff_dst_layer,
+        (mkldnn_memory_desc_t *)diff_dst_layer_desc,
         (mkldnn_memory_desc_t *)diff_dst_iter_desc)
       );
 
