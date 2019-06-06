@@ -176,6 +176,28 @@ public class MklDnn {
     public native static long LRNBackwardDescInit(int alg_kind, long diff_data_desc, long data_desc,
                                                  int local_size, float alpha, float beta, float k);
 
+    public native static long RNNCellDescInit(int kind, int f, int flags, float alpha, float clipping);
+
+    public native static int RNNCellGetGatesCount(long rnn_cell_desc);
+
+    public native static int RNNCellGetStatesCount(long rnn_cell_desc);
+
+    public native static long RNNForwardDescInit(int prop_kind, long rnn_cell_desc,
+                                                 int direction, long src_layer_desc,
+                                                 long src_iter_desc, long weights_layer_desc,
+                                                 long weights_iter_desc, long bias_desc,
+                                                 long dst_layer_desc, long dst_iter_desc);
+
+    public native static long RNNBackwardDescInit(int prop_kind, long rnn_cell_desc,
+                                                  int direction, long src_layer_desc,
+                                                  long src_iter_desc, long weights_layer_desc,
+                                                  long weights_iter_desc, long bias_desc,
+                                                  long dst_layer_desc, long dst_iter_desc,
+                                                  long diff_src_layer_desc, long diff_src_iter_desc,
+                                                  long diff_weights_layer_desc, long diff_weights_iter_desc,
+                                                  long diff_bias_desc, long diff_dst_layer_desc,
+                                                  long diff_dst_iter_desc);
+
     // get format from memory desc
     public native static int getFormat(long memoryDesc);
 
@@ -246,6 +268,8 @@ public class MklDnn {
     public native static void FreeMemoryDescInit(long memory_desc);
     public native static void FreePoolDescInit(long pool_desc);
     public native static void FreeSoftMaxDescInit(long sm_desc);
+    public native static void FreeRNNCellDescInit(long rnn_cell_desc);
+    public native static void FreeRNNDescInit(long rnn_desc);
 
     // post ops
     public native static long CreatePostOps();
