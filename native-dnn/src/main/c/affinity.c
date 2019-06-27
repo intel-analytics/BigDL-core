@@ -63,16 +63,24 @@ JNIEXPORT jint JNICALL
   return ret;
 }
 
-JNIEXPORT void JNICALL PREFIX(setOmpAffinity0)(JNIEnv *env, jclass class, jint size)
+JNIEXPORT void JNICALL PREFIX(setOmpAffinity0)(JNIEnv *env, jclass class, jintArray set)
 {
+  int available_cores_num = (*env)->GetArrayLength(env, set);
+  int *available_cores = (*env)->GetPrimitiveArrayCritical(env, set, JNI_FALSE);
+
 #pragma omp parallel
   {
     int id = omp_get_thread_num();
+    int core_id = available_cores[ id % available_cores_num ];
+
     cpu_set_t mask;
     CPU_ZERO(&mask);
-    CPU_SET(id, &mask);
+    CPU_SET(core_id, &mask);
+
     sched_setaffinity(0, sizeof(mask), &mask);
   }
+
+  (*env)->ReleasePrimitiveArrayCritical(env, set, available_cores, 0);
 }
 #ifdef __cplusplus
 }
