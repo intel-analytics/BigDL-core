@@ -28,16 +28,16 @@ public class LinuxAffinity implements IAAffinity {
 
     public synchronized void setAffinity() {
         int min = Integer.MAX_VALUE;
-        int minKey = 0; // by default, use the first core of cpuList.
+        int theCore = 0; // by default, use the first core of cpuList.
         for (Integer key : availableCores.keySet()) {
             int size = availableCores.get(key).size();
             if (size < min) {
                 min = size;
-                minKey = key;
+                theCore = key;
             }
         }
 
-        int[] set = { this.cpuList[minKey] };
+        int[] set = { theCore };
         bindToCores(set);
 
         for (int key : set) {

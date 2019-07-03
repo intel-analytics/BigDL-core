@@ -121,7 +121,6 @@ public class AffinityTest {
         Arrays.sort(sorted);
 
         for (int i = 0; i < backup.length; i++) {
-            System.out.println(sorted[i] + "," + backup[i]);
             assertTrue(sorted[i] == backup[i]);
         }
     }
