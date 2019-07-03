@@ -90,7 +90,7 @@ public class AffinityTest {
         int[] cores = Affinity.getAffinity();
 
         assertTrue(cores.length == 1);
-        assertTrue(cores[0] == 0);
+        assertTrue(cores[0] == backup[0]);
 
         Affinity.resetAffinity();
     }
@@ -106,22 +106,12 @@ public class AffinityTest {
     private void oneTime(int[] backup) {
         Affinity.setOmpAffinity();
 
-        int[][] ompAffinity = Affinity.getOmpAffinity();
-
-        for (int i = 0; i < ompAffinity.length; i++) {
-            assertTrue(ompAffinity[i].length == 1);
-        }
-
-        int[] sorted = new int[ompAffinity.length];
-        for (int i = 0; i < sorted.length; i++) {
-            sorted[i] = ompAffinity[i][0];
-        }
-
+        int[] ompAffinity = Affinity.getOmpAffinity();
         Arrays.sort(backup);
-        Arrays.sort(sorted);
+        Arrays.sort(ompAffinity);
 
         for (int i = 0; i < backup.length; i++) {
-            assertTrue(sorted[i] == backup[i]);
+            assertTrue(ompAffinity[i] == backup[i]);
         }
     }
 }

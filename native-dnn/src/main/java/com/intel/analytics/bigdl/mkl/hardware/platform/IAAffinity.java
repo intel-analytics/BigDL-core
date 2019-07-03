@@ -9,6 +9,6 @@ public interface IAAffinity {
     void resetAffinity();
     void setOmpAffinity();
     int[] getAffinity();
-    int[][] getOmpAffinity();
+    int[] getOmpAffinity();
     Map<Integer, List<Long>> stats();
 }

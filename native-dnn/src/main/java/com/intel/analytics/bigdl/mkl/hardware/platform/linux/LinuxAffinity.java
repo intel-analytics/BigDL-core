@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class LinuxAffinity implements IAAffinity {
     public static native int setAffinity0(int[] set);
-    public static native int getAffinity0(int[] set, int cpuCounts);
+    public static native int getAffinity0(int[] set);
     public static native int[] setOmpAffinity0(int[] set);
-    public static native int[][] getOmpAffinity0(int[] set);
+    public static native int[] getOmpAffinity0(int cpuCounts);
 
     private int cpuCounts;
     private int[] cpuList;
@@ -47,8 +47,8 @@ public class LinuxAffinity implements IAAffinity {
 
     public synchronized void setAffinity(int[] set) {
         boolean isAllAvailable = true;
-        for (int i = 0; i < set.length; i++) {
-            if (!availableCores.containsKey(i)) {
+        for (int key : set) {
+            if (!availableCores.containsKey(key)) {
                 isAllAvailable = false;
             }
         }
@@ -104,7 +104,7 @@ public class LinuxAffinity implements IAAffinity {
         int[] temp = new int[cpuCounts];
         Arrays.fill(temp, 0);
 
-        if (getAffinity0(temp, cpuCounts) != 0) {
+        if (getAffinity0(temp) != 0) {
             throw new RuntimeException("failed to get the affinity info of thread " +
                     Thread.currentThread().getName() +
                     " #id " + Thread.currentThread().getId());
@@ -113,13 +113,13 @@ public class LinuxAffinity implements IAAffinity {
         return humanReadable(temp);
     }
 
-    public synchronized int[][] getOmpAffinity() {
-        int[][] temp = getOmpAffinity0(this.cpuList);
+    public synchronized int[] getOmpAffinity() {
+        int[] ret = getOmpAffinity0(this.cpuCounts);
 
         boolean isAllSucc = true;
 
-        for (int i = 0; i < temp.length; i++) {
-            if (temp[i][0] == -1) {
+        for (int i = 0; i < ret.length; i++) {
+            if (ret[i] == -1) {
                 isAllSucc = false;
                 break;
             }
@@ -131,12 +131,7 @@ public class LinuxAffinity implements IAAffinity {
                     " #id " + Thread.currentThread().getId());
         }
 
-        int[][] result = new int[temp.length][];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = humanReadable(temp[i]);
-        }
-
-        return result;
+        return ret;
     }
 
     public Map<Integer, List<Long>> stats() {
