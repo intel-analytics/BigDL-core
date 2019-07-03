@@ -21,15 +21,15 @@ public class LinuxAffinity implements IAAffinity {
         this.cpuList = getAffinity();
 
         this.availableCores = new ConcurrentHashMap<Integer, List<Long>>();
-        for (int i = 0; i < this.cpuList.length; i++) {
-            availableCores.put(i, new ArrayList<Long>());
+        for (int key : this.cpuList) {
+            availableCores.put(key, new ArrayList<Long>());
         }
     }
 
     public synchronized void setAffinity() {
         int min = Integer.MAX_VALUE;
         int theCore = 0; // by default, use the first core of cpuList.
-        for (Integer key : availableCores.keySet()) {
+        for (int key : this.cpuList) {
             int size = availableCores.get(key).size();
             if (size < min) {
                 min = size;
