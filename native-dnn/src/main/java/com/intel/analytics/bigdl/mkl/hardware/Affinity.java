@@ -21,13 +21,13 @@ public enum Affinity {
         IMPL.setAffinity();
     }
 
-    public static void setAffinity(int cpuId) {
-        int[] set = {cpuId};
+    public static void setAffinity(int coreId) {
+        int[] set = {coreId};
         IMPL.setAffinity(set);
     }
 
-    public static void setAffinity(int[] cpuIds) {
-        IMPL.setAffinity(cpuIds);
+    public static void setAffinity(int[] coreIds) {
+        IMPL.setAffinity(coreIds);
     }
 
     public static void resetAffinity() {
