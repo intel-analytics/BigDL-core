@@ -52,6 +52,7 @@ public class Loader {
         copyAll(tempDir);
 
         loadLibrary("iomp5", tempDir);
+        loadLibrary("mklml_intel", tempDir);
         loadLibrary("mkldnn", tempDir);
         loadLibrary("jdnn", tempDir);
 
