@@ -640,7 +640,13 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNBackwardDes
   (JNIEnv *, jclass, jint, jlong, jint, jlong, jlong, jlong, jlong, jlong, jlong, jlong,
   jlong, jlong, jlong, jlong, jlong, jlong, jlong);
 
-
+/*
+ * Class:     com_intel_analytics_bigdl_mkl_MklDnn
+ * Method:    setFlushDenormalState
+ * Signature:
+ */
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_setFlushDenormalState
+  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

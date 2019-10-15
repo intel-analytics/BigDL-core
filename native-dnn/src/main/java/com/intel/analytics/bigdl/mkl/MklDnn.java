@@ -50,6 +50,8 @@ public class MklDnn {
     }
     public native static void setNumThreads(int num);
 
+    public native static void setFlushDenormalState();
+
     public native static long MemoryDescInit(int ndims, int[] dims,
                                              int dataType, int dataFormat);
     public native static long MemoryPrimitiveDescCreate(long desc, long engine);

@@ -1,6 +1,5 @@
 #include "utils.h"
 #include "com_intel_analytics_bigdl_mkl_MklDnn.h"
-#include <xmmintrin.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -14,11 +13,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNCellDescInit
   float alpha,
   float clipping)
 {
-  // Denormals-are-zero (DAZ)
-  _mm_setcsr( _mm_getcsr() | 0x0040 );
-  // Flush-to-zero (FTZ)
-  _mm_setcsr( _mm_getcsr() | 0x8000 );
-
   mkldnn_rnn_cell_desc_t *rnn_cell_desc = malloc(sizeof(mkldnn_rnn_cell_desc_t));
 
   CHECK(
@@ -56,11 +50,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNForwardDescI
   long weights_iter_desc, long bias_desc,
   long dst_layer_desc, long dst_iter_desc)
 {
-  // Denormals-are-zero (DAZ)
-  _mm_setcsr( _mm_getcsr() | 0x0040 );
-  // Flush-to-zero (FTZ)
-  _mm_setcsr( _mm_getcsr() | 0x8000 );
-
   mkldnn_rnn_desc_t *rnn_desc = malloc(sizeof(mkldnn_rnn_desc_t));
 
   CHECK(
@@ -93,11 +82,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_RNNBackwardDesc
   long diff_bias_desc, long diff_dst_layer_desc,
   long diff_dst_iter_desc)
 {
-  // Denormals-are-zero (DAZ)
-  _mm_setcsr( _mm_getcsr() | 0x0040 );
-  // Flush-to-zero (FTZ)
-  _mm_setcsr( _mm_getcsr() | 0x8000 );
-
   mkldnn_rnn_desc_t *rnn_desc = malloc(sizeof(mkldnn_rnn_desc_t));
 
   CHECK(
