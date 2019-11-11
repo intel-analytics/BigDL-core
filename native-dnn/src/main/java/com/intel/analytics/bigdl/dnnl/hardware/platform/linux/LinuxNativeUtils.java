@@ -1,6 +1,6 @@
-package com.intel.analytics.bigdl.mkl.hardware.platform.linux;
+package com.intel.analytics.bigdl.dnnl.hardware.platform.linux;
 
-import com.intel.analytics.bigdl.mkl.hardware.platform.IANativeUtils;
+import com.intel.analytics.bigdl.dnnl.hardware.platform.IANativeUtils;
 
 public class LinuxNativeUtils implements IANativeUtils {
     private native static int getTaskId0();

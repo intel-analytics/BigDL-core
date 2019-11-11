@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SumPrimitiveDescCreate(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_SumPrimitiveDescCreate(
   JNIEnv *env, jclass cls,
   long output_desc,
   int n,

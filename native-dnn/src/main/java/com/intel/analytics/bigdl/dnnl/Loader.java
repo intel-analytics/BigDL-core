@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,7 +39,7 @@ public class Loader {
         libraries.add("iomp5");
         libraries.add("jdnn");
         libraries.add("mklml_intel");
-        libraries.add("mkldnn");
+        libraries.add("dnnl");
 
         // TODO for windows, we don't create bigquant.native dir
         Path tempDir = null;
@@ -53,7 +53,7 @@ public class Loader {
 
         loadLibrary("iomp5", tempDir);
         loadLibrary("mklml_intel", tempDir);
-        loadLibrary("mkldnn", tempDir);
+        loadLibrary("dnnl", tempDir);
         loadLibrary("jdnn", tempDir);
 
         deleteAll(tempDir);

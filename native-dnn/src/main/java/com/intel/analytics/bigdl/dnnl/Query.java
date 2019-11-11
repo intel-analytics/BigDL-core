@@ -1,4 +1,4 @@
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
 public class Query {
     public static final int Undef = 0;

@@ -1,6 +1,6 @@
 #include "utils.h"
 
-#define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_Engine_##func
+#define PREFIX(func) Java_com_intel_analytics_bigdl_dnnl_Engine_##func
 
 #ifdef __cplusplus
 extern "C" {

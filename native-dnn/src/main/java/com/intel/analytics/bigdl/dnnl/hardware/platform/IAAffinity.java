@@ -1,4 +1,4 @@
-package com.intel.analytics.bigdl.mkl.hardware.platform;
+package com.intel.analytics.bigdl.dnnl.hardware.platform;
 
 import java.util.List;
 import java.util.Map;

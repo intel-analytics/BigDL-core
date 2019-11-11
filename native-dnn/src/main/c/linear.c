@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_LinearForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   long data_desc,
@@ -26,7 +26,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearForwardDe
   return (long)ip_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardDataDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_LinearBackwardDataDescInit(
   JNIEnv *env, jclass cls,
   long src_desc,
   long weight_desc,
@@ -45,7 +45,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardD
   return (long)ip_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardWeightsDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_LinearBackwardWeightsDescInit(
   JNIEnv *env, jclass cls,
   long src_desc,
   long diff_weight_desc,
@@ -67,7 +67,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardW
 }
 
 // TODO free the inner product desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeLinearDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeLinearDescInit
 (JNIEnv *env, jclass cls, jlong ip_desc)
 {
   free((dnnl_inner_product_desc_t *) ip_desc);

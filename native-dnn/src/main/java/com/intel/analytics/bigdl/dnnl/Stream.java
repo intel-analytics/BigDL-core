@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-
-public class MklDnnTest {
-    @Test
-    public void isMKLLoaded() throws Exception {
-        assertTrue(MklDnn.isLoaded());
+public class Stream {
+    public static class Kind {
+        public static final int Any = 0;
+        public static final int Eager = 1;
+        public static final int Lazy = 2;
     }
 
-    @Test
-    public void EngineCreate() throws Exception {
-        long ptr = Engine.Create(Engine.Kind.Cpu, 0);
-        System.out.println(ptr);
-        Engine.Destroy(ptr);
+    public static class Flags {
+        public static final int DefaultOrder = 1;
+        public static final int InOrder = 2;
+        public static final int OutOfOrder = 4;
+        public static final int DefaultFlags = 1;
     }
+
+    public native static long Create(long engine, int flag);
+    public native static void Destroy(long loc);
 }

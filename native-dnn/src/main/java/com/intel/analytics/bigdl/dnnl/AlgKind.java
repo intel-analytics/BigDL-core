@@ -1,4 +1,4 @@
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
 public class AlgKind {
     public static final int AlgKindUndef = 0;

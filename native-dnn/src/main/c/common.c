@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCreate(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescCreate(
   JNIEnv *env, jclass cls,
   long op_desc, long engine,
   long hint_forward_primitive_desc)
@@ -21,7 +21,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCr
   return (long)primitive_desc;
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescDestroy(
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescDestroy(
   JNIEnv *env, jclass cls,
   long primitive_desc)
 {
@@ -29,7 +29,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescDe
       (dnnl_primitive_desc_t)primitive_desc));
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveCreate(
   JNIEnv *env, jclass cls,
   long primitive_desc)
 {
@@ -43,14 +43,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate
   return (long)primitive;
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDestroy(
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDestroy(
   JNIEnv *env, jclass cls,
   long primitive)
 {
   dnnl_primitive_destroy((dnnl_primitive_t)primitive);
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ReorderPrimitiveDescCreate(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ReorderPrimitiveDescCreate(
   JNIEnv *env, jclass cls, long input, long input_engine, long output, long output_engine, long attr) {
 
      dnnl_primitive_desc_t reorder_primitive_desc;
@@ -72,7 +72,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ReorderPrimitiv
   * Use this function to identify whether a reorder is required for the memory
   * primitives.
   */
-JNIEXPORT int JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescEqual(
+JNIEXPORT int JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryPrimitiveDescEqual(
 JNIEnv *env, jclass cls, long lhs, long rhs) {
    return dnnl_memory_desc_equal(
        (const dnnl_memory_desc_t *)lhs,
@@ -86,7 +86,7 @@ JNIEnv *env, jclass cls, long lhs, long rhs) {
   *     Returned object must not be destroyed by user. 'const' qualifier of the
   *     returned object prevents such attempts.
   */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveGetPrimitiveDesc(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveGetPrimitiveDesc(
   JNIEnv *env, jclass cls, long primitive) {
 
      const_dnnl_primitive_desc_t primitive_desc;
@@ -98,7 +98,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveGetPri
   *
   * @returns NULL in case of any error
   */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryMd(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescQueryMd(
 JNIEnv *env, jclass cls, long primitive, int what, int index) {
 
   const dnnl_memory_desc_t *pd;
@@ -112,7 +112,7 @@ JNIEnv *env, jclass cls, long primitive, int what, int index) {
  * Method:    getFormat
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_getFormat
   (JNIEnv *env, jclass cls, jlong desc)
 {
   dnnl_memory_desc_t *jni_desc = (dnnl_memory_desc_t*)desc;
@@ -124,14 +124,14 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
  * Method:    getSize
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getSize
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_getSize
   (JNIEnv *env, jclass cls, jlong memory_primitive_desc)
 {
   const dnnl_memory_desc_t *mpd = (const dnnl_memory_desc_t *)memory_primitive_desc;
   return dnnl_memory_desc_get_size(mpd);
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeUnuse
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeUnuse
   (JNIEnv *env, jclass cls, jlong dnn_desc)
 {
  free((dnnl_primitive_desc_t)dnn_desc);
@@ -144,7 +144,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeUnuse
  * Method:    PrimitiveDescCreateV2
  * Signature: (JJJJ)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCreateV2
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescCreateV2
   (JNIEnv *env, jclass cls, jlong op_desc, jlong attr, jlong engine, jlong hint_desc)
 {
   dnnl_primitive_desc_t primitive_desc;
@@ -164,7 +164,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescC
  * Method:    CreatePostOps
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreatePostOps
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_CreatePostOps
   (JNIEnv *env, jclass cls)
 {
   dnnl_post_ops_t post_ops;
@@ -177,7 +177,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreatePostOps
  * Method:    DestroyPostOps
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyPostOps
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DestroyPostOps
   (JNIEnv *env, jclass cls, jlong post_ops)
 {
   dnnl_post_ops_t ptr_post_ops = (dnnl_post_ops_t)post_ops;
@@ -189,7 +189,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyPostOps
  * Method:    PostOpsAppendEltwise
  * Signature: (JFIFF)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendEltwise
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PostOpsAppendEltwise
   (JNIEnv *env, jclass cls, jlong post_ops, jfloat scale, jint alg, jfloat alpha, jfloat beta)
 {
   dnnl_post_ops_append_eltwise(
@@ -200,7 +200,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendEl
     beta);
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendSum
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PostOpsAppendSum
   (JNIEnv *env, jclass cls, jlong post_ops, jfloat scale)
 {
   dnnl_post_ops_append_sum(
@@ -213,7 +213,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendSu
  * Method:    AttrSetPostOps
  * Signature: (JJ)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_AttrSetPostOps
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_AttrSetPostOps
   (JNIEnv *env, jclass cls, jlong attr, jlong post_ops)
 {
   dnnl_primitive_attr_set_post_ops(
@@ -226,7 +226,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_AttrSetPostOps
  * Method:    CreateAttr
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreateAttr
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_CreateAttr
   (JNIEnv *env, jclass cls)
 {
   dnnl_primitive_attr_t attr;
@@ -239,14 +239,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreateAttr
  * Method:    DestroyAttr
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyAttr
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DestroyAttr
   (JNIEnv *env, jclass cls,  long attr)
 {
   dnnl_primitive_attr_t ptr_attr = (dnnl_primitive_attr_t)attr;
   CHECK(dnnl_primitive_attr_destroy(ptr_attr));
 }
 
-#define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_MklDnn_##func
+#define PREFIX(func) Java_com_intel_analytics_bigdl_dnnl_DNNL_##func
 
 JNIEXPORT void JNICALL PREFIX(AttrSetIntOutputRoundMode)(JNIEnv* env,
                                                          jclass cls,

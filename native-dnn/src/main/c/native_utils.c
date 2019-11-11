@@ -5,7 +5,7 @@
 #include <syscall.h>
 
 
-#define PREFIX(x) Java_com_intel_analytics_bigdl_mkl_hardware_platform_linux_LinuxNativeUtils_##x
+#define PREFIX(x) Java_com_intel_analytics_bigdl_dnnl_hardware_platform_linux_LinuxNativeUtils_##x
 
 #ifdef __cplusplus
 extern "C" {

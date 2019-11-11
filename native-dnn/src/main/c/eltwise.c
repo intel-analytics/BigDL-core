@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_EltwiseForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
@@ -26,7 +26,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseForwardD
   return (long)relu_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseBackwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_EltwiseBackwardDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_data_desc,
@@ -49,7 +49,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseBackward
 }
 
 // TODO free the eltwise desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeEltwiseDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeEltwiseDescInit
 (JNIEnv *env, jclass cls, jlong relu_desc)
 {
   free((dnnl_eltwise_desc_t *) relu_desc);

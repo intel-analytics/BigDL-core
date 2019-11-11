@@ -1,4 +1,4 @@
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
 public class Direction {
     public static final int UnidirectionalLeft2Right = 0;

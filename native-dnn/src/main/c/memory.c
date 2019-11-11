@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryDescInit(
   JNIEnv *env, jclass cls,
   int ndims,
   jlongArray dims,
@@ -33,7 +33,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescInit(
 }
 
 // TODO free the memory desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeMemoryDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeMemoryDescInit
 (JNIEnv *env, jclass cls, jlong memory_desc)
 {
   free((dnnl_memory_desc_t *) memory_desc);
@@ -41,7 +41,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeMemoryDescI
 }
 
 JNIEXPORT long
-  JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryCreate(
+  JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryCreate(
   JNIEnv *env, jclass cls,
   long memory_desc,
   long engine)
@@ -58,7 +58,7 @@ JNIEXPORT long
 }
 
 JNIEXPORT long
-JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataHandle(
+JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryGetDataHandle(
   JNIEnv *env, jclass cls,
   long memory)
 {
@@ -72,7 +72,7 @@ JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataHandle(
 }
 
 JNIEXPORT long JNICALL
-Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandle(
+Java_com_intel_analytics_bigdl_dnnl_DNNL_MemorySetDataHandle(
   JNIEnv *env, jclass cls,
   long memory, jfloatArray data, jint offset)
 {
@@ -87,7 +87,7 @@ Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandle(
 }
 
 JNIEXPORT void JNICALL
-Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryReleaseDataHandle(
+Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryReleaseDataHandle(
   JNIEnv *env, jclass cls,
   jfloatArray data, long j_data)
 {
@@ -99,7 +99,7 @@ Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryReleaseDataHandle(
  *
  * @returns NULL in case of any error
  */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryMemory(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescQueryMemory(
   JNIEnv *env, jclass cls, long primitive_desc)
 {
   const dnnl_memory_desc_t *qmd = malloc(sizeof(dnnl_memory_desc_t));
@@ -111,7 +111,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQu
 
 /** Returns the size (in bytes) that is required for given @p
  * memory_primitive_desc */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescGetSize(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryDescGetSize(
   JNIEnv *env, jclass cls, long memory_desc)
 {
   size_t res =  dnnl_memory_desc_get_size(
@@ -124,7 +124,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryDescGetSi
  * Method:    copyFloatBuffer2Array
  * Signature: (Ljava/nio/FloatBuffer;I[FII)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyFloatBuffer2Array
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_copyFloatBuffer2Array
   (JNIEnv *env, jclass cls, jobject buffer, jint bufferOffset,
    jfloatArray array, jint arrayOffset, jint length)
 {
@@ -140,7 +140,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyFloatBuffer
  * Method:    copyArray2FloatBuffer
  * Signature: (Ljava/nio/FloatBuffer;I[FII)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyArray2FloatBuffer
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_copyArray2FloatBuffer
   (JNIEnv *env, jclass cls, jobject buffer, jint bufferOffset,
    jfloatArray array, jint arrayOffset, jint length)
 {
@@ -156,7 +156,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyArray2Float
  * Method:    fillFloatBuffer
  * Signature: (Ljava/nio/FloatBuffer;IFI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_fillFloatBuffer
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_fillFloatBuffer
   (JNIEnv *env, jclass cls, jobject buffer, jint bufferOffset, jfloat value,
    jint length)
 {
@@ -176,7 +176,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_fillFloatBuffer
  * Method:    MemoryGetDataHandleOfArray
  * Signature: ([F)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataHandleOfArray
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryGetDataHandleOfArray
   (JNIEnv *env, jclass cls, jfloatArray array)
 {
   float *j_data = (*env)->GetPrimitiveArrayCritical(env, array, JNI_FALSE);
@@ -188,7 +188,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryGetDataH
  * Method:    MemorySetDataHandleWithBuffer
  * Signature: (JJIILjava/nio/FloatBuffer;)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandleWithBuffer
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemorySetDataHandleWithBuffer
   (JNIEnv *env, jclass cls, jlong memory, jlong array, jint offset, jint length, jobject buffer, jint position)
 {
   char *j_buffer = (char*)(*env)->GetDirectBufferAddress(env, buffer);
@@ -209,7 +209,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHa
  * Method:    MemoryAlignedMalloc
  * Signature: (II)L
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedMalloc
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryAlignedMalloc
   (JNIEnv *env, jclass cls, jint capacity, jint align)
 {
 #ifdef WIN32
@@ -231,7 +231,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedM
  * Method:    MemorySetDataHandleWithPtr
  * Signature: (JJIIJI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHandleWithPtr
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemorySetDataHandleWithPtr
   (JNIEnv *env, jclass cls, jlong primitive, jlong array, jint offset, jint length, jlong buffer, jint position)
 {
   char *j_buffer = (char*)buffer;
@@ -252,7 +252,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemorySetDataHa
  * Method:    copyPtr2Array
  * Signature: (JI[FII)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyPtr2Array
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_copyPtr2Array
   (JNIEnv *env, jclass cls, jlong ptr, jint position, jfloatArray array, jint offset, jint length)
 {
   float *src = (float*)ptr;
@@ -267,7 +267,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_copyPtr2Array
  * Method:    MemoryAlignedFree
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryAlignedFree
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryAlignedFree
   (JNIEnv *env, jclass cls, jlong ptr)
 {
   // free((void*)ptr);

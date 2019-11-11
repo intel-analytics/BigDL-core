@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
 import java.nio.FloatBuffer;
 
-public class MklDnn {
+public class DNNL {
     private static boolean _isLoaded = false;
 
     static {
@@ -31,7 +31,7 @@ public class MklDnn {
             _isLoaded = false;
 
             e.printStackTrace();
-            throw new RuntimeException("Failed to load MklDnn");
+            throw new RuntimeException("Failed to load DNNL");
         }
     }
 

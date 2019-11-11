@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxForwardDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_SoftMaxForwardDescInit
   (JNIEnv *env, jclass cls, jint prop_kind, jlong src_desc, jint axis)
 {
   dnnl_softmax_desc_t *sm_desc = malloc(sizeof(dnnl_softmax_desc_t));
@@ -35,7 +35,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxBackwar
 }
 
 // TODO free the pooling desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeSoftMaxDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeSoftMaxDescInit
 (JNIEnv *env, jclass cls, jlong sm_desc)
 {
   free((dnnl_softmax_desc_t *) sm_desc);

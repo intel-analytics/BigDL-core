@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
@@ -43,7 +43,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvForwardDesc
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
@@ -87,7 +87,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvForw
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardWeightsDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvBackwardWeightsDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long src_desc,
@@ -124,7 +124,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardWei
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBackwardWeightsDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvBackwardWeightsDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long src_desc,
@@ -166,7 +166,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBack
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardDataDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvBackwardDataDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_src_desc,
@@ -201,7 +201,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardDat
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBackwardDataDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvBackwardDataDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_src_desc,
@@ -241,7 +241,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBack
   return (long)conv_desc;
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConvDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeConvDescInit
 (JNIEnv *env, jclass cls, jlong conv_desc)
 {
   free((dnnl_convolution_desc_t *)conv_desc);

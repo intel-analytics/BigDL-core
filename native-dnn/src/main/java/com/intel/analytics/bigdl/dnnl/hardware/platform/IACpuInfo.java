@@ -1,4 +1,4 @@
-package com.intel.analytics.bigdl.mkl.hardware.platform;
+package com.intel.analytics.bigdl.dnnl.hardware.platform;
 
 public interface IACpuInfo {
     int getPhysicalProcessorCount();

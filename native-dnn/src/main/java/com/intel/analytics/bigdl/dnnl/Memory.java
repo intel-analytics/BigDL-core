@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
 public class Memory {
     static {
-        MklDnn.isLoaded();
+        DNNL.isLoaded();
     }
 
     public static class FormatKind {

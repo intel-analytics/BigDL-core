@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_VanillaRNNForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_VanillaRNNForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind, int activation_kind,
   int direction, long src_layer_desc,
@@ -34,7 +34,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_VanillaRNNForwa
   return (long)rnn_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_VanillaRNNBackwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_VanillaRNNBackwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind, int activation_kind,
   int direction, long src_layer_desc,
@@ -74,7 +74,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_VanillaRNNBackw
 }
 
 // TODO free the RNN desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeRNNDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeRNNDescInit
 (JNIEnv *env, jclass cls, jlong rnn_desc)
 {
   free((dnnl_rnn_desc_t *) rnn_desc);

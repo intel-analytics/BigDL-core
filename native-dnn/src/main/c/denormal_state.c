@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_setFlushDenormalState(
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_setFlushDenormalState(
   JNIEnv *env, jclass cls)
 {
   // Denormals-are-zero (DAZ)

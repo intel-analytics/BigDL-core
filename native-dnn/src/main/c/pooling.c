@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PoolingForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
@@ -43,7 +43,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingForwardD
   return (long)pool_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingBackwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PoolingBackwardDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_src_desc,
@@ -81,7 +81,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingBackward
 }
 
 // TODO free the pooling desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreePoolDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreePoolDescInit
 (JNIEnv *env, jclass cls, jlong pool_desc)
 {
   free((dnnl_pooling_desc_t *) pool_desc);

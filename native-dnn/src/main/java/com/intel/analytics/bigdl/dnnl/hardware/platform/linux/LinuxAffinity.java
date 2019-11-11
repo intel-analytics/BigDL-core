@@ -1,6 +1,6 @@
-package com.intel.analytics.bigdl.mkl.hardware.platform.linux;
+package com.intel.analytics.bigdl.dnnl.hardware.platform.linux;
 
-import com.intel.analytics.bigdl.mkl.hardware.platform.IAAffinity;
+import com.intel.analytics.bigdl.dnnl.hardware.platform.IAAffinity;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

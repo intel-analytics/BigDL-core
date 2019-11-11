@@ -8,7 +8,7 @@ extern "C" {
  * (possible values are #dnnl_forward_training or #dnnl_forward_inference),
  * @p alg_kind, memory descriptor @p data_desc, and regularization
  * parameters @p local_size, @p alpha, @p beta, and @p k. */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_LRNForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
@@ -39,7 +39,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNForwardDescI
 /** Initializes an @p lrn_desc for backward propagation using @p alg_kind,
  * memory descriptors @p data_desc, and @p diff_data_desc, and regularization
  * parameters @p local_size, @p alpha, @p beta, and @p k. */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNBackwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_LRNBackwardDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_data_desc,
@@ -67,7 +67,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNBackwardDesc
 }
 
 // TODO free the inner product desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeLRNDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeLRNDescInit
 (JNIEnv *env, jclass cls, jlong lrn_desc)
 {
   free((dnnl_lrn_desc_t *) lrn_desc);

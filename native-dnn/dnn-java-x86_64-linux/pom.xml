@@ -20,7 +20,7 @@
 
     <nativednnBuild>${project.basedir}/../native/build</nativednnBuild>
     <nativednnLibDir>${nativednnBuild}/src</nativednnLibDir>
-    <nativednnLib>libmkldnn.so</nativednnLib>
+    <nativednnLib>libdnnl.so</nativednnLib>
   </properties>
 
   <build>

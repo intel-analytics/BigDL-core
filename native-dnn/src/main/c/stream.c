@@ -3,7 +3,7 @@
 #include <omp.h>
 #include <time.h>
 
-#define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_Stream_##func
+#define PREFIX(func) Java_com_intel_analytics_bigdl_dnnl_Stream_##func
 
 #ifdef __cplusplus
 extern "C" {

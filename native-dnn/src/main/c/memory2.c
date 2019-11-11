@@ -5,7 +5,7 @@
 #include <string.h>
 #include "utils.h"
 
-#define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_Memory_##func
+#define PREFIX(func) Java_com_intel_analytics_bigdl_dnnl_Memory_##func
 
 static void fast_copy(float *dst, float *src, const size_t n,
                       const size_t element_size) {

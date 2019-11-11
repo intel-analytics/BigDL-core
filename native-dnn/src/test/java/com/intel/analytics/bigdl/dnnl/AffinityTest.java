@@ -1,6 +1,6 @@
-package com.intel.analytics.bigdl.mkl;
+package com.intel.analytics.bigdl.dnnl;
 
-import com.intel.analytics.bigdl.mkl.hardware.Affinity;
+import com.intel.analytics.bigdl.dnnl.hardware.Affinity;
 import org.junit.Test;
 
 import java.util.*;

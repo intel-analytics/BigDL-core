@@ -5,7 +5,7 @@
 #include <sched.h>
 
 #define PREFIX(func) \
-  Java_com_intel_analytics_bigdl_mkl_hardware_platform_linux_LinuxAffinity_##func
+  Java_com_intel_analytics_bigdl_dnnl_hardware_platform_linux_LinuxAffinity_##func
 
 #ifdef __cplusplus
 extern "C" {

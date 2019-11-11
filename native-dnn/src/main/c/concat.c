@@ -9,7 +9,7 @@ extern "C" {
 //        const dnnl_memory_desc_t *output_desc, int n, int concat_dimension,
 //        const_dnnl_primitive_desc_t *input_pds);
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConcatPrimitiveDescCreate(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConcatPrimitiveDescCreate(
   JNIEnv *env, jclass cls,
   long output_desc,
   int n,
@@ -43,7 +43,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConcatPrimitive
 }
 
 // TODO free the concat desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConcatDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeConcatDescInit
 (JNIEnv *env, jclass cls, jlong concat_desc)
 {
   free((dnnl_primitive_desc_t) concat_desc);
@@ -51,7 +51,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConcatDescI
 }
 
 // TODO free the View desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeViewDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeViewDescInit
 (JNIEnv *env, jclass cls, jlong view_primitive_desc)
 {
   free((dnnl_primitive_desc_t *) view_primitive_desc);
