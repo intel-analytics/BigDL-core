@@ -30,10 +30,6 @@ public class Stream {
         public static final int DefaultFlags = 1;
     }
 
-    public native static long Create(int streamKind);
-    public native static void Submit(long stream, int length, long[] primitives);
-
-    public native static long Wait(long loc, int block);
-    public native static long Rerun(long stream);
+    public native static long Create(long engine, int flag);
     public native static void Destroy(long loc);
 }

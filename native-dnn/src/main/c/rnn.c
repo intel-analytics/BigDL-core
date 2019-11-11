@@ -73,14 +73,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_VanillaRNNBackw
   return (long)rnn_desc;
 }
 
-// TODO free the RNN cell desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeRNNCellDescInit
-(JNIEnv *env, jclass cls, jlong rnn_desc)
-{
-  free((dnnl_rnn_desc_t *) rnn_desc);
-  return;
-}
-
 // TODO free the RNN desc
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeRNNDescInit
 (JNIEnv *env, jclass cls, jlong rnn_desc)

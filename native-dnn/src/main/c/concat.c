@@ -42,39 +42,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConcatPrimitive
   return (long)concat_desc;
 }
 
-
-/** Creates a @p view_primitive_desc for a given @p memory_primitive_desc, with
- * @p dims sizes and @p offset offsets. May fail if layout used does not allow
- * obtain desired view. In this case consider using extract primitive */
-//dnnl_status_t MKLDNN_API dnnl_view_primitive_desc_create(
-//        dnnl_primitive_desc_t *view_primitive_desc,
-//        const_dnnl_primitive_desc_t memory_primitive_desc,
-//        const dnnl_dims_t dims, const dnnl_dims_t offsets);
-
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ViewPrimitiveDescCreate(
-  JNIEnv *env, jclass cls,
-  long memory_primitive_desc,
-  jintArray dims,
-  jintArray offsets)
-{
-  dnnl_primitive_desc_t view_primitive_desc = malloc(sizeof(dnnl_primitive_desc_t));
-
-  int *j_dims = (*env)->GetPrimitiveArrayCritical(env, dims, JNI_FALSE);
-  int *j_offsets = (*env)->GetPrimitiveArrayCritical(env, offsets, JNI_FALSE);
-
-  CHECK(dnnl_view_primitive_desc_create(
-     &view_primitive_desc,
-     (const_dnnl_primitive_desc_t )memory_primitive_desc,
-     j_dims,
-     j_offsets)
-  );
-
-  (*env)->ReleasePrimitiveArrayCritical(env, dims, j_dims, 0);
-  (*env)->ReleasePrimitiveArrayCritical(env, offsets, j_offsets, 0);
-
-  return (long)view_primitive_desc;
-}
-
 // TODO free the concat desc
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConcatDescInit
 (JNIEnv *env, jclass cls, jlong concat_desc)

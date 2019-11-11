@@ -352,8 +352,8 @@ public class Memory {
     public native static void Axpby(int n, float a, long x, float b, long y);
     public native static void Set(long data, float value, int length, int elementSize);
 
-    public native static int[] GetShape(long desc);
-    public native static int[] GetPaddingShape(long desc);
+    public native static long[] GetShape(long desc);
+    public native static long[] GetPaddingShape(long desc);
     public native static int GetLayout(long desc);
     public native static int GetDataType(long desc);
     public native static long GetSize(long desc);

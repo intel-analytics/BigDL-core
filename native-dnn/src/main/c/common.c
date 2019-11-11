@@ -29,7 +29,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescDe
       (dnnl_primitive_desc_t)primitive_desc));
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate0(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate(
   JNIEnv *env, jclass cls,
   long primitive_desc)
 {
@@ -39,24 +39,6 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate
     dnnl_primitive_create(
       &primitive,
       (const_dnnl_primitive_desc_t)primitive_desc));
-
-  return (long)primitive;
-}
-
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate2(
-  JNIEnv *env, jclass cls,
-  long primitive_desc,
-  jlongArray inputs,
-  jintArray indexes,
-  jint input_len,
-  jlongArray outputs,
-  jint output_len)
-{
-  dnnl_primitive_t primitive;
-
-  CHECK_EXCEPTION(
-      env, dnnl_primitive_create(
-               &primitive, (const_dnnl_primitive_desc_t)primitive_desc));
 
   return (long)primitive;
 }
@@ -116,7 +98,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveGetPri
   *
   * @returns NULL in case of any error
   */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryPd(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryMd(
 JNIEnv *env, jclass cls, long primitive, int what, int index) {
 
   const dnnl_memory_desc_t *pd;
