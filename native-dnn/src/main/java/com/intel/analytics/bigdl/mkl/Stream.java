@@ -23,6 +23,13 @@ public class Stream {
         public static final int Lazy = 2;
     }
 
+    public static class Flags {
+        public static final int DefaultOrder = 1;
+        public static final int InOrder = 2;
+        public static final int OutOfOrder = 4;
+        public static final int DefaultFlags = 1;
+    }
+
     public native static long Create(int streamKind);
     public native static void Submit(long stream, int length, long[] primitives);
 

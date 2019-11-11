@@ -17,6 +17,9 @@ public class AlgKind {
     public static final int EltwiseBoundedRelu = 143;
     public static final int EltwiseSoftRelu = 159;
     public static final int EltwiseLogistic = 175;
+    public static final int EltwiseExp = 191;
+    public static final int EltwiseGelu = 207;
+    public static final int EltwiseSwish = 223;
     public static final int PoolingMax = 511;
     public static final int PoolingAvgIncludePadding = 767;
     public static final int PoolingAvgExcludePadding = 1023;
@@ -26,6 +29,7 @@ public class AlgKind {
     public static final int VanillaRnn = 8191;
     public static final int VanillaLstm = 12287;
     public static final int VanillaGru = 16383;
-    public static final int GruLinearBeforeReset = 20479;
+    public static final int LbrGru = 20479;
+    public static final int BinaryAdd = 131056;
+    public static final int BinaryMul = 131057;
 }
-

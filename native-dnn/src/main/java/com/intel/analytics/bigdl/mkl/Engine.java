@@ -20,6 +20,7 @@ public class Engine {
     public static class Kind {
         public static final int Any = 0;
         public static final int Cpu = 1;
+        public static final int Gpu = 2;
     }
 
     public native static long Create(int id, int index);
