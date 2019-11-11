@@ -1,7 +1,5 @@
 #define _GNU_SOURCE
 
-#include "com_intel_analytics_bigdl_mkl_hardware_platform_linux_LinuxNativeUtils.h"
-
 #include <jni.h>
 #include <unistd.h>
 #include <syscall.h>

@@ -1,12 +1,11 @@
 #include "utils.h"
-#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /** Initializes an @p lrn_desc for forward propagation using @p prop_kind
- * (possible values are #mkldnn_forward_training or #mkldnn_forward_inference),
+ * (possible values are #dnnl_forward_training or #dnnl_forward_inference),
  * @p alg_kind, memory descriptor @p data_desc, and regularization
  * parameters @p local_size, @p alpha, @p beta, and @p k. */
 JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNForwardDescInit(
@@ -19,14 +18,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNForwardDescI
   float beta,
   float k)
 {
-  mkldnn_lrn_desc_t *lrn_desc = malloc(sizeof(mkldnn_lrn_desc_t));
+  dnnl_lrn_desc_t *lrn_desc = malloc(sizeof(dnnl_lrn_desc_t));
 
   CHECK(
-    mkldnn_lrn_forward_desc_init(
+    dnnl_lrn_forward_desc_init(
       lrn_desc,
       prop_kind,
       alg_kind,
-      (mkldnn_memory_desc_t *)data_desc,
+      (dnnl_memory_desc_t *)data_desc,
       local_size,
       alpha,
       beta,
@@ -50,14 +49,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNBackwardDesc
   float beta,
   float k)
 {
-  mkldnn_lrn_desc_t *lrn_desc = malloc(sizeof(mkldnn_lrn_desc_t));
+  dnnl_lrn_desc_t *lrn_desc = malloc(sizeof(dnnl_lrn_desc_t));
 
   CHECK(
-    mkldnn_lrn_backward_desc_init(
+    dnnl_lrn_backward_desc_init(
       lrn_desc,
       alg_kind,
-      (mkldnn_memory_desc_t *)diff_data_desc,
-      (mkldnn_memory_desc_t *)data_desc,
+      (dnnl_memory_desc_t *)diff_data_desc,
+      (dnnl_memory_desc_t *)data_desc,
       local_size,
       alpha,
       beta,
@@ -71,7 +70,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LRNBackwardDesc
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeLRNDescInit
 (JNIEnv *env, jclass cls, jlong lrn_desc)
 {
-  free((mkldnn_lrn_desc_t *) lrn_desc);
+  free((dnnl_lrn_desc_t *) lrn_desc);
   return;
 }
 

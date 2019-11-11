@@ -1,6 +1,6 @@
 #include <omp.h>
 #include <mkl.h>
-#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
+#include <jni.h>
 
 #ifdef __cplusplus
 extern "C" {

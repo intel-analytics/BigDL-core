@@ -1,5 +1,4 @@
 #include "utils.h"
-#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,16 +12,16 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearForwardDe
   long bias_desc,
   long dst_desc)
 {
-  mkldnn_inner_product_desc_t *ip_desc = malloc(sizeof(mkldnn_inner_product_desc_t));
+  dnnl_inner_product_desc_t *ip_desc = malloc(sizeof(dnnl_inner_product_desc_t));
 
   CHECK(
-    mkldnn_inner_product_forward_desc_init(
+    dnnl_inner_product_forward_desc_init(
       ip_desc,
-      (mkldnn_prop_kind_t)prop_kind,
-      (mkldnn_memory_desc_t *)data_desc,
-      (mkldnn_memory_desc_t *)weight_desc,
-      (mkldnn_memory_desc_t *)bias_desc,
-      (mkldnn_memory_desc_t *)dst_desc));
+      (dnnl_prop_kind_t)prop_kind,
+      (dnnl_memory_desc_t *)data_desc,
+      (dnnl_memory_desc_t *)weight_desc,
+      (dnnl_memory_desc_t *)bias_desc,
+      (dnnl_memory_desc_t *)dst_desc));
 
   return (long)ip_desc;
 }
@@ -33,15 +32,15 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardD
   long weight_desc,
   long diff_dst_desc)
 {
-  mkldnn_inner_product_desc_t *ip_desc =
-    malloc(sizeof(mkldnn_inner_product_desc_t));
+  dnnl_inner_product_desc_t *ip_desc =
+    malloc(sizeof(dnnl_inner_product_desc_t));
 
   CHECK(
-    mkldnn_inner_product_backward_data_desc_init(
+    dnnl_inner_product_backward_data_desc_init(
       ip_desc,
-      (mkldnn_memory_desc_t *)src_desc,
-      (mkldnn_memory_desc_t *)weight_desc,
-      (mkldnn_memory_desc_t *)diff_dst_desc));
+      (dnnl_memory_desc_t *)src_desc,
+      (dnnl_memory_desc_t *)weight_desc,
+      (dnnl_memory_desc_t *)diff_dst_desc));
 
   return (long)ip_desc;
 }
@@ -53,16 +52,16 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardW
   long diff_bias_desc,
   long diff_dst_desc)
 {
-  mkldnn_inner_product_desc_t *ip_desc =
-    malloc(sizeof(mkldnn_inner_product_desc_t));
+  dnnl_inner_product_desc_t *ip_desc =
+    malloc(sizeof(dnnl_inner_product_desc_t));
 
   CHECK(
-    mkldnn_inner_product_backward_weights_desc_init(
+    dnnl_inner_product_backward_weights_desc_init(
       ip_desc,
-      (mkldnn_memory_desc_t *)src_desc,
-      (mkldnn_memory_desc_t *)diff_weight_desc,
-      (mkldnn_memory_desc_t *)diff_bias_desc,
-      (mkldnn_memory_desc_t *)diff_dst_desc));
+      (dnnl_memory_desc_t *)src_desc,
+      (dnnl_memory_desc_t *)diff_weight_desc,
+      (dnnl_memory_desc_t *)diff_bias_desc,
+      (dnnl_memory_desc_t *)diff_dst_desc));
 
   return (long)ip_desc;
 }
@@ -71,7 +70,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_LinearBackwardW
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeLinearDescInit
 (JNIEnv *env, jclass cls, jlong ip_desc)
 {
-  free((mkldnn_inner_product_desc_t *) ip_desc);
+  free((dnnl_inner_product_desc_t *) ip_desc);
   return;
 }
 

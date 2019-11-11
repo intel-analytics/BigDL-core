@@ -1,5 +1,4 @@
 #include "utils.h"
-#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,14 +12,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseForwardD
   float alpha,
   float beta)
 {
-  mkldnn_eltwise_desc_t *relu_desc = malloc(sizeof(mkldnn_eltwise_desc_t));
+  dnnl_eltwise_desc_t *relu_desc = malloc(sizeof(dnnl_eltwise_desc_t));
 
   CHECK(
-    mkldnn_eltwise_forward_desc_init(
+    dnnl_eltwise_forward_desc_init(
       relu_desc,
-      (mkldnn_prop_kind_t)prop_kind,
-      (mkldnn_alg_kind_t)alg_kind,
-      (mkldnn_memory_desc_t *)data_desc,
+      (dnnl_prop_kind_t)prop_kind,
+      (dnnl_alg_kind_t)alg_kind,
+      (dnnl_memory_desc_t *)data_desc,
       alpha,
       beta));
 
@@ -35,14 +34,14 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseBackward
   float alpha,
   float beta)
 {
-  mkldnn_eltwise_desc_t *relu_desc = malloc(sizeof(mkldnn_eltwise_desc_t));
+  dnnl_eltwise_desc_t *relu_desc = malloc(sizeof(dnnl_eltwise_desc_t));
 
   CHECK(
-    mkldnn_eltwise_backward_desc_init(
+    dnnl_eltwise_backward_desc_init(
       relu_desc,
-      (mkldnn_alg_kind_t)alg_kind,
-      (mkldnn_memory_desc_t *)diff_data_desc,
-      (mkldnn_memory_desc_t *)data_desc,
+      (dnnl_alg_kind_t)alg_kind,
+      (dnnl_memory_desc_t *)diff_data_desc,
+      (dnnl_memory_desc_t *)data_desc,
       alpha,
       beta));
 
@@ -53,7 +52,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_EltwiseBackward
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeEltwiseDescInit
 (JNIEnv *env, jclass cls, jlong relu_desc)
 {
-  free((mkldnn_eltwise_desc_t *) relu_desc);
+  free((dnnl_eltwise_desc_t *) relu_desc);
   return;
 }
 

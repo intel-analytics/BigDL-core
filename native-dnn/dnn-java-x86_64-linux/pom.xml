@@ -60,17 +60,18 @@
               <tasks>
                 <mkdir dir="${nativednnBuild}"/>
                 <exec executable="cmake" dir="${nativednnBuild}" failonerror="true">
-                  <env key = "CC" value = "gcc"/>
-                  <env key = "CXX" value = "g++"/>
+                  <env key = "CC" value = "icc"/>
+                  <env key = "CXX" value = "icpc"/>
                   <arg line="../
                     -DCMAKE_INSTALL_PREFIX=/opt/native-dnn
                     -DCMAKE_BUILD_TYPE=Release
                     -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
-                    -DMKLROOT=/opt/mklml
+                    -DDNNL_BUILD_EXAMPLES=OFF
+                    -DDNNL_BUILD_TESTS=OFF
                     "/>
                 </exec>
                 <exec executable="make" dir="${nativednnBuild}" failonerror="true">
-                  <arg line="mkldnn -j 4"/>
+                  <arg line="-j 4"/>
                 </exec>
               </tasks>
             </configuration>

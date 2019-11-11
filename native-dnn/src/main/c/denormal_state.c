@@ -1,5 +1,4 @@
 #include "utils.h"
-#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 #include <xmmintrin.h>
 
 #ifdef __cplusplus

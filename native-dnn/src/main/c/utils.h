@@ -5,14 +5,15 @@
 #include <jni.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "mkldnn.h"
+#include "dnnl.h"
+#include "dnnl_types.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 /* we should export `throw_exception_if_failed` for macro CHECK_EXCEPTION */
 void throw_exception_if_failed(JNIEnv* env,
-                               mkldnn_status_t status,
+                               dnnl_status_t status,
                                const char* file_name,
                                const char* func_name,
                                int line_num);
@@ -24,8 +25,8 @@ void throw_exception_if_failed(JNIEnv* env,
 #define BT_BUF_SIZE 100
 #define CHECK(f)                                                           \
   do {                                                                     \
-    mkldnn_status_t s = f;                                                 \
-    if (s != mkldnn_success) {                                             \
+    dnnl_status_t s = f;                                                   \
+    if (s != dnnl_success) {                                               \
       int j, nptrs;                                                        \
       void* buffer[BT_BUF_SIZE];                                           \
       char** strings;                                                      \
@@ -55,7 +56,7 @@ void throw_exception_if_failed(JNIEnv* env,
 
 #define CHECK_EXCEPTION(env, f)                                           \
   do {                                                                    \
-    mkldnn_status_t status = f;                                           \
+    dnnl_status_t status = f;                                           \
     throw_exception_if_failed(env, status, __FILE__, __PRETTY_FUNCTION__, \
                               __LINE__);                                  \
   } while (0)
