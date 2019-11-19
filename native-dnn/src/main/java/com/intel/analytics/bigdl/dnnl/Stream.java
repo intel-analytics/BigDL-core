@@ -32,4 +32,6 @@ public class Stream {
 
     public native static long Create(long engine, int flag);
     public native static void Destroy(long loc);
+
+    public native static void Submit(long primitive, long stream, int length, int[] indexes, long[] memorys);
 }
