@@ -21,9 +21,9 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConcatPrimitiveD
   dnnl_primitive_desc_t concat_desc = malloc(sizeof(dnnl_primitive_desc_t));
 
   jlong * j_inputs = (*env)->GetPrimitiveArrayCritical(env, input_pds, JNI_FALSE);
-  const_dnnl_primitive_desc_t srcs[n];
+  dnnl_memory_desc_t *srcs[n];
   for (int i = 0; i < n; i++) {
-    srcs[i] = (const_dnnl_primitive_desc_t)(j_inputs[i]);
+    srcs[i] = (dnnl_memory_desc_t*)(j_inputs[i]);
   }
 
    CHECK(dnnl_concat_primitive_desc_create(
@@ -31,7 +31,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConcatPrimitiveD
      (dnnl_memory_desc_t *)output_desc,
      n,
      concat_dimension,
-     srcs,
+     srcs[0],
      (const_dnnl_primitive_attr_t)attr,
      (dnnl_engine_t)engine
    )

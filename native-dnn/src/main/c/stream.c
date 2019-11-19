@@ -37,10 +37,10 @@ JNIEXPORT void JNICALL PREFIX(Submit)(JNIEnv *env, jclass cls, long primitive, l
   }
 
   CHECK_EXCEPTION(env,
-                  dnnl_primitive_submit(
+                  dnnl_primitive_execute(
                     (dnnl_primitive_t)primitive,
                     (dnnl_stream_t)stream,
-                    length, args));
+                    length, &args[0]));
 
   (*env)->ReleasePrimitiveArrayCritical(env, memorys, j_memorys, 0);
   (*env)->ReleasePrimitiveArrayCritical(env, indexes, j_indexes, 0);
