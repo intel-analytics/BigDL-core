@@ -109,6 +109,10 @@ public class MklDnn {
                                                     long dataDesc,
                                                     int axis);
 
+    public native static long SoftMaxBackwardDescInit(long diffDesc,
+                                                      long dstDesc,
+                                                      int axis);
+
     public native static long ConvForwardDescInit(int prop_kind, int alg_kind,
                                                   long src_desc, long weights_desc,
                                                   long bias_desc, long dst_desc,

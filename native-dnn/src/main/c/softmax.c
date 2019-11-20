@@ -20,6 +20,21 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxForward
   return (long)sm_desc;
 }
 
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxBackwardDescInit
+(JNIEnv *env, jclass cls, jlong diff_desc, jlong dst_desc, jint axis)
+{
+  mkldnn_softmax_desc_t *sm_desc = malloc(sizeof(mkldnn_softmax_desc_t));
+
+  CHECK(
+      mkldnn_softmax_backward_desc_init(
+          sm_desc,
+          (mkldnn_memory_desc_t *)diff_desc,
+          (mkldnn_memory_desc_t *)dst_desc,
+          axis));
+
+  return (long)sm_desc;
+}
+
 // TODO free the pooling desc
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeSoftMaxDescInit
 (JNIEnv *env, jclass cls, jlong sm_desc)
