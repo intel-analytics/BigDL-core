@@ -8,13 +8,13 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_SoftMaxForwardD
   (JNIEnv *env, jclass cls, jint prop_kind, jlong src_desc, jint axis)
 {
   dnnl_softmax_desc_t *sm_desc = malloc(sizeof(dnnl_softmax_desc_t));
-  
+
   CHECK(
-    dnnl_softmax_forward_desc_init(
-      sm_desc,
-      (dnnl_prop_kind_t)prop_kind,
-      (dnnl_memory_desc_t *)src_desc,
-      axis));
+      dnnl_softmax_forward_desc_init(
+          sm_desc,
+          (dnnl_prop_kind_t)prop_kind,
+          (dnnl_memory_desc_t *)src_desc,
+          axis));
 
   return (long)sm_desc;
 }
@@ -22,13 +22,13 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_SoftMaxForwardD
 JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxBackwardDescInit
 (JNIEnv *env, jclass cls, jlong diff_desc, jlong dst_desc, jint axis)
 {
-  mkldnn_softmax_desc_t *sm_desc = malloc(sizeof(mkldnn_softmax_desc_t));
+  dnnl_softmax_desc_t *sm_desc = malloc(sizeof(dnnl_softmax_desc_t));
 
   CHECK(
-      mkldnn_softmax_backward_desc_init(
+      dnnl_softmax_backward_desc_init(
           sm_desc,
-          (mkldnn_memory_desc_t *)diff_desc,
-          (mkldnn_memory_desc_t *)dst_desc,
+          (dnnl_memory_desc_t *)diff_desc,
+          (dnnl_memory_desc_t *)dst_desc,
           axis));
 
   return (long)sm_desc;
