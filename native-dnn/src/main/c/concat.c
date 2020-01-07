@@ -1,13 +1,9 @@
 #include "utils.h"
+#include<string.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-//dnnl_status_t MKLDNN_API dnnl_concat_primitive_desc_create(
-//        dnnl_primitive_desc_t *concat_primitive_desc,
-//        const dnnl_memory_desc_t *output_desc, int n, int concat_dimension,
-//        const_dnnl_primitive_desc_t *input_pds);
 
 JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConcatPrimitiveDescCreate(
   JNIEnv *env, jclass cls,
@@ -19,19 +15,19 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConcatPrimitiveD
   long engine)
 {
   dnnl_primitive_desc_t concat_desc = malloc(sizeof(dnnl_primitive_desc_t));
-
   jlong * j_inputs = (*env)->GetPrimitiveArrayCritical(env, input_pds, JNI_FALSE);
-  dnnl_memory_desc_t *srcs[n];
+  dnnl_memory_desc_t srcs[n];
+
   for (int i = 0; i < n; i++) {
-    srcs[i] = (dnnl_memory_desc_t*)(j_inputs[i]);
+    srcs[i] = (*(dnnl_memory_desc_t *)(j_inputs[i]));
   }
 
-   CHECK(dnnl_concat_primitive_desc_create(
+  CHECK(dnnl_concat_primitive_desc_create(
      &concat_desc,
      (dnnl_memory_desc_t *)output_desc,
      n,
      concat_dimension,
-     srcs[0],
+     &srcs,
      (const_dnnl_primitive_attr_t)attr,
      (dnnl_engine_t)engine
    )

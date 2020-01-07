@@ -274,6 +274,29 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryAlignedFre
   mkl_free((void*)ptr);
 }
 
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_InitSubmemory(
+  JNIEnv *env, jclass cls,
+  jlong parent_md,
+  jlongArray dims,
+  jlongArray offsets
+  )
+{
+  jlong * j_dims = (*env)->GetPrimitiveArrayCritical(env, dims, JNI_FALSE);
+  jlong * j_offsets = (*env)->GetPrimitiveArrayCritical(env, offsets, JNI_FALSE);
+  dnnl_memory_desc_t *desc = malloc(sizeof(dnnl_memory_desc_t));
+
+  CHECK_EXCEPTION(env,
+                  dnnl_memory_desc_init_submemory(desc,
+                                          parent_md,
+                                          j_dims,
+                                          j_offsets));
+
+  (*env)->ReleasePrimitiveArrayCritical(env, dims, j_dims, 0);
+  (*env)->ReleasePrimitiveArrayCritical(env, offsets, j_offsets, 0);
+
+  return (long)desc;
+}
+
 #ifdef __cplusplus
 }
 #endif

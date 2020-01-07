@@ -19,7 +19,7 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_SoftMaxForwardD
   return (long)sm_desc;
 }
 
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_SoftMaxBackwardDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_SoftMaxBackwardDescInit
 (JNIEnv *env, jclass cls, jlong diff_desc, jlong dst_desc, jint axis)
 {
   dnnl_softmax_desc_t *sm_desc = malloc(sizeof(dnnl_softmax_desc_t));

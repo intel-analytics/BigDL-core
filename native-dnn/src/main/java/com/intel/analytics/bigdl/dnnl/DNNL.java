@@ -60,6 +60,8 @@ public class DNNL {
     public native static long MemorySetDataHandle(long memory, float[] data, int offset);
     public native static void MemoryReleaseDataHandle(float[] data, long ptr);
 
+    public native static long InitSubmemory(long parentMd, long[] dims, long[] offsets);
+
     public native static long PrimitiveCreate(long desc);
     public native static long PrimitiveDescCreate(long opDesc, long engine,
                                                   long hingForwardPrimitiveDesc);
@@ -244,6 +246,12 @@ public class DNNL {
                                               long input2_memory,
                                               long dst_memory);
 
+    public native static long BinaryDescInit(int alg_kind,
+                                             long src0_desc,
+                                             long src1_desc,
+                                             long dst_desc);
+
+
     public native static long PrimitiveCreateNew(long concat_desc,
                                               long input1_memory,
                                               long input2_memory,
@@ -263,6 +271,7 @@ public class DNNL {
     public native static void FreeSoftMaxDescInit(long sm_desc);
     public native static void FreeRNNCellDescInit(long rnn_cell_desc);
     public native static void FreeRNNDescInit(long rnn_desc);
+    public native static void FreeBinaryDescInit(long binary_desc);
 
     // post ops
     public native static long CreatePostOps();
