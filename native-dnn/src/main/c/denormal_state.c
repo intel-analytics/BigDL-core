@@ -1,11 +1,12 @@
 #include "utils.h"
+#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 #include <xmmintrin.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_setFlushDenormalState(
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_setFlushDenormalState(
   JNIEnv *env, jclass cls)
 {
   // Denormals-are-zero (DAZ)

@@ -1,8 +1,8 @@
-package com.intel.analytics.bigdl.dnnl.hardware;
+package com.intel.analytics.bigdl.mkl.hardware;
 
-import com.intel.analytics.bigdl.dnnl.DNNL;
-import com.intel.analytics.bigdl.dnnl.hardware.platform.IAAffinity;
-import com.intel.analytics.bigdl.dnnl.hardware.platform.linux.LinuxAffinity;
+import com.intel.analytics.bigdl.mkl.MklDnn;
+import com.intel.analytics.bigdl.mkl.hardware.platform.IAAffinity;
+import com.intel.analytics.bigdl.mkl.hardware.platform.linux.LinuxAffinity;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ public enum Affinity {
     private static final IAAffinity IMPL;
 
     static {
-        DNNL.isLoaded();
+        MklDnn.isLoaded();
         IMPL = new LinuxAffinity(CpuInfo.INSTANCE.getLogicalProcessorCount());
     }
 

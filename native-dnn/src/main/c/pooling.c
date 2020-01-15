@@ -1,38 +1,41 @@
 #include "utils.h"
+#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PoolingForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
   long src_desc,
   long dst_desc,
-  jlongArray strides,
-  jlongArray kernel,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray kernel,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-  dnnl_pooling_desc_t *pool_desc = malloc(sizeof(dnnl_pooling_desc_t));
+  mkldnn_pooling_desc_t *pool_desc = malloc(sizeof(mkldnn_pooling_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_kernel = (*env)->GetPrimitiveArrayCritical(env, kernel, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_kernel = (*env)->GetPrimitiveArrayCritical(env, kernel, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK(
-      dnnl_pooling_forward_desc_init(
+      mkldnn_pooling_forward_desc_init(
         pool_desc,
         prop_kind,
         alg_kind,
-        (dnnl_memory_desc_t *)src_desc,
-        (dnnl_memory_desc_t *)dst_desc,
+        (mkldnn_memory_desc_t *)src_desc,
+        (mkldnn_memory_desc_t *)dst_desc,
         j_strides,
         j_kernel,
         j_padding_l,
-        j_padding_r)
+        j_padding_r,
+        (mkldnn_padding_kind_t) padding_kind)
       );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -43,33 +46,35 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PoolingForwardDe
   return (long)pool_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PoolingBackwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PoolingBackwardDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_src_desc,
   long diff_dst_desc,
-  jlongArray strides,
-  jlongArray kernel,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray kernel,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-    dnnl_pooling_desc_t *pool_desc = malloc(sizeof(dnnl_pooling_desc_t));
+    mkldnn_pooling_desc_t *pool_desc = malloc(sizeof(mkldnn_pooling_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_kernel = (*env)->GetPrimitiveArrayCritical(env, kernel, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_kernel = (*env)->GetPrimitiveArrayCritical(env, kernel, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK(
-    dnnl_pooling_backward_desc_init(
+    mkldnn_pooling_backward_desc_init(
       pool_desc,
       alg_kind,
-      (dnnl_memory_desc_t *)diff_src_desc,
-      (dnnl_memory_desc_t *)diff_dst_desc,
+      (mkldnn_memory_desc_t *)diff_src_desc,
+      (mkldnn_memory_desc_t *)diff_dst_desc,
       j_strides,
       j_kernel,
       j_padding_l,
-      j_padding_r)
+      j_padding_r,
+      (mkldnn_padding_kind_t) padding_kind)
     );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -81,10 +86,10 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PoolingBackwardD
 }
 
 // TODO free the pooling desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreePoolDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreePoolDescInit
 (JNIEnv *env, jclass cls, jlong pool_desc)
 {
-  free((dnnl_pooling_desc_t *) pool_desc);
+  free((mkldnn_pooling_desc_t *) pool_desc);
   return;
 }
 

@@ -1,10 +1,11 @@
 #include "utils.h"
+#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
@@ -12,28 +13,30 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvForwardDescI
   long weights_desc,
   long bias_desc,
   long dst_desc,
-  jlongArray strides,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-  dnnl_convolution_desc_t *conv_desc = malloc(sizeof(dnnl_convolution_desc_t));
+  mkldnn_convolution_desc_t *conv_desc = malloc(sizeof(mkldnn_convolution_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK(
-    dnnl_convolution_forward_desc_init(
+    mkldnn_convolution_forward_desc_init(
       conv_desc,
       prop_kind,
       alg_kind,
-      (dnnl_memory_desc_t *)src_desc,
-      (dnnl_memory_desc_t *)weights_desc,
-      (dnnl_memory_desc_t *)bias_desc,
-      (dnnl_memory_desc_t *)dst_desc,
+      (mkldnn_memory_desc_t *)src_desc,
+      (mkldnn_memory_desc_t *)weights_desc,
+      (mkldnn_memory_desc_t *)bias_desc,
+      (mkldnn_memory_desc_t *)dst_desc,
       j_strides,
       j_padding_l,
-      j_padding_r)
+      j_padding_r,
+      (mkldnn_padding_kind_t) padding_kind)
     );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -43,7 +46,7 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvForwardDescI
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvForwardDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvForwardDescInit(
   JNIEnv *env, jclass cls,
   int prop_kind,
   int alg_kind,
@@ -51,32 +54,34 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvForwa
   long weights_desc,
   long bias_desc,
   long dst_desc,
-  jlongArray strides,
-  jlongArray dilates,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray dilates,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-  dnnl_convolution_desc_t *conv_desc = malloc(sizeof(dnnl_convolution_desc_t));
+  mkldnn_convolution_desc_t *conv_desc = malloc(sizeof(mkldnn_convolution_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_dilates = (*env)->GetPrimitiveArrayCritical(env, dilates, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_dilates = (*env)->GetPrimitiveArrayCritical(env, dilates, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK_EXCEPTION(
     env,
-    dnnl_dilated_convolution_forward_desc_init(
+    mkldnn_dilated_convolution_forward_desc_init(
       conv_desc,
       prop_kind,
       alg_kind,
-      (dnnl_memory_desc_t *)src_desc,
-      (dnnl_memory_desc_t *)weights_desc,
-      (dnnl_memory_desc_t *)bias_desc,
-      (dnnl_memory_desc_t *)dst_desc,
+      (mkldnn_memory_desc_t *)src_desc,
+      (mkldnn_memory_desc_t *)weights_desc,
+      (mkldnn_memory_desc_t *)bias_desc,
+      (mkldnn_memory_desc_t *)dst_desc,
       j_strides,
       j_dilates,
       j_padding_l,
-      j_padding_r)
+      j_padding_r,
+      (mkldnn_padding_kind_t) padding_kind)
     );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -87,34 +92,36 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvForwa
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvBackwardWeightsDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardWeightsDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long src_desc,
   long diff_weights_desc,
   long diff_bias_desc,
   long diff_dst_desc,
-  jlongArray strides,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-  dnnl_convolution_desc_t *conv_desc = malloc(sizeof(dnnl_convolution_desc_t));
+  mkldnn_convolution_desc_t *conv_desc = malloc(sizeof(mkldnn_convolution_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK(
-    dnnl_convolution_backward_weights_desc_init(
+    mkldnn_convolution_backward_weights_desc_init(
       conv_desc,
       alg_kind,
-      (dnnl_memory_desc_t *)src_desc,
-      (dnnl_memory_desc_t *)diff_weights_desc,
-      (dnnl_memory_desc_t *)diff_bias_desc,
-      (dnnl_memory_desc_t *)diff_dst_desc,
+      (mkldnn_memory_desc_t *)src_desc,
+      (mkldnn_memory_desc_t *)diff_weights_desc,
+      (mkldnn_memory_desc_t *)diff_bias_desc,
+      (mkldnn_memory_desc_t *)diff_dst_desc,
       j_strides,
       j_padding_l,
-      j_padding_r)
+      j_padding_r,
+      (mkldnn_padding_kind_t) padding_kind)
     );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -124,38 +131,40 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvBackwardWeig
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvBackwardWeightsDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBackwardWeightsDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long src_desc,
   long diff_weights_desc,
   long diff_bias_desc,
   long diff_dst_desc,
-  jlongArray strides,
-  jlongArray dilates,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray dilates,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-  dnnl_convolution_desc_t *conv_desc = malloc(sizeof(dnnl_convolution_desc_t));
+  mkldnn_convolution_desc_t *conv_desc = malloc(sizeof(mkldnn_convolution_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_dilates = (*env)->GetPrimitiveArrayCritical(env, dilates, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_dilates = (*env)->GetPrimitiveArrayCritical(env, dilates, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK_EXCEPTION(
     env,
-    dnnl_dilated_convolution_backward_weights_desc_init(
+    mkldnn_dilated_convolution_backward_weights_desc_init(
       conv_desc,
       alg_kind,
-      (dnnl_memory_desc_t *)src_desc,
-      (dnnl_memory_desc_t *)diff_weights_desc,
-      (dnnl_memory_desc_t *)diff_bias_desc,
-      (dnnl_memory_desc_t *)diff_dst_desc,
+      (mkldnn_memory_desc_t *)src_desc,
+      (mkldnn_memory_desc_t *)diff_weights_desc,
+      (mkldnn_memory_desc_t *)diff_bias_desc,
+      (mkldnn_memory_desc_t *)diff_dst_desc,
       j_strides,
       j_dilates,
       j_padding_l,
-      j_padding_r)
+      j_padding_r,
+      (mkldnn_padding_kind_t) padding_kind)
     );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -166,32 +175,34 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvBackw
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvBackwardDataDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ConvBackwardDataDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_src_desc,
   long weights_desc,
   long diff_dst_desc,
-  jlongArray strides,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-  dnnl_convolution_desc_t *conv_desc = malloc(sizeof(dnnl_convolution_desc_t));
+  mkldnn_convolution_desc_t *conv_desc = malloc(sizeof(mkldnn_convolution_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK(
-    dnnl_convolution_backward_data_desc_init(
+    mkldnn_convolution_backward_data_desc_init(
       conv_desc,
       alg_kind,
-      (dnnl_memory_desc_t *)diff_src_desc,
-      (dnnl_memory_desc_t *)weights_desc,
-      (dnnl_memory_desc_t *)diff_dst_desc,
+      (mkldnn_memory_desc_t *)diff_src_desc,
+      (mkldnn_memory_desc_t *)weights_desc,
+      (mkldnn_memory_desc_t *)diff_dst_desc,
       j_strides,
       j_padding_l,
-      j_padding_r)
+      j_padding_r,
+      (mkldnn_padding_kind_t) padding_kind)
     );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -201,36 +212,38 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ConvBackwardData
   return (long)conv_desc;
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvBackwardDataDescInit(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DilatedConvBackwardDataDescInit(
   JNIEnv *env, jclass cls,
   int alg_kind,
   long diff_src_desc,
   long weights_desc,
   long diff_dst_desc,
-  jlongArray strides,
-  jlongArray dilates,
-  jlongArray padding_l,
-  jlongArray padding_r)
+  jintArray strides,
+  jintArray dilates,
+  jintArray padding_l,
+  jintArray padding_r,
+  int padding_kind)
 {
-  dnnl_convolution_desc_t *conv_desc = malloc(sizeof(dnnl_convolution_desc_t));
+  mkldnn_convolution_desc_t *conv_desc = malloc(sizeof(mkldnn_convolution_desc_t));
 
-  long *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
-  long *j_dilates = (*env)->GetPrimitiveArrayCritical(env, dilates, JNI_FALSE);
-  long *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
-  long *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
+  int *j_strides = (*env)->GetPrimitiveArrayCritical(env, strides, JNI_FALSE);
+  int *j_dilates = (*env)->GetPrimitiveArrayCritical(env, dilates, JNI_FALSE);
+  int *j_padding_l = (*env)->GetPrimitiveArrayCritical(env, padding_l, JNI_FALSE);
+  int *j_padding_r = (*env)->GetPrimitiveArrayCritical(env, padding_r, JNI_FALSE);
 
   CHECK_EXCEPTION(
     env,
-    dnnl_dilated_convolution_backward_data_desc_init(
+    mkldnn_dilated_convolution_backward_data_desc_init(
       conv_desc,
       alg_kind,
-      (dnnl_memory_desc_t *)diff_src_desc,
-      (dnnl_memory_desc_t *)weights_desc,
-      (dnnl_memory_desc_t *)diff_dst_desc,
+      (mkldnn_memory_desc_t *)diff_src_desc,
+      (mkldnn_memory_desc_t *)weights_desc,
+      (mkldnn_memory_desc_t *)diff_dst_desc,
       j_strides,
       j_dilates,
       j_padding_l,
-      j_padding_r)
+      j_padding_r,
+      (mkldnn_padding_kind_t) padding_kind)
     );
 
   (*env)->ReleasePrimitiveArrayCritical(env, strides, j_strides, 0);
@@ -241,10 +254,10 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DilatedConvBackw
   return (long)conv_desc;
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeConvDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeConvDescInit
 (JNIEnv *env, jclass cls, jlong conv_desc)
 {
-  free((dnnl_convolution_desc_t *)conv_desc);
+  free((mkldnn_convolution_desc_t *)conv_desc);
   return;
 }
 

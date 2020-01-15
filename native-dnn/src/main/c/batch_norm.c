@@ -1,26 +1,27 @@
 #include "utils.h"
+#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_BatchNormForwardDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_BatchNormForwardDescInit
   (JNIEnv *env, jclass cls, jint prop_kind, jlong src_desc, jfloat epsilon, jlong flags)
 {
-  dnnl_batch_normalization_desc_t *bn_desc = malloc(sizeof(dnnl_batch_normalization_desc_t));
+  mkldnn_batch_normalization_desc_t *bn_desc = malloc(sizeof(mkldnn_batch_normalization_desc_t));
   
   CHECK(
-    dnnl_batch_normalization_forward_desc_init(
+    mkldnn_batch_normalization_forward_desc_init(
       bn_desc,
-      (dnnl_prop_kind_t)prop_kind,
-      (dnnl_memory_desc_t *)src_desc,
+      (mkldnn_prop_kind_t)prop_kind,
+      (mkldnn_memory_desc_t *)src_desc,
       epsilon,
       flags));
 
   return (long)bn_desc;
 }
 
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_BatchNormBackwardDescInit
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_BatchNormBackwardDescInit
 (JNIEnv *env,
  jclass cls,
  jint prop_kind,
@@ -29,14 +30,14 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_BatchNormBackwa
  jfloat epsilon,
  jlong flags)
 {
-  dnnl_batch_normalization_desc_t *bn_desc = malloc(sizeof(dnnl_batch_normalization_desc_t));
+  mkldnn_batch_normalization_desc_t *bn_desc = malloc(sizeof(mkldnn_batch_normalization_desc_t));
   
   CHECK(
-    dnnl_batch_normalization_backward_desc_init(
+    mkldnn_batch_normalization_backward_desc_init(
       bn_desc,
-      (dnnl_prop_kind_t)prop_kind,
-      (dnnl_memory_desc_t *)diff_dst_desc,
-      (dnnl_memory_desc_t *)src_desc,
+      (mkldnn_prop_kind_t)prop_kind,
+      (mkldnn_memory_desc_t *)diff_dst_desc,
+      (mkldnn_memory_desc_t *)src_desc,
       epsilon,
       flags));
 
@@ -44,10 +45,10 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_BatchNormBackwa
 }
 
 // TODO free the batchnorm desc
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeBatchNormDescInit
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeBatchNormDescInit
 (JNIEnv *env, jclass cls, jlong bn_desc)
 {
-  free((dnnl_batch_normalization_desc_t *) bn_desc);
+  free((mkldnn_batch_normalization_desc_t *) bn_desc);
   return;
 }
 #ifdef __cplusplus

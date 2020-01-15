@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.dnnl;
+package com.intel.analytics.bigdl.mkl;
 
-public class Stream {
+public class Engine {
     public static class Kind {
         public static final int Any = 0;
-        public static final int Eager = 1;
-        public static final int Lazy = 2;
+        public static final int Cpu = 1;
     }
 
-    public static class Flags {
-        public static final int DefaultOrder = 1;
-        public static final int InOrder = 2;
-        public static final int OutOfOrder = 4;
-        public static final int DefaultFlags = 1;
-    }
-
-    public native static long Create(long engine, int flag);
-    public native static void Destroy(long loc);
-
-    public native static void Submit(long primitive, long stream, int length, int[] indexes, long[] memorys);
+    public native static long Create(int id, int index);
+    public native static void Destroy(long engine);
+    public native static long Query(long primitiveDescriptor);
 }

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.dnnl;
+package com.intel.analytics.bigdl.mkl;
 
 import java.nio.FloatBuffer;
 
-public class DNNL {
+public class MklDnn {
     private static boolean _isLoaded = false;
 
     static {
@@ -31,7 +31,7 @@ public class DNNL {
             _isLoaded = false;
 
             e.printStackTrace();
-            throw new RuntimeException("Failed to load DNNL");
+            throw new RuntimeException("Failed to load MklDnn");
         }
     }
 
@@ -52,17 +52,21 @@ public class DNNL {
 
     public native static void setFlushDenormalState();
 
-    public native static long MemoryDescInit(int ndims, long[] dims,
+    public native static long MemoryDescInit(int ndims, int[] dims,
                                              int dataType, int dataFormat);
-    public native static long MemoryCreate(long desc, long engine);
+    public native static long MemoryPrimitiveDescCreate(long desc, long engine);
 
     public native static long MemoryGetDataHandle(long memory);
     public native static long MemorySetDataHandle(long memory, float[] data, int offset);
     public native static void MemoryReleaseDataHandle(float[] data, long ptr);
 
-    public native static long InitSubmemory(long parentMd, long[] dims, long[] offsets);
-
-    public native static long PrimitiveCreate(long desc);
+    public native static long PrimitiveCreate0(long desc);
+    public native static long PrimitiveCreate2(long desc,
+                                               long[] inputs,
+                                               int[] indexes,
+                                               int inputLen,
+                                               long[] outputs,
+                                               int outputLen);
     public native static long PrimitiveDescCreate(long opDesc, long engine,
                                                   long hingForwardPrimitiveDesc);
     public native static long PrimitiveDescCreateV2(long opDesc, long attr, long engine,
@@ -112,64 +116,65 @@ public class DNNL {
     public native static long ConvForwardDescInit(int prop_kind, int alg_kind,
                                                   long src_desc, long weights_desc,
                                                   long bias_desc, long dst_desc,
-                                                  long[] strides, long[] padding_l,
-                                                  long[] padding_r);
+                                                  int[] strides, int[] padding_l,
+                                                  int[] padding_r, int padding_kind);
 
     public native static long DilatedConvForwardDescInit(int prop_kind, int alg_kind,
                                                   long src_desc, long weights_desc,
                                                   long bias_desc, long dst_desc,
-                                                  long[] strides, long[] dilates,
-                                                  long[] padding_l, long[] padding_r);
+                                                  int[] strides, int[] dilates,
+                                                  int[] padding_l, int[] padding_r,
+                                                  int padding_kind);
 
     public native static long ConvBackwardWeightsDescInit(int alg_kind, long src_desc,
                                                           long diff_weights_desc,
                                                           long diff_bias_desc,
-                                                          long diff_dst_desc, long[] strides,
-                                                          long[] padding_l, long[] padding_r);
+                                                          long diff_dst_desc, int[] strides,
+                                                          int[] padding_l, int[] padding_r,
+                                                          int padding_kind);
 
     public native static long DilatedConvBackwardWeightsDescInit(int alg_kind, long src_desc,
                                                           long diff_weights_desc,
                                                           long diff_bias_desc,
                                                           long diff_dst_desc,
-                                                          long[] strides, long[] dilates,
-                                                          long[] padding_l, long[] padding_r);
+                                                          int[] strides, int[] dilates,
+                                                          int[] padding_l, int[] padding_r,
+                                                          int padding_kind);
 
     public native static long ConvBackwardDataDescInit(int alg_kind, long diff_src_desc,
                                                        long weights_desc, long diff_dst_desc,
-                                                       long[] strides, long[] padding_l,
-                                                       long[] padding_r);
+                                                       int[] strides, int[] padding_l,
+                                                       int[] padding_r, int padding_kind);
 
     public native static long DilatedConvBackwardDataDescInit(int alg_kind, long diff_src_desc,
                                                        long weights_desc, long diff_dst_desc,
-                                                       long[] strides,
-                                                       long[] padding_l, long[] dilates,
-                                                       long[] padding_r);
+                                                       int[] strides,
+                                                       int[] padding_l, int[] dilates,
+                                                       int[] padding_r, int padding_kind);
 
     public native static long PoolingForwardDescInit(int prop_kind, int alg_kind,
                                                      long src_desc, long dst_desc,
-                                                     long[] strides, long[] kernel,
-                                                     long[] padding_l, long[] padding_r);
+                                                     int[] strides, int[] kernel,
+                                                     int[] padding_l, int[] padding_r,
+                                                     int padding_kind);
 
     public native static long PoolingBackwardDescInit(int alg_kind, long diff_src_desc,
-                                                      long diff_dst_desc, long[] strides,
-                                                      long[] kernel, long[] padding_l,
-                                                      long[] padding_r);
+                                                      long diff_dst_desc, int[] strides,
+                                                      int[] kernel, int[] padding_l,
+                                                      int[] padding_r, int padding_kind);
 
-    public native static long ReorderPrimitiveDescCreate(long input,
-                                                         long inputEngine,
-                                                         long output,
-                                                         long outputEngine,
-                                                         long attr);
+    public native static long ReorderPrimitiveDescCreate(long input, long output);
+    public native static long ReorderPrimitiveDescCreateV2(long input, long output, long attr);
 
     public native static int MemoryPrimitiveDescEqual(long lhs, long rhs);
 
     public native static long PrimitiveGetPrimitiveDesc(long primitive);
 
-    public native static long PrimitiveDescQueryMd(long primitive, int what, int index);
+    public native static long PrimitiveDescQueryPd(long primitive, int what, int index);
 
     public native static long PrimitiveDescQueryMemory(long primitive_desc);
 
-    public native static long MemoryDescGetSize(long primitive_desc);
+    public native static long PrimitiveDescGetSize(long primitive_desc);
 
     public native static long LRNForwardDescInit(int prop_kind, int alg_kind, long data_desc,
                                                 int local_size, float alpha, float beta, float k);
@@ -177,23 +182,27 @@ public class DNNL {
     public native static long LRNBackwardDescInit(int alg_kind, long diff_data_desc, long data_desc,
                                                  int local_size, float alpha, float beta, float k);
 
-    public native static long VanillaRNNForwardDescInit(int prop_kind, int activation_kind,
-                                                        int direction, long src_layer_desc,
-                                                        long src_iter_desc, long weights_layer_desc,
-                                                        long weights_iter_desc, long bias_desc,
-                                                        long dst_layer_desc, long dst_iter_desc,
-                                                        int flags, float alpha, float beta);
+    public native static long RNNCellDescInit(int kind, int f, int flags, float alpha, float clipping);
 
-    public native static long VanillaRNNBackwardDescInit(int prop_kind, long activation_kind,
-                                                         int direction, long src_layer_desc,
-                                                         long src_iter_desc, long weights_layer_desc,
-                                                         long weights_iter_desc, long bias_desc,
-                                                         long dst_layer_desc, long dst_iter_desc,
-                                                         long diff_src_layer_desc, long diff_src_iter_desc,
-                                                         long diff_weights_layer_desc, long diff_weights_iter_desc,
-                                                         long diff_bias_desc, long diff_dst_layer_desc,
-                                                         long diff_dst_iter_desc,
-                                                         int flags, float alpha, float beta);
+    public native static int RNNCellGetGatesCount(long rnn_cell_desc);
+
+    public native static int RNNCellGetStatesCount(long rnn_cell_desc);
+
+    public native static long RNNForwardDescInit(int prop_kind, long rnn_cell_desc,
+                                                 int direction, long src_layer_desc,
+                                                 long src_iter_desc, long weights_layer_desc,
+                                                 long weights_iter_desc, long bias_desc,
+                                                 long dst_layer_desc, long dst_iter_desc);
+
+    public native static long RNNBackwardDescInit(int prop_kind, long rnn_cell_desc,
+                                                  int direction, long src_layer_desc,
+                                                  long src_iter_desc, long weights_layer_desc,
+                                                  long weights_iter_desc, long bias_desc,
+                                                  long dst_layer_desc, long dst_iter_desc,
+                                                  long diff_src_layer_desc, long diff_src_iter_desc,
+                                                  long diff_weights_layer_desc, long diff_weights_iter_desc,
+                                                  long diff_bias_desc, long diff_dst_layer_desc,
+                                                  long diff_dst_iter_desc);
 
     // get format from memory desc
     public native static int getFormat(long memoryDesc);
@@ -211,7 +220,7 @@ public class DNNL {
 
     public native static long MemoryGetDataHandleOfArray(float[] array);
 
-    public native static void MemorySetDataHandleWithBuffer(long memory,
+    public native static void MemorySetDataHandleWithBuffer(long primitive,
                                                             long array,
                                                             int offset,
                                                             int length,
@@ -231,12 +240,14 @@ public class DNNL {
 
     public native static long ConcatPrimitiveDescCreate(long output_desc, int n,
                                                         int concat_dimension,
-                                                        long[] input_pds,
-                                                        long attr,
-                                                        long engine);
+                                                        long[] input_pds);
+
+    public native static long ViewPrimitiveDescCreate(long memory_primitive_desc,
+                                                      int[] dims,
+                                                      int[] offsets);
 
     public native static long SumPrimitiveDescCreate(long output_mem_desc, int n, float[] scales,
-                                                     long[] input_pds, long attr, long engine);
+                                                     long[] input_pds);
 
 
     public native static long ConcatPrimitive(long output_desc, int n,
@@ -245,12 +256,6 @@ public class DNNL {
                                               long input1_memory,
                                               long input2_memory,
                                               long dst_memory);
-
-    public native static long BinaryDescInit(int alg_kind,
-                                             long src0_desc,
-                                             long src1_desc,
-                                             long dst_desc);
-
 
     public native static long PrimitiveCreateNew(long concat_desc,
                                               long input1_memory,
@@ -271,7 +276,6 @@ public class DNNL {
     public native static void FreeSoftMaxDescInit(long sm_desc);
     public native static void FreeRNNCellDescInit(long rnn_cell_desc);
     public native static void FreeRNNDescInit(long rnn_desc);
-    public native static void FreeBinaryDescInit(long binary_desc);
 
     // post ops
     public native static long CreatePostOps();
@@ -284,5 +288,6 @@ public class DNNL {
     // attr
     public native static long CreateAttr();
     public native static void DestroyAttr(long attr);
+    public native static void AttrSetIntOutputRoundMode(long attr, int roundMode);
     public native static void AttrSetOutputScales(long attr, int count, int mask, float[] scales);
 }

@@ -3,9 +3,10 @@
 #include <omp.h>
 #include <stdlib.h>
 #include <string.h>
+#include "inc/com_intel_analytics_bigdl_mkl_Memory.h"
 #include "utils.h"
 
-#define PREFIX(func) Java_com_intel_analytics_bigdl_dnnl_Memory_##func
+#define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_Memory_##func
 
 static void fast_copy(float *dst, float *src, const size_t n,
                       const size_t element_size) {
@@ -69,10 +70,10 @@ extern "C" {
 #endif
 
 JNIEXPORT jlong JNICALL PREFIX(SetDataHandle)(JNIEnv *env, jclass cls,
-                                              jlong memory, jlong data,
+                                              jlong primitive, jlong data,
                                               jint offset) {
   float *j_data = (float *)data;
-  CHECK(dnnl_memory_set_data_handle((dnnl_memory_t)memory,
+  CHECK(mkldnn_memory_set_data_handle((mkldnn_primitive_t)primitive,
                                       j_data + offset));
 
   return (long)j_data;
@@ -158,39 +159,41 @@ JNIEXPORT void JNICALL PREFIX(Set)(JNIEnv *env, jclass cls, jlong ptr,
   }
 }
 
-JNIEXPORT jlongArray JNICALL PREFIX(GetShape)(JNIEnv* env,
+JNIEXPORT jintArray JNICALL PREFIX(GetShape)(JNIEnv* env,
                                              jclass cls,
                                              jlong desc) {
-  dnnl_memory_desc_t* jni_desc = (dnnl_memory_desc_t*)desc;
+  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
   int ndims = jni_desc->ndims;
-  int64_t* dims = jni_desc->dims;
+  int* dims = jni_desc->dims;
 
-  jlongArray result = (*env)->NewLongArray(env, ndims);
-  (*env)->SetLongArrayRegion(env, result, 0, ndims, dims);
+  jintArray result = (*env)->NewIntArray(env, ndims);
+  (*env)->SetIntArrayRegion(env, result, 0, ndims, dims);
   return result;
 }
 
-JNIEXPORT jlongArray JNICALL PREFIX(GetPaddingShape)(JNIEnv* env,
+JNIEXPORT jintArray JNICALL PREFIX(GetPaddingShape)(JNIEnv* env,
                                                     jclass cls,
                                                     jlong desc) {
-  dnnl_memory_desc_t* jni_desc = (dnnl_memory_desc_t*)desc;
+  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
   int ndims = jni_desc->ndims;
-  int64_t* dims = jni_desc->padded_dims;
 
-  jlongArray result = (*env)->NewLongArray(env, ndims);
-  (*env)->SetLongArrayRegion(env, result, 0, ndims, dims);
+  mkldnn_blocking_desc_t blocking_desc = jni_desc->layout_desc.blocking;
+  int* dims = blocking_desc.padding_dims;
+
+  jintArray result = (*env)->NewIntArray(env, ndims);
+  (*env)->SetIntArrayRegion(env, result, 0, ndims, dims);
   return result;
 }
 
 JNIEXPORT jint JNICALL PREFIX(GetLayout)(JNIEnv* env, jclass cls, jlong desc) {
-  dnnl_memory_desc_t* jni_desc = (dnnl_memory_desc_t*)desc;
-  return (int)(jni_desc->format_kind);
+  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
+  return (int)(jni_desc->format);
 }
 
 JNIEXPORT jint JNICALL PREFIX(GetDataType)(JNIEnv* env,
                                            jclass cls,
                                            jlong desc) {
-  dnnl_memory_desc_t* jni_desc = (dnnl_memory_desc_t*)desc;
+  mkldnn_memory_desc_t* jni_desc = (mkldnn_memory_desc_t*)desc;
   return (int)(jni_desc->data_type);
 }
 

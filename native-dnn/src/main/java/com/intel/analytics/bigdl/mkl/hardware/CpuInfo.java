@@ -1,8 +1,8 @@
-package com.intel.analytics.bigdl.dnnl.hardware;
+package com.intel.analytics.bigdl.mkl.hardware;
 
-import com.intel.analytics.bigdl.dnnl.DNNL;
-import com.intel.analytics.bigdl.dnnl.hardware.platform.IACpuInfo;
-import com.intel.analytics.bigdl.dnnl.hardware.platform.linux.LinuxCpuInfo;
+import com.intel.analytics.bigdl.mkl.MklDnn;
+import com.intel.analytics.bigdl.mkl.hardware.platform.IACpuInfo;
+import com.intel.analytics.bigdl.mkl.hardware.platform.linux.LinuxCpuInfo;
 
 public enum CpuInfo {
     INSTANCE;
@@ -10,7 +10,7 @@ public enum CpuInfo {
     private final static IACpuInfo IMPL;
 
     static {
-        DNNL.isLoaded();
+        MklDnn.isLoaded();
         IMPL = new LinuxCpuInfo();
     }
 

@@ -2,7 +2,7 @@
 #include <jni.h>      /* for the JNIEnv */
 #include <stdlib.h>
 
-#include "dnnl_types.h" /* for status of return value of dnnl */
+#include "mkldnn_types.h" /* for status of return value of mkldnn */
 
 static jint throwException(JNIEnv* env, const char* message) {
   char* className = "java/lang/Exception";
@@ -41,11 +41,11 @@ static int throwUnimplementedException(JNIEnv* env, const char* message) {
 }
 
 void throw_exception_if_failed(JNIEnv* env,
-                               dnnl_status_t status,
+                               mkldnn_status_t status,
                                const char* file_name,
                                const char* func_name,
                                int line_num) {
-  if (status == dnnl_success) {
+  if (status == mkldnn_success) {
     return; /* right, do nothing */
   }
 
@@ -65,20 +65,20 @@ void throw_exception_if_failed(JNIEnv* env,
   free(printable_representation); /* never forget to free the memory */
 
   switch (status) {
-    case dnnl_invalid_arguments:
-      throwIllegalArgumentException(env, "[dnnl] ivalid arguments");
+    case mkldnn_invalid_arguments:
+      throwIllegalArgumentException(env, "[mkldnn] ivalid arguments");
       break;
 
-    case dnnl_out_of_memory:
-      throwOutOfMemoryError(env, "[dnnl] out of memory");
+    case mkldnn_out_of_memory:
+      throwOutOfMemoryError(env, "[mkldnn] out of memory");
       break;
 
-    case dnnl_unimplemented:
-      throwUnimplementedException(env, "[dnnl] unimplemented");
+    case mkldnn_unimplemented:
+      throwUnimplementedException(env, "[mkldnn] unimplemented");
       break;
 
     default:
-      throwException(env, "[dnnl] unknown type error");
+      throwException(env, "[mkldnn] unknown type error");
       break;
   }
 }

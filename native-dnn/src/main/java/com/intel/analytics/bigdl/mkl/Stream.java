@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.dnnl;
+package com.intel.analytics.bigdl.mkl;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-
-public class DNNLTest {
-    @Test
-    public void isDNNLLoaded() throws Exception {
-        assertTrue(DNNL.isLoaded());
+public class Stream {
+    public static class Kind {
+        public static final int Any = 0;
+        public static final int Eager = 1;
+        public static final int Lazy = 2;
     }
 
-    @Test
-    public void EngineCreate() throws Exception {
-        long ptr = Engine.Create(Engine.Kind.Cpu, 0);
-        System.out.println(ptr);
-        Engine.Destroy(ptr);
-    }
+    public native static long Create(int streamKind);
+    public native static void Submit(long stream, int length, long[] primitives);
+
+    public native static long Wait(long loc, int block);
+    public native static long Rerun(long stream);
+    public native static void Destroy(long loc);
 }

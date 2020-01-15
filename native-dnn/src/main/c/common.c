@@ -1,67 +1,108 @@
 #include "utils.h"
+#include "com_intel_analytics_bigdl_mkl_MklDnn.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescCreate(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCreate(
   JNIEnv *env, jclass cls,
   long op_desc, long engine,
   long hint_forward_primitive_desc)
 {
-  dnnl_primitive_desc_t primitive_desc;
+  mkldnn_primitive_desc_t primitive_desc;
 
-  CHECK_EXCEPTION(env, dnnl_primitive_desc_create(
+  CHECK_EXCEPTION(env, mkldnn_primitive_desc_create(
       &primitive_desc,
-      (const_dnnl_op_desc_t)op_desc,
-      NULL, /* attr */
-      (dnnl_engine_t)engine,
-      (const_dnnl_primitive_desc_t)hint_forward_primitive_desc));
+      (const_mkldnn_op_desc_t)op_desc,
+      (mkldnn_engine_t)engine,
+      (const_mkldnn_primitive_desc_t)hint_forward_primitive_desc));
 
   return (long)primitive_desc;
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescDestroy(
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescDestroy(
   JNIEnv *env, jclass cls,
   long primitive_desc)
 {
-  CHECK(dnnl_primitive_desc_destroy(
-      (dnnl_primitive_desc_t)primitive_desc));
+  CHECK(mkldnn_primitive_desc_destroy(
+      (mkldnn_primitive_desc_t)primitive_desc));
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveCreate(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate0(
   JNIEnv *env, jclass cls,
   long primitive_desc)
 {
-  dnnl_primitive_t primitive;
+  mkldnn_primitive_t primitive;
 
   CHECK(
-    dnnl_primitive_create(
+    mkldnn_primitive_create(
       &primitive,
-      (const_dnnl_primitive_desc_t)primitive_desc));
+      (const_mkldnn_primitive_desc_t)primitive_desc,
+      NULL,
+      NULL));
 
   return (long)primitive;
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDestroy(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveCreate2(
+  JNIEnv *env, jclass cls,
+  long primitive_desc,
+  jlongArray inputs,
+  jintArray indexes,
+  jint input_len,
+  jlongArray outputs,
+  jint output_len)
+{
+  jlong * j_inputs = (*env)->GetPrimitiveArrayCritical(env, inputs, JNI_FALSE);
+  jlong * j_outputs = (*env)->GetPrimitiveArrayCritical(env, outputs, JNI_FALSE);
+  jint *j_indexes = (*env)->GetPrimitiveArrayCritical(env, indexes, JNI_FALSE);
+
+  mkldnn_primitive_t primitive;
+
+  mkldnn_primitive_at_t srcs[input_len];
+  const_mkldnn_primitive_t dsts[output_len];
+
+  for (int i = 0; i < input_len; i++) {
+    srcs[i] = mkldnn_primitive_at(
+      (mkldnn_primitive_t)(j_inputs[i]),
+      j_indexes[i]);
+  }
+
+  for (int i = 0; i < output_len; i++) {
+    dsts[i] = (const_mkldnn_primitive_t)(j_outputs[i]);
+  }
+
+  CHECK_EXCEPTION(
+      env, mkldnn_primitive_create(
+               &primitive, (const_mkldnn_primitive_desc_t)primitive_desc, srcs,
+               dsts));
+
+  (*env)->ReleasePrimitiveArrayCritical(env, inputs, j_inputs, 0);
+  (*env)->ReleasePrimitiveArrayCritical(env, indexes, j_indexes, 0);
+  (*env)->ReleasePrimitiveArrayCritical(env, outputs, j_outputs, 0);
+
+  return (long)primitive;
+}
+
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDestroy(
   JNIEnv *env, jclass cls,
   long primitive)
 {
-  dnnl_primitive_destroy((dnnl_primitive_t)primitive);
+  mkldnn_primitive_destroy((mkldnn_primitive_t)primitive);
 }
 
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ReorderPrimitiveDescCreate(
-  JNIEnv *env, jclass cls, long input, long input_engine, long output, long output_engine, long attr) {
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_ReorderPrimitiveDescCreate(
+  JNIEnv *env, jclass cls, long input, long output) {
 
-     dnnl_primitive_desc_t reorder_primitive_desc;
+     mkldnn_primitive_desc_t reorder_primitive_desc;
 
-     CHECK(dnnl_reorder_primitive_desc_create(
-		     &reorder_primitive_desc,
-		     (const dnnl_memory_desc_t*)input,
-		     (dnnl_engine_t)input_engine,
-		     (const dnnl_memory_desc_t*)output,
-		     (dnnl_engine_t)output_engine,
-		     (const_dnnl_primitive_attr_t)(attr)));
+     CHECK(
+       mkldnn_reorder_primitive_desc_create(
+         &reorder_primitive_desc,
+         (const_mkldnn_primitive_desc_t)input,
+         (const_mkldnn_primitive_desc_t)output)
+     );
      return (long)reorder_primitive_desc;
   }
 
@@ -72,11 +113,11 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_ReorderPrimitive
   * Use this function to identify whether a reorder is required for the memory
   * primitives.
   */
-JNIEXPORT int JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryPrimitiveDescEqual(
+JNIEXPORT int JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_MemoryPrimitiveDescEqual(
 JNIEnv *env, jclass cls, long lhs, long rhs) {
-   return dnnl_memory_desc_equal(
-       (const dnnl_memory_desc_t *)lhs,
-       (const dnnl_memory_desc_t *)rhs);
+   return mkldnn_memory_primitive_desc_equal(
+       (const_mkldnn_primitive_desc_t)lhs,
+       (const_mkldnn_primitive_desc_t)rhs);
 }
 
 /** Retrieves a reference to the @p primitive_desc descriptor of given @p
@@ -86,11 +127,11 @@ JNIEnv *env, jclass cls, long lhs, long rhs) {
   *     Returned object must not be destroyed by user. 'const' qualifier of the
   *     returned object prevents such attempts.
   */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveGetPrimitiveDesc(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveGetPrimitiveDesc(
   JNIEnv *env, jclass cls, long primitive) {
 
-     const_dnnl_primitive_desc_t primitive_desc;
-     CHECK(dnnl_primitive_get_primitive_desc((const_dnnl_primitive_t)primitive, &primitive_desc));
+     const_mkldnn_primitive_desc_t primitive_desc;
+     CHECK(mkldnn_primitive_get_primitive_desc((const_mkldnn_primitive_t)primitive, &primitive_desc));
      return (long)primitive_desc;
   }
 
@@ -98,12 +139,12 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveGetPrim
   *
   * @returns NULL in case of any error
   */
-JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescQueryMd(
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescQueryPd(
 JNIEnv *env, jclass cls, long primitive, int what, int index) {
 
-  const dnnl_memory_desc_t *pd;
-  pd = dnnl_primitive_desc_query_md((const_dnnl_primitive_desc_t)primitive,
-		  (dnnl_query_t)what, index);
+  const_mkldnn_primitive_desc_t pd;
+  pd = mkldnn_primitive_desc_query_pd((const_mkldnn_primitive_desc_t)primitive,
+  (mkldnn_query_t)what, index);
   return (long)pd;
 }
 
@@ -112,11 +153,11 @@ JNIEnv *env, jclass cls, long primitive, int what, int index) {
  * Method:    getFormat
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_getFormat
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getFormat
   (JNIEnv *env, jclass cls, jlong desc)
 {
-  dnnl_memory_desc_t *jni_desc = (dnnl_memory_desc_t*)desc;
-  return (int)(jni_desc->format_kind);
+  mkldnn_memory_desc_t *jni_desc = (mkldnn_memory_desc_t*)desc;
+  return (int)(jni_desc->format);
 }
 
 /*
@@ -124,17 +165,17 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_getFormat
  * Method:    getSize
  * Signature: (J)I
  */
-JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_getSize
+JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_getSize
   (JNIEnv *env, jclass cls, jlong memory_primitive_desc)
 {
-  const dnnl_memory_desc_t *mpd = (const dnnl_memory_desc_t *)memory_primitive_desc;
-  return dnnl_memory_desc_get_size(mpd);
+  const_mkldnn_primitive_desc_t mpd = (const_mkldnn_primitive_desc_t)memory_primitive_desc;
+  return mkldnn_memory_primitive_desc_get_size(mpd);
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeUnuse
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_FreeUnuse
   (JNIEnv *env, jclass cls, jlong dnn_desc)
 {
- free((dnnl_primitive_desc_t)dnn_desc);
+ free((mkldnn_primitive_desc_t)dnn_desc);
  return;
 }
 
@@ -144,17 +185,17 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeUnuse
  * Method:    PrimitiveDescCreateV2
  * Signature: (JJJJ)J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescCreateV2
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PrimitiveDescCreateV2
   (JNIEnv *env, jclass cls, jlong op_desc, jlong attr, jlong engine, jlong hint_desc)
 {
-  dnnl_primitive_desc_t primitive_desc;
+  mkldnn_primitive_desc_t primitive_desc;
 
-  CHECK(dnnl_primitive_desc_create(
+  CHECK(mkldnn_primitive_desc_create_v2(
       &primitive_desc,
-      (const_dnnl_op_desc_t)op_desc,
-      (const_dnnl_primitive_attr_t)attr,
-      (dnnl_engine_t)engine,
-      (const_dnnl_primitive_desc_t)hint_desc));
+      (const_mkldnn_op_desc_t)op_desc,
+      (const_mkldnn_primitive_attr_t)attr,
+      (mkldnn_engine_t)engine,
+      (const_mkldnn_primitive_desc_t)hint_desc));
 
   return (long)primitive_desc;
 }
@@ -164,11 +205,11 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PrimitiveDescCr
  * Method:    CreatePostOps
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_CreatePostOps
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreatePostOps
   (JNIEnv *env, jclass cls)
 {
-  dnnl_post_ops_t post_ops;
-  CHECK(dnnl_post_ops_create(&post_ops));
+  mkldnn_post_ops_t post_ops;
+  CHECK(mkldnn_post_ops_create(&post_ops));
   return (long)post_ops;
 }
 
@@ -177,11 +218,11 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_CreatePostOps
  * Method:    DestroyPostOps
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DestroyPostOps
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyPostOps
   (JNIEnv *env, jclass cls, jlong post_ops)
 {
-  dnnl_post_ops_t ptr_post_ops = (dnnl_post_ops_t)post_ops;
-  CHECK(dnnl_post_ops_destroy(ptr_post_ops));
+  mkldnn_post_ops_t ptr_post_ops = (mkldnn_post_ops_t)post_ops;
+  CHECK(mkldnn_post_ops_destroy(ptr_post_ops));
 }
 
 /*
@@ -189,22 +230,22 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DestroyPostOps
  * Method:    PostOpsAppendEltwise
  * Signature: (JFIFF)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PostOpsAppendEltwise
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendEltwise
   (JNIEnv *env, jclass cls, jlong post_ops, jfloat scale, jint alg, jfloat alpha, jfloat beta)
 {
-  dnnl_post_ops_append_eltwise(
-    (dnnl_post_ops_t)post_ops,
+  mkldnn_post_ops_append_eltwise(
+    (mkldnn_post_ops_t)post_ops,
     scale,
-    (dnnl_alg_kind_t)alg,
+    (mkldnn_alg_kind_t)alg,
     alpha,
     beta);
 }
 
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PostOpsAppendSum
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_PostOpsAppendSum
   (JNIEnv *env, jclass cls, jlong post_ops, jfloat scale)
 {
-  dnnl_post_ops_append_sum(
-    (dnnl_post_ops_t)post_ops,
+  mkldnn_post_ops_append_sum(
+    (mkldnn_post_ops_t)post_ops,
     scale);
 }
 
@@ -213,12 +254,12 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_PostOpsAppendSum
  * Method:    AttrSetPostOps
  * Signature: (JJ)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_AttrSetPostOps
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_AttrSetPostOps
   (JNIEnv *env, jclass cls, jlong attr, jlong post_ops)
 {
-  dnnl_primitive_attr_set_post_ops(
-    (dnnl_primitive_attr_t)attr,
-    (const_dnnl_post_ops_t)post_ops);
+  mkldnn_primitive_attr_set_post_ops(
+    (mkldnn_primitive_attr_t)attr,
+    (const_mkldnn_post_ops_t)post_ops);
 }
 
 /*
@@ -226,11 +267,11 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_AttrSetPostOps
  * Method:    CreateAttr
  * Signature: ()J
  */
-JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_CreateAttr
+JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_CreateAttr
   (JNIEnv *env, jclass cls)
 {
-  dnnl_primitive_attr_t attr;
-  CHECK(dnnl_primitive_attr_create(&attr));
+  mkldnn_primitive_attr_t attr;
+  CHECK(mkldnn_primitive_attr_create(&attr));
   return (long)attr;
 }
 
@@ -239,20 +280,22 @@ JNIEXPORT jlong JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_CreateAttr
  * Method:    DestroyAttr
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_DestroyAttr
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MklDnn_DestroyAttr
   (JNIEnv *env, jclass cls,  long attr)
 {
-  dnnl_primitive_attr_t ptr_attr = (dnnl_primitive_attr_t)attr;
-  CHECK(dnnl_primitive_attr_destroy(ptr_attr));
+  mkldnn_primitive_attr_t ptr_attr = (mkldnn_primitive_attr_t)attr;
+  CHECK(mkldnn_primitive_attr_destroy(ptr_attr));
 }
 
-#define PREFIX(func) Java_com_intel_analytics_bigdl_dnnl_DNNL_##func
+#define PREFIX(func) Java_com_intel_analytics_bigdl_mkl_MklDnn_##func
 
 JNIEXPORT void JNICALL PREFIX(AttrSetIntOutputRoundMode)(JNIEnv* env,
                                                          jclass cls,
                                                          long attr,
                                                          int round_mode) {
-  return ;
+  CHECK_EXCEPTION(
+      env, mkldnn_primitive_attr_set_int_output_round_mode(
+               (mkldnn_primitive_attr_t)attr, (mkldnn_round_mode_t)round_mode));
 }
 
 JNIEXPORT void JNICALL PREFIX(AttrSetOutputScales)(JNIEnv* env,
@@ -261,14 +304,31 @@ JNIEXPORT void JNICALL PREFIX(AttrSetOutputScales)(JNIEnv* env,
                                                    int count,
                                                    int mask,
                                                    jfloatArray scales) {
-  /* dnnl will copy the j_scales to the internal buffer, so no need to worry
+  /* mkldnn will copy the j_scales to the internal buffer, so no need to worry
    * about the memory address moving by GC*/
   float* j_scales = (*env)->GetPrimitiveArrayCritical(env, scales, JNI_FALSE);
 
   CHECK_EXCEPTION(env,
-                  dnnl_primitive_attr_set_output_scales(
-                      (dnnl_primitive_attr_t)attr, count, mask, j_scales));
+                  mkldnn_primitive_attr_set_output_scales(
+                      (mkldnn_primitive_attr_t)attr, count, mask, j_scales));
   (*env)->ReleasePrimitiveArrayCritical(env, scales, j_scales, 0);
+}
+
+JNIEXPORT long JNICALL PREFIX(ReorderPrimitiveDescCreateV2)(JNIEnv* env,
+                                                            jclass cls,
+                                                            long input,
+                                                            long output,
+                                                            long attr) {
+  mkldnn_primitive_desc_t desc = NULL;
+
+  mkldnn_status_t ret = mkldnn_reorder_primitive_desc_create_v2(
+      &desc, (const_mkldnn_primitive_desc_t)input,
+      (const_mkldnn_primitive_desc_t)output,
+      (const_mkldnn_primitive_attr_t)attr);
+
+  CHECK_EXCEPTION(env, ret);
+
+  return (long)(desc);
 }
 
 #ifdef __cplusplus

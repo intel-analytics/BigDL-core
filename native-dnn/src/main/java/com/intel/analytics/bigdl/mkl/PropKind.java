@@ -1,4 +1,4 @@
-package com.intel.analytics.bigdl.dnnl;
+package com.intel.analytics.bigdl.mkl;
 
 public class PropKind {
     public static final int Undef = 0;

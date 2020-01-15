@@ -1,11 +1,13 @@
 #define _GNU_SOURCE
 
+#include "com_intel_analytics_bigdl_mkl_hardware_platform_linux_LinuxNativeUtils.h"
+
 #include <jni.h>
 #include <unistd.h>
 #include <syscall.h>
 
 
-#define PREFIX(x) Java_com_intel_analytics_bigdl_dnnl_hardware_platform_linux_LinuxNativeUtils_##x
+#define PREFIX(x) Java_com_intel_analytics_bigdl_mkl_hardware_platform_linux_LinuxNativeUtils_##x
 
 #ifdef __cplusplus
 extern "C" {

@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.dnnl;
+package com.intel.analytics.bigdl.mkl;
 
-public class Engine {
-    public static class Kind {
-        public static final int Any = 0;
-        public static final int Cpu = 1;
-        public static final int Gpu = 2;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+
+public class MklDnnTest {
+    @Test
+    public void isMKLLoaded() throws Exception {
+        assertTrue(MklDnn.isLoaded());
     }
 
-    public native static long Create(int id, int index);
-    public native static void Destroy(long engine);
-    public native static long Query(long primitiveDescriptor);
+    @Test
+    public void EngineCreate() throws Exception {
+        long ptr = Engine.Create(Engine.Kind.Cpu, 0);
+        System.out.println(ptr);
+        Engine.Destroy(ptr);
+    }
 }

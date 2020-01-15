@@ -1,8 +1,8 @@
-package com.intel.analytics.bigdl.dnnl.hardware;
+package com.intel.analytics.bigdl.mkl.hardware;
 
-import com.intel.analytics.bigdl.dnnl.DNNL;
-import com.intel.analytics.bigdl.dnnl.hardware.platform.IANativeUtils;
-import com.intel.analytics.bigdl.dnnl.hardware.platform.linux.LinuxNativeUtils;
+import com.intel.analytics.bigdl.mkl.MklDnn;
+import com.intel.analytics.bigdl.mkl.hardware.platform.IANativeUtils;
+import com.intel.analytics.bigdl.mkl.hardware.platform.linux.LinuxNativeUtils;
 
 public enum NativeUtils {
     INSTANCE;
@@ -10,7 +10,7 @@ public enum NativeUtils {
     private final static IANativeUtils IMPL;
 
     static {
-        DNNL.isLoaded();
+        MklDnn.isLoaded();
         IMPL = new LinuxNativeUtils();
     }
 
