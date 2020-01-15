@@ -1,0 +1,25 @@
+CC       = gcc
+SUFFIX  ?= so
+CFLAGS  += -c -I ${JAVA_HOME}/include -I $(MKLDNN_INC_DIR) -I /opt/mklml/include \
+           -std=c99 -fPIC -Wall -fopenmp
+LDFLAGS += -ldl -shared -L$(MKLDNN_LIB_DIR) -lmkldnn -L/opt/mklml/lib \
+           -lmklml_intel -liomp5
+
+SOURCES_DIR = ../src/main/c
+OBJECTS_DIR = target/c
+EXECUTABLE  = target/classes/libjdnn.$(SUFFIX)
+
+SOURCES=$(wildcard $(SOURCES_DIR)/*.c)
+OBJECTS=$(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o, $(SOURCES))
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+		$(CC) $(LDFLAGS) $(OBJECTS) -lm -o $@
+
+$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c
+		mkdir -p $(OBJECTS_DIR)
+		$(CC) $(CFLAGS) $< -o $@
+
+clean:
+		rm -rf $(OBJECTS_DIR) $(EXECUTABLE)
