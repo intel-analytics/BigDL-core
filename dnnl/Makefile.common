@@ -7,7 +7,7 @@ LDFLAGS += -ldl -shared -L$(MKLDNN_LIB_DIR) -lmkldnn -L/opt/mklml/lib \
 
 SOURCES_DIR = ../src/main/c
 OBJECTS_DIR = target/c
-EXECUTABLE  = target/classes/libjdnn.$(SUFFIX)
+EXECUTABLE  = target/classes/libjdnnl.$(SUFFIX)
 
 SOURCES=$(wildcard $(SOURCES_DIR)/*.c)
 OBJECTS=$(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o, $(SOURCES))

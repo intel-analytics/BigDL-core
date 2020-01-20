@@ -37,7 +37,7 @@ public class Loader {
 
     public void init() throws IOException {
         libraries.add("iomp5");
-        libraries.add("jdnn");
+        libraries.add("jdnnl");
         libraries.add("mklml_intel");
         libraries.add("dnnl");
 
@@ -54,7 +54,7 @@ public class Loader {
         loadLibrary("iomp5", tempDir);
         loadLibrary("mklml_intel", tempDir);
         loadLibrary("dnnl", tempDir);
-        loadLibrary("jdnn", tempDir);
+        loadLibrary("jdnnl", tempDir);
 
         deleteAll(tempDir);
     }
