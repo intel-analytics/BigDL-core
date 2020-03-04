@@ -182,6 +182,13 @@ JNIEXPORT jlongArray JNICALL PREFIX(GetPaddingShape)(JNIEnv* env,
   return result;
 }
 
+JNIEXPORT jint JNICALL PREFIX(GetFormatKind)(JNIEnv* env,
+                                                   jclass cls,
+                                                   jlong desc) {
+  dnnl_memory_desc_t* jni_desc = (dnnl_memory_desc_t*)desc;
+  return jni_desc->format_kind;
+}
+
 JNIEXPORT jint JNICALL PREFIX(GetLayout)(JNIEnv* env, jclass cls, jlong desc) {
   dnnl_memory_desc_t* jni_desc = (dnnl_memory_desc_t*)desc;
   return (int)(jni_desc->format_kind);

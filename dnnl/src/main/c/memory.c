@@ -32,6 +32,37 @@ JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryDescInit(
   return (long)desc;
 }
 
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryDescInitByStrides(
+  JNIEnv *env, jclass cls,
+  int ndims,
+  jlongArray dims,
+  int data_type)
+{
+  jlong * j_dims = (*env)->GetPrimitiveArrayCritical(env,
+                                                    dims,
+                                                    JNI_FALSE);
+
+  dnnl_memory_desc_t *desc = malloc(sizeof(dnnl_memory_desc_t));
+  CHECK_EXCEPTION(env,
+                  dnnl_memory_desc_init_by_strides(desc,
+                                                   ndims,
+                                                   j_dims,
+                                                   (dnnl_data_type_t)data_type,
+                                                   NULL));
+
+  (*env)->ReleasePrimitiveArrayCritical(env, dims, j_dims, 0);
+
+  return (long)desc;
+}
+
+JNIEXPORT long JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_MemoryDescClone(
+  JNIEnv *env, jclass cls,
+  jlong desc_addr)
+{
+  dnnl_memory_desc_t *desc = malloc(sizeof(dnnl_memory_desc_t));
+  (*desc) = *(dnnl_memory_desc_t *)desc_addr;
+  return (long)desc;
+}
 // TODO free the memory desc
 JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_FreeMemoryDescInit
 (JNIEnv *env, jclass cls, jlong memory_desc)
@@ -129,7 +160,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_copyFloatBuffer2
    jfloatArray array, jint arrayOffset, jint length)
 {
   float *src = (float*)(*env)->GetDirectBufferAddress(env, buffer);
-  float *dst = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);              
+  float *dst = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);
   memcpy(dst + arrayOffset, src + bufferOffset, length * sizeof(float));
 
   (*env)->ReleasePrimitiveArrayCritical(env, array, dst, 0);
@@ -145,7 +176,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_copyArray2FloatB
    jfloatArray array, jint arrayOffset, jint length)
 {
   float *dst = (float*)(*env)->GetDirectBufferAddress(env, buffer);
-  float *src = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);              
+  float *src = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);
   memcpy(dst + bufferOffset, src + arrayOffset, length * sizeof(float));
 
   (*env)->ReleasePrimitiveArrayCritical(env, array, src, 0);
@@ -256,7 +287,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_dnnl_DNNL_copyPtr2Array
   (JNIEnv *env, jclass cls, jlong ptr, jint position, jfloatArray array, jint offset, jint length)
 {
   float *src = (float*)ptr;
-  float *dst = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);              
+  float *dst = (float*)(*env)->GetPrimitiveArrayCritical(env, array, 0);
   memcpy(dst + offset, src + position, length * sizeof(float));
 
   (*env)->ReleasePrimitiveArrayCritical(env, array, dst, 0);

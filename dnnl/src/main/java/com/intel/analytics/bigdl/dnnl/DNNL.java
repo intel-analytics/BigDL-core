@@ -54,6 +54,9 @@ public class DNNL {
 
     public native static long MemoryDescInit(int ndims, long[] dims,
                                              int dataType, int dataFormat);
+    public native static long MemoryDescInitByStrides(int ndims, long[] dims,
+                                                      int dataType);
+    public native static long MemoryDescClone(long desc);
     public native static long MemoryCreate(long desc, long engine);
 
     public native static long MemoryGetDataHandle(long memory);
