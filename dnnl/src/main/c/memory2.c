@@ -194,6 +194,12 @@ JNIEXPORT jint JNICALL PREFIX(GetLayout)(JNIEnv* env, jclass cls, jlong desc) {
   return (int)(jni_desc->format_kind);
 }
 
+JNIEXPORT jlong JNICALL PREFIX(GetSize)(JNIEnv* env, jclass cls, jlong desc) {
+  dnnl_memory_desc_t* jni_desc = (dnnl_memory_desc_t*)desc;
+  size_t size =  dnnl_memory_desc_get_size(jni_desc);
+  return size;
+}
+
 JNIEXPORT jint JNICALL PREFIX(GetDataType)(JNIEnv* env,
                                            jclass cls,
                                            jlong desc) {
