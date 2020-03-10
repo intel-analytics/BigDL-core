@@ -1,3 +1,6 @@
 [submodule "native-dnn/native"]
 	path = native-dnn/native
 	url = https://github.com/01org/mkl-dnn.git
+[submodule "dnnl/native"]
+	path = dnnl/native
+	url = https://github.com/intel/mkl-dnn.git

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>dnnl-parent</artifactId>
+    <groupId>com.intel.analytics.bigdl.core.native</groupId>
+    <version>0.11.0-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.intel.analytics.bigdl.core.native.dnnl</groupId>
+  <artifactId>dnnl-java-x86_64-linux</artifactId>
+  <packaging>jar</packaging>
+
+  <properties>
+    <iompLib>libiomp5.so</iompLib>
+    <iompLibDir>/opt/mklml/lib</iompLibDir>
+
+    <dnnlBuild>${project.basedir}/../native/build</dnnlBuild>
+    <dnnlLibDir>${dnnlBuild}/src</dnnlLibDir>
+    <dnnlLib>libdnnl.so</dnnlLib>
+  </properties>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${iompLibDir}</directory>
+        <includes>
+          <include>${iompLib}</include>
+          <include>libmklml_intel.so</include>
+        </includes>
+        <targetPath>${project.build.directory}/classes</targetPath>
+      </resource>
+      <resource>
+        <directory>${dnnlLibDir}</directory>
+        <includes>
+          <include>${dnnlLib}</include>
+        </includes>
+        <targetPath>${project.build.directory}/classes</targetPath>
+      </resource>
+    </resources>
+
+    <sourceDirectory>../src/main/java</sourceDirectory>
+    <testSourceDirectory>../src/test/java</testSourceDirectory>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>build-native-dnn</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="${dnnlBuild}"/>
+                <exec executable="cmake" dir="${dnnlBuild}" failonerror="true">
+                  <env key = "CC" value = "icc"/>
+                  <env key = "CXX" value = "icpc"/>
+                  <arg line="../
+                    -DCMAKE_INSTALL_PREFIX=/opt/native-dnn
+                    -DCMAKE_BUILD_TYPE=Release
+                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+                    -DDNNL_BUILD_EXAMPLES=OFF
+                    -DDNNL_BUILD_TESTS=OFF
+                    "/>
+                </exec>
+                <exec executable="make" dir="${dnnlBuild}" failonerror="true">
+                  <arg line="-j 4"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-jni</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <exec executable="make" dir="${project.basedir}/" failonerror="true">
+                  <arg line="-j 4"/>
+                </exec>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -32,5 +32,10 @@
       <artifactId>dnn-java-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.intel.analytics.bigdl.core.native.dnnl</groupId>
+      <artifactId>dnnl-java-x86_64-linux</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
