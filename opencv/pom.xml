@@ -56,7 +56,7 @@
             <modules>
                 <module>opencv-java-x86_64-linux</module>
                 <module>opencv-java-mac</module>
-                <module><!--opencv-java-win64--></module>
+                <!--<module>opencv-java-win64</module>-->
             </modules>
         </profile>
     </profiles>
