@@ -16,7 +16,7 @@
 
   <modules>
     <module>dist-mac</module>
-    <module>dist-win64</module>
+    <!--<module>dist-win64</module>-->
     <module>dist-linux</module>
     <module>dist-rh5</module>
     <module>dist-all</module>

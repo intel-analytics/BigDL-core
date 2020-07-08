@@ -33,12 +33,12 @@
       </activation>
     </profile>
 
-    <profile>
+    <!--<profile>
       <id>win64</id>
       <modules>
         <module>mkl-java-win64</module>
       </modules>
-    </profile>
+    </profile>-->
 
     <profile>
       <id>mac</id>
@@ -59,7 +59,7 @@
       <modules>
         <module>mkl-java-x86_64-linux</module>
         <module>mkl-java-mac</module>
-        <module>mkl-java-win64</module>
+        <!--<module>mkl-java-win64</module>-->
         <module>mkl-java-rh5</module>
       </modules>
     </profile>

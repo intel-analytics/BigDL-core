@@ -25,12 +25,12 @@
       </activation>
     </profile>
 
-    <profile>
+    <!--<profile>
       <id>win64</id>
       <modules>
         <module>bigquant-java-win64</module>
       </modules>
-    </profile>
+    </profile>-->
 
     <profile>
       <id>mac</id>
@@ -51,7 +51,7 @@
       <modules>
         <module>bigquant-java-x86_64-linux</module>
         <module>bigquant-java-mac</module>
-        <module>bigquant-java-win64</module>
+        <!--<module>bigquant-java-win64</module>-->
         <module>bigquant-java-rh5</module>
       </modules>
     </profile>
