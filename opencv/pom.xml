@@ -44,19 +44,19 @@
             <id>rh5</id>
         </profile>
 
-        <profile>
+        <!--<profile>
             <id>win64</id>
             <modules>
                 <module>opencv-java-win64</module>
             </modules>
-        </profile>
+        </profile>-->
 
         <profile>
             <id>deploy</id>
             <modules>
                 <module>opencv-java-x86_64-linux</module>
                 <module>opencv-java-mac</module>
-                <module>opencv-java-win64</module>
+                <!--<module>opencv-java-win64</module>-->
             </modules>
         </profile>
     </profiles>
