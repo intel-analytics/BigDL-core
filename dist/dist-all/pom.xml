@@ -31,7 +31,7 @@
       </activation>
     </profile>
 
-    <profile>
+    <!--<profile>
       <id>win64</id>
       <dependencies>
         <dependency>
@@ -41,7 +41,7 @@
           <type>pom</type>
         </dependency>
       </dependencies>
-    </profile>
+    </profile>-->
 
     <profile>
       <id>mac</id>
@@ -68,12 +68,12 @@
           <version>${project.version}</version>
           <type>pom</type>
         </dependency>
-        <dependency>
+        <!--<dependency>
           <groupId>com.intel.analytics.bigdl.core.dist</groupId>
           <artifactId>win64</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
-        </dependency>
+        </dependency>-->
         <dependency>
           <groupId>com.intel.analytics.bigdl.core.dist</groupId>
           <artifactId>mac</artifactId>
