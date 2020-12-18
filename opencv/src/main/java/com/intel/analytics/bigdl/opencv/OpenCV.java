@@ -33,11 +33,11 @@ public class OpenCV {
 
     static {
         try {
-            String jopencvFileName = "libopencv_java320.so";
+            String jopencvFileName = "libopencv_java410.so";
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                jopencvFileName = "libopencv_java320.dylib";
+                jopencvFileName = "libopencv_java410.dylib";
             } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                jopencvFileName = "opencv_java320.dll";
+                jopencvFileName = "opencv_java410.dll";
             }
             tmpFile = extract(jopencvFileName);
             System.load(tmpFile.getAbsolutePath());
