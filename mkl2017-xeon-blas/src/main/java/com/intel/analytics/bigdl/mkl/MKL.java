@@ -38,46 +38,48 @@ public class MKL {
 
     static {
         try {
-            String iomp5FileName = "libiomp5.so";
-            String mklFileName = "libmklml_intel.so";
-            String jmklFileName = "libjmkl.so";
+            String[] LIBS = new String[]{
+                "libiomp5.so",
+                "libmklml_intel.so",
+                "libjmkl.so"};
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                iomp5FileName = "libiomp5.dylib";
-                mklFileName = "libmklml.dylib";
-                jmklFileName = "libjmkl.dylib";
+                LIBS = new String[]{
+                    "libiomp5.dylib",
+                    "libmklml.dylib",
+                    "libjmkl.dylib"}
             } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
-                iomp5FileName = "libiomp5md.dll";
-                mklFileName = "mklml.dll";
-                jmklFileName = "libjmkl.dll";
+                LIBS = new String[]{
+                    "libiomp5md.dll",
+                    "mklml.dll",
+                    "libjmkl.dll"}
             }
 
-            tmpFile = extract(iomp5FileName);
-            try {
-                System.load(tmpFile.getAbsolutePath());
-            } finally {
-                tmpFile.delete(); // delete so temp file after loaded
+            // TODO for windows, we don't create mkl.native dir
+            Path tempDir = null;
+            if (os.contains("win")) {
+                tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+            } else {
+                tempDir = Files.createTempDirectory("mkl.native.");
             }
 
-            // on windows/rh5, there's no libmklml_intel.so / libmklml.dylib.
-            if (MKL.class.getResource("/" + mklFileName) != null) {
-                tmpFile = extract(mklFileName);
-                try {
-                    System.load(tmpFile.getAbsolutePath());
-                } finally {
-                    tmpFile.delete();
+            for (int i = 0; i < LIBS.length; i++){
+                String libName = LIBS[i]
+                if (MKL.class.getResource("/" + libName) != null) {
+                    try {
+                        tmpFile = extract(tempDir, libName);
+                        System.load(tmpFile.getAbsolutePath());
+                    } catch (IOException e) {
+                        throw new UnsatisfiedLinkError(
+                                String.format(
+                                        "Unable to extract & load (%s)", e.toString()));
+                    }
                 }
-            }
-
-            tmpFile = extract(jmklFileName);
-            try {
-                System.load(tmpFile.getAbsolutePath());
-            } finally {
-                tmpFile.delete(); // delete so temp file after loaded
             }
 
             setMklEnv();
 
             isLoaded = true;
+            deleteAll(tempDir);
         } catch (Exception e) {
             isLoaded = false;
             e.printStackTrace();
@@ -314,7 +316,7 @@ public class MKL {
     public native static int getNumThreads();
 
     // Extract so file from jar to a temp path
-    private static File extract(String path) {
+    private static File extract(Path tempDir, String path) {
         try {
             URL url = MKL.class.getResource("/" + path);
             if (url == null) {
@@ -324,14 +326,7 @@ public class MKL {
             InputStream in = MKL.class.getResourceAsStream("/" + path);
             File file = null;
 
-            // Windows won't allow to change the dll name, so we keep the name
-            // It's fine as windows is consider in a desktop env, so there won't multiple instance
-            // produce the dynamic lib file
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                file = new File(System.getProperty("java.io.tmpdir") + File.separator + path);
-            } else {
-                file = createTempFile("dlNativeLoader", path);
-            }
+            file = new File(tempDir.toFile() + File.separator + path);
 
             ReadableByteChannel src = newChannel(in);
             FileChannel dest = new FileOutputStream(file).getChannel();
@@ -344,4 +339,12 @@ public class MKL {
         }
     }
 
+    private void deleteAll(Path tempDir) {
+        File dir = tempDir.toFile();
+        for (File f: dir.listFiles()) {
+            f.delete();
+        }
+
+        dir.delete();
+    }
 }
