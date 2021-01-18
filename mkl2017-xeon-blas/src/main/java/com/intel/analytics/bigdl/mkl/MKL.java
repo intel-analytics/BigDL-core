@@ -46,12 +46,12 @@ public class MKL {
                 LIBS = new String[]{
                     "libiomp5.dylib",
                     "libmklml.dylib",
-                    "libjmkl.dylib"}
+                    "libjmkl.dylib"};
             } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
                 LIBS = new String[]{
                     "libiomp5md.dll",
                     "mklml.dll",
-                    "libjmkl.dll"}
+                    "libjmkl.dll"};
             }
 
             // TODO for windows, we don't create mkl.native dir
@@ -63,7 +63,7 @@ public class MKL {
             }
 
             for (int i = 0; i < LIBS.length; i++) {
-                String libName = LIBS[i]
+                String libName = LIBS[i];
                 System.out.println("[DEBUG] Loading " + libName);
                 if (MKL.class.getResource("/" + libName) != null) {
                     try {
