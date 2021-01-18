@@ -19,7 +19,7 @@ package com.intel.analytics.bigdl.mkl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.IOException;
+import java.lang.Exception;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -74,7 +74,7 @@ public class MKL {
                     try {
                         tmpFile = extract(tempDir, libName);
                         System.load(tmpFile.getAbsolutePath());
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         throw new UnsatisfiedLinkError(
                                 String.format(
                                         "Unable to extract & load (%s)", e.toString()));
