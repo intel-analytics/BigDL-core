@@ -19,7 +19,10 @@ package com.intel.analytics.bigdl.mkl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 
@@ -32,6 +35,7 @@ import static java.nio.channels.Channels.newChannel;
 public class MKL {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
+    private String os = System.getProperty("os.name").toLowerCase();
 
     public final static int MKL_WAIT_POLICY_PASSIVE = 3;
     public final static int MKL_WAIT_POLICY_ACTIVE = 2;
@@ -77,11 +81,11 @@ public class MKL {
                     System.out.println("[DEBUG] Loaded " + libName);
                 }
             }
-            System.out.println("[DEBUG] Setup env " + libName);
+            System.out.println("[DEBUG] Setup env");
             setMklEnv();
 
             isLoaded = true;
-            System.out.println("[DEBUG] delete tempdir " + libName);
+            System.out.println("[DEBUG] delete tempdir");
             deleteAll(tempDir);
         } catch (Exception e) {
             isLoaded = false;
