@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.channels.FileChannel;
@@ -35,7 +36,7 @@ import static java.nio.channels.Channels.newChannel;
 public class MKL {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
-    private String os = System.getProperty("os.name").toLowerCase();
+    private static String os = System.getProperty("os.name").toLowerCase();
 
     public final static int MKL_WAIT_POLICY_PASSIVE = 3;
     public final static int MKL_WAIT_POLICY_ACTIVE = 2;
@@ -346,7 +347,7 @@ public class MKL {
         }
     }
 
-    private void deleteAll(Path tempDir) {
+    private static void deleteAll(Path tempDir) {
         File dir = tempDir.toFile();
         for (File f: dir.listFiles()) {
             f.delete();
