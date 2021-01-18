@@ -62,8 +62,9 @@ public class MKL {
                 tempDir = Files.createTempDirectory("mkl.native.");
             }
 
-            for (int i = 0; i < LIBS.length; i++){
+            for (int i = 0; i < LIBS.length; i++) {
                 String libName = LIBS[i]
+                System.out.println("[DEBUG] Loading " + libName);
                 if (MKL.class.getResource("/" + libName) != null) {
                     try {
                         tmpFile = extract(tempDir, libName);
@@ -73,12 +74,14 @@ public class MKL {
                                 String.format(
                                         "Unable to extract & load (%s)", e.toString()));
                     }
+                    System.out.println("[DEBUG] Loaded " + libName);
                 }
             }
-
+            System.out.println("[DEBUG] Setup env " + libName);
             setMklEnv();
 
             isLoaded = true;
+            System.out.println("[DEBUG] delete tempdir " + libName);
             deleteAll(tempDir);
         } catch (Exception e) {
             isLoaded = false;
