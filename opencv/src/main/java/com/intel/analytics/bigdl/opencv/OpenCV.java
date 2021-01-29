@@ -33,6 +33,8 @@ import static java.nio.channels.Channels.newChannel;
 public class OpenCV {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
+    
+    private static String os = System.getProperty("os.name").toLowerCase();
 
     static {
         try {
