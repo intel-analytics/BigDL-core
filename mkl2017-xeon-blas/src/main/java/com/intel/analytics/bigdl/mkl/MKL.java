@@ -121,10 +121,13 @@ public class MKL {
         setNumThreads(getMklNumThreads());
         if (!disable) {
             setBlockTime(getMklBlockTime());
+            System.out.println("[DEBUG] set block time");
         }
         waitPolicy(getMklWaitPolicy());
+        System.out.println("[DEBUG] getMklWaitPolicy");
         if (getMklDisableFastMM()) {
             disableFastMM();
+            System.out.println("[DEBUG] disableFastMM");
         }
     }
 

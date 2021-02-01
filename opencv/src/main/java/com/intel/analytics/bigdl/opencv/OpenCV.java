@@ -44,6 +44,7 @@ public class OpenCV {
             } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
                 jopencvFileName = "opencv_java320.dll";
             }
+            System.out.println("[DEBUG] Loading " + jopencvFileName);
             // TODO for windows, we don't create mkl.native dir
             Path tempDir = null;
             if (os.contains("win")) {
@@ -54,6 +55,7 @@ public class OpenCV {
 
             tmpFile = extract(tempDir, jopencvFileName);
             System.load(tmpFile.getAbsolutePath());
+            System.out.println("[DEBUG] Loaded " + jopencvFileName);
             isLoaded = true;
             deleteAll(tempDir);
         } catch (Exception e) {
