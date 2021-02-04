@@ -16,7 +16,7 @@
 
   <properties>
     <iompLib>libiomp5.so</iompLib>
-    <iompLibDir>/opt/mklml/lib/</iompLibDir>
+    <iompLibDir>/opt/mklml_lnx_2019.0.5.20190502/lib/</iompLibDir>
     <make_exe>make</make_exe>
   </properties>
 
