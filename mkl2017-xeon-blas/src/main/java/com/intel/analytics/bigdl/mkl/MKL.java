@@ -82,12 +82,10 @@ public class MKL {
                     System.out.println("[DEBUG] Loaded " + libName);
                 }
             }
-            System.out.println("[DEBUG] Setup env");
             setMklEnv();
-
             isLoaded = true;
-            System.out.println("[DEBUG] delete tempdir");
             deleteAll(tempDir);
+            System.out.println("[DEBUG] delete tempdir");
         } catch (Exception e) {
             isLoaded = false;
             e.printStackTrace();
@@ -115,10 +113,12 @@ public class MKL {
      *      + default value: true
      */
     private static void setMklEnv() {
+        System.out.println("[DEBUG] Setup env");
         String disableStr = System.getProperty("bigdl.disable.mklBlockTime", "false");
         boolean disable = Boolean.parseBoolean(disableStr);
-
+        System.out.println("[DEBUG] getProperty bigdl.disable.mklBlockTime");
         setNumThreads(getMklNumThreads());
+        System.out.println("[DEBUG] setNumThreads");
         if (!disable) {
             setBlockTime(getMklBlockTime());
             System.out.println("[DEBUG] set block time");
@@ -137,7 +137,7 @@ public class MKL {
         if (num <= 0) {
             throw new UnsupportedOperationException("unknown bigdl.mklNumThreads " + num);
         }
-
+        System.out.println("[DEBUG] getMklNumThreads");
         return num;
     }
 

@@ -58,6 +58,7 @@ public class OpenCV {
             System.out.println("[DEBUG] Loaded " + jopencvFileName);
             isLoaded = true;
             deleteAll(tempDir);
+            System.out.println("[DEBUG] delete tempdir");
         } catch (Exception e) {
             isLoaded = false;
             e.printStackTrace();
