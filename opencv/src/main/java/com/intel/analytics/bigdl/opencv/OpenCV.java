@@ -37,32 +37,48 @@ public class OpenCV {
     private static String os = System.getProperty("os.name").toLowerCase();
 
     static {
+        String jopencvFileName = "libopencv_java320.so";
+        // Load from LD_PATH
         try {
-            String jopencvFileName = "libopencv_java320.so";
-            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                jopencvFileName = "libopencv_java320.dylib";
-            } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                jopencvFileName = "opencv_java320.dll";
+                String libName = jopencvFileName;
+                if (libName.indexOf(".") != -1) {
+                    // Remove lib and .so
+                    libName = libName.substring(3, libName.indexOf("."));
+                }
+                System.loadLibrary(libName);
+                isLoaded = true;
+                System.out.println("[DEBUG] " + libName + " loaded");
             }
-            System.out.println("[DEBUG] Loading " + jopencvFileName);
-            // TODO for windows, we don't create mkl.native dir
-            Path tempDir = null;
-            if (os.contains("win")) {
-                tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
-            } else {
-                tempDir = Files.createTempDirectory("opencv.native.");
-            }
+        } catch (UnsatisfiedLinkError e) {
+            System.out.println("tryLoadLibraryFailed: " + e.getMessage());
+        }
+        if (!isLoaded) {
+            try {
+                if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                    jopencvFileName = "libopencv_java320.dylib";
+                } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                    jopencvFileName = "opencv_java320.dll";
+                }
+                System.out.println("[DEBUG] Loading " + jopencvFileName);
+                // TODO for windows, we don't create mkl.native dir
+                Path tempDir = null;
+                if (os.contains("win")) {
+                    tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+                } else {
+                    tempDir = Files.createTempDirectory("opencv.native.");
+                }
 
-            tmpFile = extract(tempDir, jopencvFileName);
-            System.load(tmpFile.getAbsolutePath());
-            System.out.println("[DEBUG] Loaded " + jopencvFileName);
-            isLoaded = true;
-            deleteAll(tempDir);
-            System.out.println("[DEBUG] delete tempdir");
-        } catch (Exception e) {
-            isLoaded = false;
-            e.printStackTrace();
-            throw new RuntimeException("Failed to load OpenCV");
+                tmpFile = extract(tempDir, jopencvFileName);
+                System.load(tmpFile.getAbsolutePath());
+                System.out.println("[DEBUG] Loaded " + jopencvFileName);
+                isLoaded = true;
+                deleteAll(tempDir);
+                System.out.println("[DEBUG] delete tempdir");
+            } catch (Exception e) {
+                isLoaded = false;
+                e.printStackTrace();
+                throw new RuntimeException("Failed to load OpenCV");
+            }
         }
     }
 

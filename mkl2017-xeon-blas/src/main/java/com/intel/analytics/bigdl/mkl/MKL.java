@@ -42,55 +42,59 @@ public class MKL {
     public final static int MKL_WAIT_POLICY_ACTIVE = 2;
 
     static {
-        try {
-            String[] LIBS = new String[]{
-                "libiomp5.so",
-                "libmklml_intel.so",
-                "libjmkl.so"};
-            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                LIBS = new String[]{
-                    "libiomp5.dylib",
-                    "libmklml.dylib",
-                    "libjmkl.dylib"};
-            } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
-                LIBS = new String[]{
-                    "libiomp5md.dll",
-                    "mklml.dll",
-                    "libjmkl.dll"};
-            }
+        String[] LIBS = new String[]{
+            "libiomp5.so",
+            "libmklml_intel.so",
+            "libjmkl.so"};
 
-            // TODO for windows, we don't create mkl.native dir
-            Path tempDir = null;
-            if (os.contains("win")) {
-                tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
-            } else {
-                tempDir = Files.createTempDirectory("mkl.native.");
-            }
-
-            for (int i = 0; i < LIBS.length; i++) {
-                String libName = LIBS[i];
-                System.out.println("[DEBUG] Loading " + libName);
-                if (MKL.class.getResource("/" + libName) != null) {
-                    try {
-                        tmpFile = extract(tempDir, libName);
-                        System.load(tmpFile.getAbsolutePath());
-                    } catch (Exception e) {
-                        throw new UnsatisfiedLinkError(
-                                String.format(
-                                        "Unable to extract & load (%s)", e.toString()));
-                    }
-                    System.out.println("[DEBUG] Loaded " + libName);
+        isLoaded = tryLoadLibrary(LIBS);
+        if (!isLoaded) {
+            try {
+                if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                    LIBS = new String[]{
+                        "libiomp5.dylib",
+                        "libmklml.dylib",
+                        "libjmkl.dylib"};
+                } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
+                    LIBS = new String[]{
+                        "libiomp5md.dll",
+                        "mklml.dll",
+                        "libjmkl.dll"};
                 }
+
+                // TODO for windows, we don't create mkl.native dir
+                Path tempDir = null;
+                if (os.contains("win")) {
+                    tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+                } else {
+                    tempDir = Files.createTempDirectory("mkl.native.");
+                }
+
+                for (int i = 0; i < LIBS.length; i++) {
+                    String libName = LIBS[i];
+                    System.out.println("[DEBUG] Loading " + libName);
+                    if (MKL.class.getResource("/" + libName) != null) {
+                        try {
+                            tmpFile = extract(tempDir, libName);
+                            System.load(tmpFile.getAbsolutePath());
+                        } catch (Exception e) {
+                            throw new UnsatisfiedLinkError(
+                                    String.format(
+                                            "Unable to extract & load (%s)", e.toString()));
+                        }
+                        System.out.println("[DEBUG] Loaded " + libName);
+                    }
+                }
+                setMklEnv();
+                isLoaded = true;
+                deleteAll(tempDir);
+                System.out.println("[DEBUG] delete tempdir");
+            } catch (Exception e) {
+                isLoaded = false;
+                e.printStackTrace();
+                // TODO: Add an argument for user, continuing to run even if MKL load failed.
+                throw new RuntimeException("Failed to load MKL");
             }
-            setMklEnv();
-            isLoaded = true;
-            deleteAll(tempDir);
-            System.out.println("[DEBUG] delete tempdir");
-        } catch (Exception e) {
-            isLoaded = false;
-            e.printStackTrace();
-            // TODO: Add an argument for user, continuing to run even if MKL load failed.
-            throw new RuntimeException("Failed to load MKL");
         }
     }
 
@@ -357,5 +361,26 @@ public class MKL {
         }
 
         dir.delete();
+    }
+
+    private static boolean tryLoadLibrary(String[] libs) {
+        log("try loading native libraries from java.library.path ");
+        try {
+            for (int i = 0; i < libs.length; i++) {
+                String libName = libs[i];
+                if (libName.indexOf(".") != -1) {
+                    // Remove lib and .so
+                    libName = libName.substring(3, libName.indexOf("."));
+                }
+                System.out.println("[DEBUG] loaded libName with LoadLibrary");
+                System.loadLibrary(libName);
+            }
+            System.out.println("[DEBUG] LoadLibrary native libraries loaded");
+            return true;
+        } catch (UnsatisfiedLinkError e) {
+            System.out.println("tryLoadLibraryFailed: " + e.getMessage());
+            return false;
+        }
+
     }
 }
