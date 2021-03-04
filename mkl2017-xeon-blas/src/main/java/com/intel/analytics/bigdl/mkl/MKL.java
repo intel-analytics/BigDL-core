@@ -364,7 +364,7 @@ public class MKL {
     }
 
     private static boolean tryLoadLibrary(String[] libs) {
-        log("try loading native libraries from java.library.path ");
+        System.out.println("[DEBUG] try loading native libraries from java.library.path ");
         try {
             for (int i = 0; i < libs.length; i++) {
                 String libName = libs[i];
