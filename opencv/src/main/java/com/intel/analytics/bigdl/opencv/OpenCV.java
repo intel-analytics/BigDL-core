@@ -33,6 +33,8 @@ import static java.nio.channels.Channels.newChannel;
 public class OpenCV {
     private static boolean isLoaded = false;
     private static File tmpFile = null;
+    private static final boolean DEBUG =
+            System.getProperty("com.intel.analytics.bigdl.opencv.OpenCV.DEBUG") != null;
     
     private static String os = System.getProperty("os.name").toLowerCase();
 
@@ -47,7 +49,7 @@ public class OpenCV {
                 }
                 System.loadLibrary(libName);
                 isLoaded = true;
-                System.out.println("[DEBUG] " + libName + " loaded");
+                log("[DEBUG] " + libName + " loaded");
         } catch (UnsatisfiedLinkError e) {
             System.out.println("tryLoadLibraryFailed: " + e.getMessage());
         }
@@ -58,7 +60,7 @@ public class OpenCV {
                 } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
                     jopencvFileName = "opencv_java320.dll";
                 }
-                System.out.println("[DEBUG] Loading " + jopencvFileName);
+                log("[DEBUG] Loading " + jopencvFileName);
                 // TODO for windows, we don't create mkl.native dir
                 Path tempDir = null;
                 if (os.contains("win")) {
@@ -69,10 +71,10 @@ public class OpenCV {
 
                 tmpFile = extract(tempDir, jopencvFileName);
                 System.load(tmpFile.getAbsolutePath());
-                System.out.println("[DEBUG] Loaded " + jopencvFileName);
+                log("[DEBUG] Loaded " + jopencvFileName);
                 isLoaded = true;
                 deleteAll(tempDir);
-                System.out.println("[DEBUG] delete tempdir");
+                log("[DEBUG] delete tempdir");
             } catch (Exception e) {
                 isLoaded = false;
                 e.printStackTrace();
@@ -121,6 +123,12 @@ public class OpenCV {
             return file;
         } catch (Throwable e) {
             throw new Error("Can't extract dynamic lib file to /tmp dir.\n" + e);
+        }
+    }
+
+    private static void log(String msg) {
+        if (DEBUG) {
+            System.err.println("com.intel.analytics.bigdl.opencv.OpenCV: " + msg);
         }
     }
 

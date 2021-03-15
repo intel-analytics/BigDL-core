@@ -34,6 +34,9 @@ import static java.nio.channels.Channels.newChannel;
  * MKL Library Wrapper for JVM
  */
 public class MKL {
+    private static final boolean DEBUG =
+            System.getProperty("com.intel.analytics.bigdl.mkl.MKL.DEBUG") != null;
+
     private static boolean isLoaded = false;
     private static File tmpFile = null;
     private static String os = System.getProperty("os.name").toLowerCase();
@@ -72,7 +75,7 @@ public class MKL {
 
                 for (int i = 0; i < LIBS.length; i++) {
                     String libName = LIBS[i];
-                    System.out.println("[DEBUG] Loading " + libName);
+                    log("[DEBUG] Loading " + libName);
                     if (MKL.class.getResource("/" + libName) != null) {
                         try {
                             tmpFile = extract(tempDir, libName);
@@ -82,13 +85,13 @@ public class MKL {
                                     String.format(
                                             "Unable to extract & load (%s)", e.toString()));
                         }
-                        System.out.println("[DEBUG] Loaded " + libName);
+                        log("[DEBUG] Loaded " + libName);
                     }
                 }
                 setMklEnv();
                 isLoaded = true;
                 deleteAll(tempDir);
-                System.out.println("[DEBUG] delete tempdir");
+                log("[DEBUG] delete tempdir");
             } catch (Exception e) {
                 isLoaded = false;
                 e.printStackTrace();
@@ -117,21 +120,21 @@ public class MKL {
      *      + default value: true
      */
     private static void setMklEnv() {
-        System.out.println("[DEBUG] Setup env");
+        log("[DEBUG] Setup env");
         String disableStr = System.getProperty("bigdl.disable.mklBlockTime", "false");
         boolean disable = Boolean.parseBoolean(disableStr);
-        System.out.println("[DEBUG] getProperty bigdl.disable.mklBlockTime");
+        log("[DEBUG] getProperty bigdl.disable.mklBlockTime");
         setNumThreads(getMklNumThreads());
-        System.out.println("[DEBUG] setNumThreads");
+        log("[DEBUG] setNumThreads");
         if (!disable) {
             setBlockTime(getMklBlockTime());
-            System.out.println("[DEBUG] set block time");
+            log("[DEBUG] set block time");
         }
         waitPolicy(getMklWaitPolicy());
-        System.out.println("[DEBUG] getMklWaitPolicy");
+        log("[DEBUG] getMklWaitPolicy");
         if (getMklDisableFastMM()) {
             disableFastMM();
-            System.out.println("[DEBUG] disableFastMM");
+            log("[DEBUG] disableFastMM");
         }
     }
 
@@ -141,7 +144,7 @@ public class MKL {
         if (num <= 0) {
             throw new UnsupportedOperationException("unknown bigdl.mklNumThreads " + num);
         }
-        System.out.println("[DEBUG] getMklNumThreads");
+        log("[DEBUG] getMklNumThreads");
         return num;
     }
 
@@ -354,6 +357,12 @@ public class MKL {
         }
     }
 
+    private static void log(String msg) {
+        if (DEBUG) {
+            System.err.println("com.intel.analytics.bigdl.mkl: " + msg);
+        }
+    }
+
     private static void deleteAll(Path tempDir) {
         File dir = tempDir.toFile();
         for (File f: dir.listFiles()) {
@@ -364,7 +373,7 @@ public class MKL {
     }
 
     private static boolean tryLoadLibrary(String[] libs) {
-        System.out.println("[DEBUG] try loading native libraries from java.library.path ");
+        System.out.println("try loading native libraries from java.library.path ");
         try {
             for (int i = 0; i < libs.length; i++) {
                 String libName = libs[i];
@@ -372,10 +381,10 @@ public class MKL {
                     // Remove lib and .so
                     libName = libName.substring(3, libName.indexOf("."));
                 }
-                System.out.println("[DEBUG] loaded libName with LoadLibrary");
+                log("[DEBUG] loaded libName with LoadLibrary");
                 System.loadLibrary(libName);
             }
-            System.out.println("[DEBUG] LoadLibrary native libraries loaded");
+            log("[DEBUG] LoadLibrary native libraries loaded");
             return true;
         } catch (UnsatisfiedLinkError e) {
             System.out.println("tryLoadLibraryFailed: " + e.getMessage());
