@@ -31,10 +31,11 @@ import static java.nio.channels.Channels.newChannel;
  * OpenCV Library Wrapper for JVM
  */
 public class OpenCV {
-    private static boolean isLoaded = false;
-    private static File tmpFile = null;
     private static final boolean DEBUG =
             System.getProperty("com.intel.analytics.bigdl.opencv.OpenCV.DEBUG") != null;
+
+    private static boolean isLoaded = false;
+    private static File tmpFile = null;
     
     private static String os = System.getProperty("os.name").toLowerCase();
 
@@ -42,6 +43,7 @@ public class OpenCV {
         String jopencvFileName = "libopencv_java320.so";
         // Load from LD_PATH
         try {
+                System.out.println("try loading opencv_java320 from java.library.path ");
                 String libName = jopencvFileName;
                 if (libName.indexOf(".") != -1) {
                     // Remove lib and .so
