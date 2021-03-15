@@ -51,7 +51,7 @@ public class OpenCV {
                 }
                 System.loadLibrary(libName);
                 isLoaded = true;
-                log("[DEBUG] " + libName + " loaded");
+                log("[DEBUG] loaded " + libName + " from java.library.path");
         } catch (UnsatisfiedLinkError e) {
             System.out.println("tryLoadLibraryFailed: " + e.getMessage());
         }

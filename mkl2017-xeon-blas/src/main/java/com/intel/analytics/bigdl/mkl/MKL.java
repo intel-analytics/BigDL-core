@@ -373,7 +373,7 @@ public class MKL {
     }
 
     private static boolean tryLoadLibrary(String[] libs) {
-        System.out.println("try loading native libraries from java.library.path ");
+        System.out.println("try loading native libraries from java.library.path");
         try {
             for (int i = 0; i < libs.length; i++) {
                 String libName = libs[i];
@@ -381,10 +381,10 @@ public class MKL {
                     // Remove lib and .so
                     libName = libName.substring(3, libName.indexOf("."));
                 }
-                log("[DEBUG] loaded libName with LoadLibrary");
                 System.loadLibrary(libName);
+                log("[DEBUG] loaded " + libName + " from java.library.path");
             }
-            log("[DEBUG] LoadLibrary native libraries loaded");
+            log("[DEBUG] Loaded native libraries from java.library.path");
             return true;
         } catch (UnsatisfiedLinkError e) {
             System.out.println("tryLoadLibraryFailed: " + e.getMessage());
