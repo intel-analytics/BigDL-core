@@ -19,7 +19,11 @@ package com.intel.analytics.bigdl.mkl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.Exception;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 
@@ -30,59 +34,70 @@ import static java.nio.channels.Channels.newChannel;
  * MKL Library Wrapper for JVM
  */
 public class MKL {
+    private static final boolean DEBUG =
+            System.getProperty("com.intel.analytics.bigdl.mkl.MKL.DEBUG") != null;
+
     private static boolean isLoaded = false;
     private static File tmpFile = null;
+    private static String os = System.getProperty("os.name").toLowerCase();
 
     public final static int MKL_WAIT_POLICY_PASSIVE = 3;
     public final static int MKL_WAIT_POLICY_ACTIVE = 2;
 
     static {
-        try {
-            String iomp5FileName = "libiomp5.so";
-            String mklFileName = "libmklml_intel.so";
-            String jmklFileName = "libjmkl.so";
-            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                iomp5FileName = "libiomp5.dylib";
-                mklFileName = "libmklml.dylib";
-                jmklFileName = "libjmkl.dylib";
-            } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
-                iomp5FileName = "libiomp5md.dll";
-                mklFileName = "mklml.dll";
-                jmklFileName = "libjmkl.dll";
-            }
+        String[] LIBS = new String[]{
+            "libiomp5.so",
+            "libmklml_intel.so",
+            "libjmkl.so"};
 
-            tmpFile = extract(iomp5FileName);
+        isLoaded = tryLoadLibrary(LIBS);
+        if (!isLoaded) {
             try {
-                System.load(tmpFile.getAbsolutePath());
-            } finally {
-                tmpFile.delete(); // delete so temp file after loaded
-            }
-
-            // on windows/rh5, there's no libmklml_intel.so / libmklml.dylib.
-            if (MKL.class.getResource("/" + mklFileName) != null) {
-                tmpFile = extract(mklFileName);
-                try {
-                    System.load(tmpFile.getAbsolutePath());
-                } finally {
-                    tmpFile.delete();
+                if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                    LIBS = new String[]{
+                        "libiomp5.dylib",
+                        "libmklml.dylib",
+                        "libjmkl.dylib"};
+                } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
+                    LIBS = new String[]{
+                        "libiomp5md.dll",
+                        "mklml.dll",
+                        "libjmkl.dll"};
                 }
+
+                // TODO for windows, we don't create mkl.native dir
+                Path tempDir = null;
+                if (os.contains("win")) {
+                    tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+                } else {
+                    tempDir = Files.createTempDirectory("mkl.native.");
+                }
+
+                for (int i = 0; i < LIBS.length; i++) {
+                    String libName = LIBS[i];
+                    log("[DEBUG] Loading " + libName);
+                    if (MKL.class.getResource("/" + libName) != null) {
+                        try {
+                            tmpFile = extract(tempDir, libName);
+                            System.load(tmpFile.getAbsolutePath());
+                        } catch (Exception e) {
+                            throw new UnsatisfiedLinkError(
+                                    String.format(
+                                            "Unable to extract & load (%s)", e.toString()));
+                        }
+                        log("[DEBUG] Loaded " + libName);
+                    }
+                }
+                setMklEnv();
+                isLoaded = true;
+                deleteAll(tempDir);
+                log("[DEBUG] delete tempdir");
+            } catch (Exception e) {
+                isLoaded = false;
+                e.printStackTrace();
+                // TODO: Add an argument for user, continuing to run even if MKL load failed.
+                throw new RuntimeException("Failed to load MKL");
             }
-
-            tmpFile = extract(jmklFileName);
-            try {
-                System.load(tmpFile.getAbsolutePath());
-            } finally {
-                tmpFile.delete(); // delete so temp file after loaded
-            }
-
-            setMklEnv();
-
-            isLoaded = true;
-        } catch (Exception e) {
-            isLoaded = false;
-            e.printStackTrace();
-            // TODO: Add an argument for user, continuing to run even if MKL load failed.
-            throw new RuntimeException("Failed to load MKL");
         }
     }
 
@@ -105,16 +120,21 @@ public class MKL {
      *      + default value: true
      */
     private static void setMklEnv() {
+        log("[DEBUG] Setup env");
         String disableStr = System.getProperty("bigdl.disable.mklBlockTime", "false");
         boolean disable = Boolean.parseBoolean(disableStr);
-
+        log("[DEBUG] getProperty bigdl.disable.mklBlockTime");
         setNumThreads(getMklNumThreads());
+        log("[DEBUG] setNumThreads");
         if (!disable) {
             setBlockTime(getMklBlockTime());
+            log("[DEBUG] set block time");
         }
         waitPolicy(getMklWaitPolicy());
+        log("[DEBUG] getMklWaitPolicy");
         if (getMklDisableFastMM()) {
             disableFastMM();
+            log("[DEBUG] disableFastMM");
         }
     }
 
@@ -124,7 +144,7 @@ public class MKL {
         if (num <= 0) {
             throw new UnsupportedOperationException("unknown bigdl.mklNumThreads " + num);
         }
-
+        log("[DEBUG] getMklNumThreads");
         return num;
     }
 
@@ -314,7 +334,7 @@ public class MKL {
     public native static int getNumThreads();
 
     // Extract so file from jar to a temp path
-    private static File extract(String path) {
+    private static File extract(Path tempDir, String path) {
         try {
             URL url = MKL.class.getResource("/" + path);
             if (url == null) {
@@ -324,14 +344,7 @@ public class MKL {
             InputStream in = MKL.class.getResourceAsStream("/" + path);
             File file = null;
 
-            // Windows won't allow to change the dll name, so we keep the name
-            // It's fine as windows is consider in a desktop env, so there won't multiple instance
-            // produce the dynamic lib file
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                file = new File(System.getProperty("java.io.tmpdir") + File.separator + path);
-            } else {
-                file = createTempFile("dlNativeLoader", path);
-            }
+            file = new File(tempDir.toFile() + File.separator + path);
 
             ReadableByteChannel src = newChannel(in);
             FileChannel dest = new FileOutputStream(file).getChannel();
@@ -344,4 +357,39 @@ public class MKL {
         }
     }
 
+    private static void log(String msg) {
+        if (DEBUG) {
+            System.err.println("com.intel.analytics.bigdl.mkl: " + msg);
+        }
+    }
+
+    private static void deleteAll(Path tempDir) {
+        File dir = tempDir.toFile();
+        for (File f: dir.listFiles()) {
+            f.delete();
+        }
+
+        dir.delete();
+    }
+
+    private static boolean tryLoadLibrary(String[] libs) {
+        System.out.println("try loading native libraries from java.library.path");
+        try {
+            for (int i = 0; i < libs.length; i++) {
+                String libName = libs[i];
+                if (libName.indexOf(".") != -1) {
+                    // Remove lib and .so
+                    libName = libName.substring(3, libName.indexOf("."));
+                }
+                System.loadLibrary(libName);
+                log("[DEBUG] loaded " + libName + " from java.library.path");
+            }
+            log("[DEBUG] Loaded native libraries from java.library.path");
+            return true;
+        } catch (UnsatisfiedLinkError e) {
+            System.out.println("tryLoadLibraryFailed: " + e.getMessage());
+            return false;
+        }
+
+    }
 }
