@@ -18,6 +18,9 @@ package com.intel.analytics.bigdl.opencv;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 
@@ -28,25 +31,57 @@ import static java.nio.channels.Channels.newChannel;
  * OpenCV Library Wrapper for JVM
  */
 public class OpenCV {
+    private static final boolean DEBUG =
+            System.getProperty("com.intel.analytics.bigdl.opencv.OpenCV.DEBUG") != null;
+
     private static boolean isLoaded = false;
     private static File tmpFile = null;
+    
+    private static String os = System.getProperty("os.name").toLowerCase();
 
     static {
+        String jopencvFileName = "libopencv_java320.so";
+        // Load from LD_PATH
         try {
-            String jopencvFileName = "libopencv_java320.so";
-            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                jopencvFileName = "libopencv_java320.dylib";
-            } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                jopencvFileName = "opencv_java320.dll";
+                System.out.println("try loading opencv_java320 from java.library.path ");
+                String libName = jopencvFileName;
+                if (libName.indexOf(".") != -1) {
+                    // Remove lib and .so
+                    libName = libName.substring(3, libName.indexOf("."));
+                }
+                System.loadLibrary(libName);
+                isLoaded = true;
+                log("[DEBUG] loaded " + libName + " from java.library.path");
+        } catch (UnsatisfiedLinkError e) {
+            System.out.println("tryLoadLibraryFailed: " + e.getMessage());
+        }
+        if (!isLoaded) {
+            try {
+                if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                    jopencvFileName = "libopencv_java320.dylib";
+                } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                    jopencvFileName = "opencv_java320.dll";
+                }
+                log("[DEBUG] Loading " + jopencvFileName);
+                // TODO for windows, we don't create mkl.native dir
+                Path tempDir = null;
+                if (os.contains("win")) {
+                    tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+                } else {
+                    tempDir = Files.createTempDirectory("opencv.native.");
+                }
+
+                tmpFile = extract(tempDir, jopencvFileName);
+                System.load(tmpFile.getAbsolutePath());
+                log("[DEBUG] Loaded " + jopencvFileName);
+                isLoaded = true;
+                deleteAll(tempDir);
+                log("[DEBUG] delete tempdir");
+            } catch (Exception e) {
+                isLoaded = false;
+                e.printStackTrace();
+                throw new RuntimeException("Failed to load OpenCV");
             }
-            tmpFile = extract(jopencvFileName);
-            System.load(tmpFile.getAbsolutePath());
-            tmpFile.delete(); // delete so temp file after loaded
-            isLoaded = true;
-        } catch (Exception e) {
-            isLoaded = false;
-            e.printStackTrace();
-            throw new RuntimeException("Failed to load OpenCV");
         }
     }
 
@@ -70,7 +105,7 @@ public class OpenCV {
     }
 
     // Extract so file from jar to a temp path
-    private static File extract(String path) {
+    private static File extract(Path tempDir, String path) {
         try {
             URL url = OpenCV.class.getResource("/" + path);
             if (url == null) {
@@ -80,14 +115,7 @@ public class OpenCV {
             InputStream in = OpenCV.class.getResourceAsStream("/" + path);
             File file = null;
 
-            // Windows won't allow to change the dll name, so we keep the name
-            // It's fine as windows is consider in a desktop env, so there won't multiple instance
-            // produce the dynamic lib file
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                file = new File(System.getProperty("java.io.tmpdir") + File.separator + path);
-            } else {
-                file = createTempFile("dlNativeLoader", path);
-            }
+            file = new File(tempDir.toFile() + File.separator + path);
 
             ReadableByteChannel src = newChannel(in);
             FileChannel dest = new FileOutputStream(file).getChannel();
@@ -98,5 +126,20 @@ public class OpenCV {
         } catch (Throwable e) {
             throw new Error("Can't extract dynamic lib file to /tmp dir.\n" + e);
         }
+    }
+
+    private static void log(String msg) {
+        if (DEBUG) {
+            System.err.println("com.intel.analytics.bigdl.opencv.OpenCV: " + msg);
+        }
+    }
+
+    private static void deleteAll(Path tempDir) {
+        File dir = tempDir.toFile();
+        for (File f: dir.listFiles()) {
+            f.delete();
+        }
+
+        dir.delete();
     }
 }
