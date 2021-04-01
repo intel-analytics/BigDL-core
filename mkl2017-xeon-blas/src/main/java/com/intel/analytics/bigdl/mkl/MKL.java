@@ -326,6 +326,10 @@ public class MKL {
     public native static void vsscal(int n, float sa, float[] sx, int offset, int incx);
 
     public native static void vdscal(int n, double sa, double[] sx, int offset, int incx);
+
+    public native static void vsErf(int n, float[] a, int aOffset, float[] y, int yOffset);
+
+    public native static void vdErf(int n, double[] a, int aOffset, double[] y, int yOffset);
     
     /**
      * Get the worker pool size of current JVM thread. Note different JVM thread has separated MKL worker pool.
