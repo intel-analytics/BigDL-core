@@ -391,7 +391,7 @@ public class MKL {
             log("[DEBUG] Loaded native libraries from java.library.path");
             return true;
         } catch (UnsatisfiedLinkError e) {
-            log("ryLoadLibraryFailed: " + e.getMessage());
+            log("tryLoadLibraryFailed: " + e.getMessage());
             return false;
         }
 
