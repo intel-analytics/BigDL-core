@@ -43,7 +43,7 @@ public class OpenCV {
         String jopencvFileName = "libopencv_java320.so";
         // Load from LD_PATH
         try {
-                System.out.println("try loading opencv_java320 from java.library.path ");
+                log("try loading opencv_java320 from java.library.path ");
                 String libName = jopencvFileName;
                 if (libName.indexOf(".") != -1) {
                     // Remove lib and .so
@@ -53,7 +53,7 @@ public class OpenCV {
                 isLoaded = true;
                 log("[DEBUG] loaded " + libName + " from java.library.path");
         } catch (UnsatisfiedLinkError e) {
-            System.out.println("tryLoadLibraryFailed: " + e.getMessage());
+            log("tryLoadLibraryFailed: " + e.getMessage());
         }
         if (!isLoaded) {
             try {
