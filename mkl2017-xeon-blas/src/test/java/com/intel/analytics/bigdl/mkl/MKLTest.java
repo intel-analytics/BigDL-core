@@ -85,4 +85,11 @@ public class MKLTest {
         MKL.getMklWaitPolicy();
     }
 
+    @Test
+    public void testErf() throws Exception {
+        float[] a = {1, 2, 3};
+        float[] b = {1, 2, 3};
+        MKL.vsErf(3, a, 0, b, 0);
+    }
+
 }

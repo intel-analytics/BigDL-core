@@ -732,7 +732,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_vdscal
  * Method:    vsErf
  * Signature: (I[FI[FI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_zoo_mkl_MKL_vsErf
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_vsErf
    (JNIEnv * env, jclass cls, jint n, jfloatArray a, jint aOffset, jfloatArray y, jint yOffset) {
    jfloat * jni_a = (*env)->GetPrimitiveArrayCritical(env, a, JNI_FALSE);
    jfloat * jni_y = (*env)->GetPrimitiveArrayCritical(env, y, JNI_FALSE);
@@ -748,7 +748,7 @@ JNIEXPORT void JNICALL Java_com_intel_analytics_zoo_mkl_MKL_vsErf
  * Method:    vdErf
  * Signature: (I[DI[DI)V
  */
-JNIEXPORT void JNICALL Java_com_intel_analytics_zoo_mkl_MKL_vdErf
+JNIEXPORT void JNICALL Java_com_intel_analytics_bigdl_mkl_MKL_vdErf
    (JNIEnv * env, jclass cls, jint n, jdoubleArray a, jint aOffset, jdoubleArray y, jint yOffset) {
    jdouble * jni_a = (*env)->GetPrimitiveArrayCritical(env, a, JNI_FALSE);
    jdouble * jni_y = (*env)->GetPrimitiveArrayCritical(env, y, JNI_FALSE);
