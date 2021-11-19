@@ -196,10 +196,11 @@ int ManualRuntimeLoadLib(char *path) {
     }
     #if ! defined(WINDOWS) && ! defined(__APPLE__)
     if (cpuid_support_feature(AVX_512)) {
+      lib_path[strlen(path)] = '\0';
       strncat(lib_path, "/libbigquant_avx512", 100);
     }
     #endif
-    if (lib_path[strlen(path)] != '/') {
+    if (lib_path[strlen(path)] == '\0') {
       fprintf(stderr, "Unsupported ISA. Bigquant supports Instruction Set from SSE42 to AVX512.\n");
       return -1;
     }
