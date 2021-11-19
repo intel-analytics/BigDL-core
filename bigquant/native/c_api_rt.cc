@@ -239,16 +239,14 @@ void __attribute__((constructor)) init_shared_library() {
   std::string ext = ".so";
 #endif
   if (handler == NULL) {
-    if (cpuid_support_feature(AVX_512)) {
-      lib_path = "libbigquant_avx512";
-    } else if (cpuid_support_feature(AVX2_FMA)) {
+    if (cpuid_support_feature(AVX2_FMA)) {
       lib_path = "libbigquant_avx2";
     } else if (cpuid_support_feature(SSE4_2)) {
       lib_path = "libbigquant_sse42";
     }
     #if ! defined(WINDOWS) && ! defined(__APPLE__)
     if (cpuid_support_feature(AVX_512)) {
-      strncat(lib_path, "/libbigquant_avx512", 100);
+      lib_path = "libbigquant_avx512";
     }
     #endif
     if (lib_path.empty()) {
