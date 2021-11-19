@@ -199,7 +199,7 @@ int ManualRuntimeLoadLib(char *path) {
       strncat(lib_path, "/libbigquant_avx512", 100);
     }
     #endif
-    if (handler == NULL) {
+    if (lib_path.empty()) {
       fprintf(stderr, "Unsupported ISA. Bigquant supports Instruction Set from SSE42 to AVX512.\n");
       return -1;
     }
@@ -251,7 +251,7 @@ void __attribute__((constructor)) init_shared_library() {
       strncat(lib_path, "/libbigquant_avx512", 100);
     }
     #endif
-    if (handler == NULL) {
+    if (lib_path.empty()) {
       std::cerr << "Unsupported ISA. Bigquant supports Instruction Set from SSE42 to AVX512.\n" << std::endl;
       exit(-1);
     }
