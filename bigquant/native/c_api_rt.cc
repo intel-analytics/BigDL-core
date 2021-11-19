@@ -199,7 +199,7 @@ int ManualRuntimeLoadLib(char *path) {
       strncat(lib_path, "/libbigquant_avx512", 100);
     }
     #endif
-    if (lib_path.empty()) {
+    if (lib_path[strlen(path)] != '/') {
       fprintf(stderr, "Unsupported ISA. Bigquant supports Instruction Set from SSE42 to AVX512.\n");
       return -1;
     }
