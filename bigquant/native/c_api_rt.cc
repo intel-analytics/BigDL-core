@@ -189,13 +189,18 @@ int ManualRuntimeLoadLib(char *path) {
   const char *ext = ".so";
 #endif
   if (handler == NULL) {
-    if (cpuid_support_feature(AVX_512)) {
-      strncat(lib_path, "/libbigquant_avx512", 100);
-    } else if (cpuid_support_feature(AVX2_FMA)) {
+    if (cpuid_support_feature(AVX2_FMA)) {
       strncat(lib_path, "/libbigquant_avx2", 100);
     } else if (cpuid_support_feature(SSE4_2)) {
       strncat(lib_path, "/libbigquant_sse42", 100);
-    } else {
+    }
+    #if ! defined(WINDOWS) && ! defined(__APPLE__)
+    if (cpuid_support_feature(AVX_512)) {
+      lib_path[strlen(path)] = '\0';
+      strncat(lib_path, "/libbigquant_avx512", 100);
+    }
+    #endif
+    if (lib_path[strlen(path)] == '\0') {
       fprintf(stderr, "Unsupported ISA. Bigquant supports Instruction Set from SSE42 to AVX512.\n");
       return -1;
     }
@@ -235,13 +240,17 @@ void __attribute__((constructor)) init_shared_library() {
   std::string ext = ".so";
 #endif
   if (handler == NULL) {
-    if (cpuid_support_feature(AVX_512)) {
-      lib_path = "libbigquant_avx512";
-    } else if (cpuid_support_feature(AVX2_FMA)) {
+    if (cpuid_support_feature(AVX2_FMA)) {
       lib_path = "libbigquant_avx2";
     } else if (cpuid_support_feature(SSE4_2)) {
       lib_path = "libbigquant_sse42";
-    } else {
+    }
+    #if ! defined(WINDOWS) && ! defined(__APPLE__)
+    if (cpuid_support_feature(AVX_512)) {
+      lib_path = "libbigquant_avx512";
+    }
+    #endif
+    if (lib_path.empty()) {
       std::cerr << "Unsupported ISA. Bigquant supports Instruction Set from SSE42 to AVX512.\n" << std::endl;
       exit(-1);
     }
