@@ -7,7 +7,7 @@ LDFLAGS += -Wall -ldl -liomp5 -shared -mkl=parallel -qopenmp \
 
 SOURCES_DIR = ../src/main/c
 OBJECTS_DIR = target/c
-EXECUTABLE  = target/classes/libzoojmkl.$(SUFFIX)
+EXECUTABLE  = target/classes/libjmkl.$(SUFFIX)
 
 SOURCES=$(SOURCES_DIR)/mkl.c
 OBJECTS=$(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o, $(SOURCES))
