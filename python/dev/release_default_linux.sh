@@ -26,9 +26,10 @@ RUN_SCRIPT_DIR=$(cd $(dirname $0) ; pwd)
 echo $RUN_SCRIPT_DIR
 
 if (( $# < 2)); then
-  echo "Usage: release_default_linux.sh version upload"
-  echo "Usage example: bash release_default_linux.sh default true"
-  echo "Usage example: bash release_default_linux.sh 0.14.0.dev1 true"
+  echo "Usage: release_default_linux.sh bigdl-core-jar-path version upload"
+  echo "Usage example: bash release_default_linux.sh all-xxx.jar default true"
+  echo "Usage example: bash release_default_linux.sh all-xxx.jar 0.14.0.dev1 true"
+  echo "Usage example: bash release_default_linux.sh http://all-xxx.jar 0.14.0.dev1 true"
   exit -1
 fi
 

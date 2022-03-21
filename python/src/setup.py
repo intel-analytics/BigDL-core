@@ -22,6 +22,8 @@ from setuptools import setup
 from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 
 bigdl_core_home = os.environ['BIGDL_CORE_DIR']
+bigdl_core_jar = os.environ['BIGDL_CORE_JAR_PATH']
+print(bigdl_core_jar)
 VERSION = open(os.path.join(bigdl_core_home, 'python/version.txt'), 'r').read().strip()
 
 idx = 0
@@ -46,9 +48,6 @@ if verbose_plat_name not in valid_plat_names:
 plat_name = verbose_plat_names_to_plat_name[verbose_plat_name]
 
 def setup_package():
-    package_data_plat_ = {"linux-x86_64":["all-2.1.0-SNAPSHOT.jar"],
-                          "darwin-x86_64":["all-2.1.0-SNAPSHOT.jar"]}
-
     packages_name = "bigdl.share.core.lib"
 
     metadata = dict(
@@ -59,8 +58,9 @@ def setup_package():
         author_email='bigdl-user-group@googlegroups.com',
         license='Apache License, Version 2.0',
         url='https://github.com/intel-analytics/BigDL',
-        packages=[packages_name],
-        package_data={packages_name: package_data_plat_[plat_name]}
+        include_package_data=True,
+        packages=["bigdl.share.core.lib"],
+        package_data={packages_name: [bigdl_core_jar]}
     )
     setup(**metadata)
 
