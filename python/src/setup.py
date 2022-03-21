@@ -59,7 +59,7 @@ def setup_package():
         license='Apache License, Version 2.0',
         url='https://github.com/intel-analytics/BigDL',
         include_package_data=True,
-        packages=["bigdl.share.core.lib"],
+        packages=[packages_name],
         package_data={packages_name: [bigdl_core_jar]}
     )
     setup(**metadata)
