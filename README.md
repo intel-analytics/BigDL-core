@@ -33,17 +33,20 @@ XCode 9.0
 
 ### Prepare OpenCV 3.2.0
 
-Download `opencv-320.jar` from maven. Copy this jar to `/opt/opencv` dir. Extract `libopencv_java320.so` or `libopencv_java320.dylib` from `opencv-320.jar`, and move to `/opt/opencv`.
+Download `opencv-320.jar` from maven. Copy this jar to `/opt/opencv` dir. Extract `libopencv_java320.so` (Linux) or `libopencv_java320.dylib` (macOS) from `opencv-320.jar`, and move to `/opt/opencv`.
 
 Or you can build this 2 files from OpenCV source code.
 
 ```bash
+# Download source code
 wget https://github.com/opencv/opencv/archive/3.2.0.tar.gz
+# Build OpenCV
 tar -zxvf 3.2.0.tar.gz && cd opencv-3.2.0
 mkdir build && cd build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -DBUILD_TESTS=OFF ..
 make && make install
+# Copy jar & libs to /opt/opencv
 mkdir /opt/opencv
 scp ./bin/opencv-320.jar /opt/opencv
 # Change to libopencv_java320.dylib in MacOS
