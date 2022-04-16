@@ -14,6 +14,26 @@
  * limitations under the License.
  */
 
+package com.intel.analytics.bigdl.ppml.attestation;
+
+import java.util.*;
+
 public class Attestation {
-    
+    private static boolean _isLoaded = false;
+
+    static {
+        try {
+            Loader loader = new Loader();
+            loader.init();
+
+            _isLoaded = true;
+        } catch (Exception e) {
+            _isLoaded = false;
+
+            e.printStackTrace();
+            throw new RuntimeException("Failed to load PPML Native");
+        }
+    }
+
+    public native static int sdkVerifyQuote(byte[] quote);
 }
