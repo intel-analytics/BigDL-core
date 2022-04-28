@@ -1,0 +1,5 @@
+all:
+	make -C ../src/main/cpp
+clean:
+	make -C ../src/main/cpp clean
+
