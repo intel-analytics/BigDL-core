@@ -36,7 +36,7 @@ public class Loader {
     private String os = System.getProperty("os.name").toLowerCase();
 
     public void init() throws IOException {
-        libraries.add("iomp5");
+        libraries.add("quote_verification");
 
         Path tempDir = null;
         if (os.contains("win")) {
@@ -47,7 +47,7 @@ public class Loader {
 
         copyAll(tempDir);
 
-        loadLibrary("iomp5", tempDir);
+        loadLibrary("quote_verification", tempDir);
 
         deleteAll(tempDir);
     }
