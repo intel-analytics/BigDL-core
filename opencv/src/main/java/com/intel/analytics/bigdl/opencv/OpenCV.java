@@ -40,10 +40,10 @@ public class OpenCV {
     private static String os = System.getProperty("os.name").toLowerCase();
 
     static {
-        String jopencvFileName = "libopencv_java320.so";
+        String jopencvFileName = "libopencv_java420.so";
         // Load from LD_PATH
         try {
-                log("try loading opencv_java320 from java.library.path ");
+                log("try loading opencv_java420 from java.library.path ");
                 String libName = jopencvFileName;
                 if (libName.indexOf(".") != -1) {
                     // Remove lib and .so
@@ -58,9 +58,9 @@ public class OpenCV {
         if (!isLoaded) {
             try {
                 if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                    jopencvFileName = "libopencv_java320.dylib";
+                    jopencvFileName = "libopencv_java420.dylib";
                 } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                    jopencvFileName = "opencv_java320.dll";
+                    jopencvFileName = "opencv_java420.dll";
                 }
                 log("[DEBUG] Loading " + jopencvFileName);
                 // TODO for windows, we don't create mkl.native dir

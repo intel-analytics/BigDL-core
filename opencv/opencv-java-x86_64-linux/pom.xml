@@ -15,8 +15,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <opencvlib>libopencv_java320.so</opencvlib>
-        <opencvjar>opencv-320.jar</opencvjar>
+        <opencvlib>libopencv_java420.so</opencvlib>
+        <opencvjar>opencv-420.jar</opencvjar>
         <opencvDir>/opt/opencv/</opencvDir>
     </properties>
 
@@ -42,7 +42,7 @@
                         <configuration>
                             <tasks>
                                 <echo>Extracting Java classes.</echo>
-                                <unjar src="${opencvDir}/opencv-320.jar"
+                                <unjar src="${opencvDir}/opencv-420.jar"
                                        dest="${project.build.directory}/classes">
                                     <patternset>
                                         <include name="**/*.class"/>
@@ -50,7 +50,7 @@
                                 </unjar>
 
                                 <echo>Extracting Java sources.</echo>
-                                <unjar src="${opencvDir}/opencv-320.jar"
+                                <unjar src="${opencvDir}/opencv-420.jar"
                                        dest="${project.build.directory}/upstream-sources">
                                     <patternset>
                                         <include name="**/*.java"/>
