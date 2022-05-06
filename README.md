@@ -39,22 +39,22 @@ Or you can build this 2 files from OpenCV source code.
 
 ```bash
 # Download source code
-wget https://github.com/opencv/opencv/archive/3.2.0.tar.gz
+wget https://github.com/opencv/opencv/archive/4.2.0.tar.gz
 # Install JAVA and Apache Ant
 export JAVA_HOME=..
 yum install -y ant
 # Build OpenCV
-tar -zxvf 3.2.0.tar.gz && cd opencv-3.2.0
+tar -zxvf 4.2.0.tar.gz && cd opencv-4.2.0
 mkdir build && cd build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -DBUILD_TESTS=OFF ..
 make && make install
 # Copy jar & libs to /opt/opencv
 mkdir /opt/opencv
-scp ./bin/opencv-320.jar /opt/opencv
-# Change to libopencv_java320.dylib in MacOS
-scp ./lib/libopencv_java320.so /opt/opencv
-cd ../.. && rm -rf 3.2.0.tar.gz
+scp ./bin/opencv-420.jar /opt/opencv
+# Change to libopencv_java420.dylib in MacOS
+scp ./lib/libopencv_java420.so /opt/opencv
+cd ../.. && rm -rf 4.2.0.tar.gz
 ```
 
 ### Build BigDL-Core
