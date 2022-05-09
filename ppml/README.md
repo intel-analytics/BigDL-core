@@ -1,6 +1,6 @@
 # PPML (Privacy Preserving Machine Learning)
 
-C++ SGX/TDX attestation verification module for PPML
+C++ SGX/TDX attestation module for PPML
 
 ## Requirements
 
@@ -18,7 +18,6 @@ apt -y install libsgx-dcap-quote-verify libsgx-dcap-quote-verify-dev
 
 ## Usage
 
-
 ```bash
 mvn clean compile
 ```
@@ -31,8 +30,18 @@ javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.ja
 
 ## Rebuild after change JNI
 
+Update JNI header
+
 ```bash
-javah -cp target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.attestation.Attestation
+javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.attestation.Attestation
+cp com_intel_analytics_bigdl_ppml_attestation_Attestation.sh src/main/cpp
+```
+
+Check if shared lib is package into jar
+
+```bash
+mvn clean package
+jar -tf ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar | grep libquote_verification.so
 ```
 
 ## Reference
