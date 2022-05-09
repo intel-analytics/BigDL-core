@@ -37,7 +37,7 @@ App_Link_Flags += -lsgx_uae_service
 
 App_Cpp_Objects := $(App_Cpp_Files:.cpp=.o)
 
-App_Cpp_Shared_Objects := libquote_verification.so
+App_Cpp_Shared_Objects := target/classes/libquote_verification.so
 
 
 ######## App Objects ########
