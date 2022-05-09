@@ -111,7 +111,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote)
 }
 
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_ppml_attestation_Attestation_sdkVerifyQuote
-  (JNIEnv *, jclass, jbyteArray) {
+  (JNIEnv * env, jclass cls, jbyteArray quote) {
     //convert jbyteArray to vector<char>
     jbyte* jbae = env->GetByteArrayElements(quote, 0);
     jsize len = env->GetArrayLength(quote);
