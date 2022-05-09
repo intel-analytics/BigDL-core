@@ -6,7 +6,7 @@ C++ SGX/TDX attestation verification module for PPML
 
 1. [Install Intel SGX SDK](https://github.com/intel/linux-sgx#install-the-intelr-sgx-sdk)
 
-2. Install SGX DCAP Verfication libs
+2. Install SGX DCAP verification libs
 
 ```bash
 # Ubuntu 18.04, root
@@ -34,7 +34,6 @@ javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.ja
 ```bash
 javah -cp target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.attestation.Attestation
 ```
-
 
 ## Reference
 

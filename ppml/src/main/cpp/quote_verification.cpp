@@ -8,7 +8,7 @@
 #include "sgx_urts.h"
 #include "sgx_ql_quote.h"
 #include "sgx_dcap_quoteverify.h"
-#include "quote_verification.h"
+#include "com_intel_analytics_bigdl_ppml_attestation_Attestation.h"
 
 using namespace std;
 
@@ -110,10 +110,8 @@ int ecdsa_quote_verification(vector<uint8_t> quote)
     return ret;
 }
 
-
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_ppml_attestation_Attestation_sdkVerifyQuote
-  (JNIEnv *env, jclass thisclass, jbyteArray quote)
-{
+  (JNIEnv *, jclass, jbyteArray) {
     //convert jbyteArray to vector<char>
     jbyte* jbae = env->GetByteArrayElements(quote, 0);
     jsize len = env->GetArrayLength(quote);
@@ -122,6 +120,6 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_ppml_attestation_Attestati
     for (int i = 0; i < len; i++) {
         quote_vector.push_back(quote_arrary[i]);
     }
-    int result =ecdsa_quote_verification(quote_vector);
+    int result = ecdsa_quote_verification(quote_vector);
     return result;
 }
