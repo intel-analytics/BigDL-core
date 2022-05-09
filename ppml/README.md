@@ -1,6 +1,22 @@
 # PPML (Privacy Preserving Machine Learning)
 
-C++ module for PPML
+C++ SGX/TDX attestation verification module for PPML
+
+## Requirements
+
+1. [Install Intel SGX SDK](https://github.com/intel/linux-sgx#install-the-intelr-sgx-sdk)
+
+2. Install SGX DCAP Verfication libs
+
+```bash
+# Ubuntu 18.04, root
+echo "deb [trusted=yes arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu bionic main" > etc/apt/sources.list.d/intel-sgx.list
+wget -qO - https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | apt-key add
+apt update
+apt -y install libsgx-dcap-quote-verify libsgx-dcap-quote-verify-dev
+```
+
+
 
 ## Usage
 
@@ -15,5 +31,5 @@ javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.ja
 ```
 
 ## Reference
-* The `quote_verification.cpp` is tailored from [SGXDataCenterAttestationPrimitives/SampleCode/QuoteVerificationSample/App/App.cpp](https://github.com/intel/SGXDataCenterAttestationPrimitives/blob/master/SampleCode/QuoteVerificationSample/App)
 
+* The `quote_verification.cpp` is tailored from [SGXDataCenterAttestationPrimitives/SampleCode/QuoteVerificationSample/App/App.cpp](https://github.com/intel/SGXDataCenterAttestationPrimitives/blob/master/SampleCode/QuoteVerificationSample/App)

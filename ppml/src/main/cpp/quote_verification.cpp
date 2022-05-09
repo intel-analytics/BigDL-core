@@ -26,17 +26,17 @@ int ecdsa_quote_verification(vector<uint8_t> quote)
     time_t current_time = 0;
     uint32_t supplemental_data_size = 0;
     uint8_t *p_supplemental_data = NULL;
-    sgx_status_t sgx_ret = SGX_SUCCESS;
+    // sgx_status_t sgx_ret = SGX_SUCCESS;
     quote3_error_t dcap_ret = SGX_QL_ERROR_UNEXPECTED;
     sgx_ql_qv_result_t quote_verification_result = SGX_QL_QV_RESULT_UNSPECIFIED;
-    sgx_ql_qe_report_info_t qve_report_info;
-    unsigned char rand_nonce[16] = "59jslk201fgjmm;";
+    // sgx_ql_qe_report_info_t qve_report_info;
+    // unsigned char rand_nonce[16] = "59jslk201fgjmm;";
     uint32_t collateral_expiration_status = 1;
 
-    int updated = 0;
-    quote3_error_t verify_qveid_ret = SGX_QL_ERROR_UNEXPECTED;
-    sgx_enclave_id_t eid = 0;
-    sgx_launch_token_t token = { 0 };
+    // int updated = 0;
+    // quote3_error_t verify_qveid_ret = SGX_QL_ERROR_UNEXPECTED;
+    // sgx_enclave_id_t eid = 0;
+    // sgx_launch_token_t token = { 0 };
 
     // Untrusted quote verification
 
@@ -125,4 +125,3 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_ppml_attestation_Attestati
     int result =ecdsa_quote_verification(quote_vector);
     return result;
 }
-
