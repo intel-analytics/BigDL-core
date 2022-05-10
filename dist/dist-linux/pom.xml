@@ -32,5 +32,10 @@
       <artifactId>dnn-java-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
-  </dependencies>
+    <dependency>
+      <groupId>com.intel.analytics.bigdl.core.native.ppml</groupId>
+      <artifactId>ppml-java-x86_64-linux</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+   </dependencies>
 </project>
