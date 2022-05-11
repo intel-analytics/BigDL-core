@@ -74,15 +74,15 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
                                  &quote_verification_result, NULL,
                                  supplemental_data_size, p_supplemental_data);
   if (dcap_ret == SGX_QL_SUCCESS) {
-    printf("\tInfo: App: sgx_qv_verify_quote successfully returned.\n");
+    printf("\tInfo: sgx_qv_verify_quote successfully returned.\n");
   } else {
-    printf("\tError: App: sgx_qv_verify_quote failed: 0x%04x\n", dcap_ret);
+    printf("\tError: sgx_qv_verify_quote failed: 0x%04x\n", dcap_ret);
   }
 
   // check verification result
   switch (quote_verification_result) {
   case SGX_QL_QV_RESULT_OK:
-    printf("\tInfo: App: Verification completed successfully.\n");
+    printf("\tInfo: Verification completed successfully.\n");
     ret = 0;
     break;
   case SGX_QL_QV_RESULT_CONFIG_NEEDED:
@@ -91,7 +91,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
   case SGX_QL_QV_RESULT_SW_HARDENING_NEEDED:
   case SGX_QL_QV_RESULT_CONFIG_AND_SW_HARDENING_NEEDED:
     printf(
-        "\tWarning: App: Verification completed with Non-terminal result: %x\n",
+        "\tWarning: Verification completed with Non-terminal result: %x\n",
         quote_verification_result);
     ret = 1;
     break;
@@ -99,7 +99,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
   case SGX_QL_QV_RESULT_REVOKED:
   case SGX_QL_QV_RESULT_UNSPECIFIED:
   default:
-    printf("\tError: App: Verification completed with Terminal result: %x\n",
+    printf("\tError: Verification completed with Terminal result: %x\n",
            quote_verification_result);
     ret = -1;
     break;
