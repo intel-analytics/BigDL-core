@@ -35,5 +35,13 @@ public class Attestation {
         }
     }
 
+    /**
+     * Check if shared lib is loaded
+     * @return boolean
+     */
+    public static boolean isAttestationLoaded() {
+        return _isLoaded;
+    }
+
     public native static int sdkVerifyQuote(byte[] quote);
 }

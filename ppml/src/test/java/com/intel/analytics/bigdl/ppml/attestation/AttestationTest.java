@@ -14,12 +14,26 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.ppml;
+package com.intel.analytics.bigdl.ppml.attestation;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
 public class AttestationTest {
-    
+
+    @Test
+    public void isAttestationLoaded() throws Exception {
+        assertTrue(Attestation.isAttestationLoaded());
+    }
+
+    @Test
+    public void verifyBadQuote() throws Exception {
+        // null
+        assertTrue(Attestation.sdkVerifyQuote(null) == -1);
+        // 0 length
+        assertTrue(Attestation.sdkVerifyQuote(new byte[0]) == -1);
+        // length 10, but all 0
+        assertTrue(Attestation.sdkVerifyQuote(new byte[10]) == -1);
+    }
 }
