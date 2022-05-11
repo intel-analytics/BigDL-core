@@ -63,17 +63,12 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
     supplemental_data_size = 0;
   }
 
-  // set current time. This is only for sample purposes, in production mode a
-  // trusted time should be used.
+  // set current time.
   current_time = time(NULL);
 
   // call DCAP quote verify library for quote verification
   // here you can choose 'trusted' or 'untrusted' quote verification by
   // specifying parameter '&qve_report_info' if '&qve_report_info' is NOT NULL,
-  // this API will call Intel QvE to verify quote if '&qve_report_info' is NULL,
-  // this API will call 'untrusted quote verify lib' to verify quote, this mode
-  // doesn't rely on SGX capable system, but the results can not be
-  // cryptographically authenticated
   dcap_ret = sgx_qv_verify_quote(quote.data(), (uint32_t)quote.size(), NULL,
                                  current_time, &collateral_expiration_status,
                                  &quote_verification_result, NULL,
