@@ -20,20 +20,14 @@ SGX_COMMON_CFLAGS := $(SGX_COMMON_FLAGS) -Wjump-misses-init -Wstrict-prototypes 
 SGX_COMMON_CXXFLAGS := $(SGX_COMMON_FLAGS) -Wnon-virtual-dtor -std=c++11
 
 
-Urts_Library_Name := sgx_urts
-
 Cpp_Files := ../src/main/cpp/quote_verification.cpp
 
 Include_Paths := -I. -I$(SGX_SDK)/include -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
-C_Flags := -fPIC -Wno-attributes $(Include_Paths)
-
-C_Flags += -DNDEBUG -UEDEBUG -UDEBUG
+C_Flags := -fPIC -Wno-attributes $(Include_Paths) -DNDEBUG -UEDEBUG -UDEBUG
 
 Cpp_Flags := $(C_Flags)
 
-Link_Flags := -L$(SGX_LIBRARY_PATH) -lsgx_dcap_quoteverify -l$(Urts_Library_Name) -lpthread -ldl
-
-Link_Flags += -lsgx_uae_service
+Link_Flags := -L$(SGX_LIBRARY_PATH) -lsgx_dcap_quoteverify -lsgx_uae_service -lsgx_urts -lpthread -ldl
 
 Cpp_Objects := $(Cpp_Files:.cpp=.o)
 
