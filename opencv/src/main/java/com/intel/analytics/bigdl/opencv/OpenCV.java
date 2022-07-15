@@ -40,29 +40,18 @@ public class OpenCV {
     private static String os = System.getProperty("os.name").toLowerCase();
 
     static {
-        String jopencvFileName = "libopencv_java420.so";
+        String[] LIBS = new String[]{
+                "libopencv_java420.so",
+                "libdc1394.so.2"};
+        isLoaded = tryLoadLibrary(LIBS);
         // Load from LD_PATH
-        try {
-                log("try loading opencv_java420 from java.library.path ");
-                String libName = jopencvFileName;
-                if (libName.indexOf(".") != -1) {
-                    // Remove lib and .so
-                    libName = libName.substring(3, libName.indexOf("."));
-                }
-                System.loadLibrary(libName);
-                isLoaded = true;
-                log("[DEBUG] loaded " + libName + " from java.library.path");
-        } catch (UnsatisfiedLinkError e) {
-            log("tryLoadLibraryFailed: " + e.getMessage());
-        }
         if (!isLoaded) {
             try {
                 if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                    jopencvFileName = "libopencv_java420.dylib";
-                } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                    jopencvFileName = "opencv_java420.dll";
+                    LIBS = new String[]{
+                            "libopencv_java420.dylib",
+                            "libmklml.dylib"};
                 }
-                log("[DEBUG] Loading " + jopencvFileName);
                 // TODO for windows, we don't create mkl.native dir
                 Path tempDir = null;
                 if (os.contains("win")) {
@@ -70,10 +59,23 @@ public class OpenCV {
                 } else {
                     tempDir = Files.createTempDirectory("opencv.native.");
                 }
-
-                tmpFile = extract(tempDir, jopencvFileName);
-                System.load(tmpFile.getAbsolutePath());
-                log("[DEBUG] Loaded " + jopencvFileName);
+                
+                for (int i = 0; i < LIBS.length; i++) {
+                    String libName = LIBS[i];
+                    log("[DEBUG] Loading " + libName);
+                    if (OpenCV.class.getResource("/" + libName) != null) {
+                        try {
+                            tmpFile = extract(tempDir, libName);
+                            System.load(tmpFile.getAbsolutePath());
+                        } catch (Exception e) {
+                            throw new UnsatisfiedLinkError(
+                                    String.format(
+                                            "Unable to extract & load (%s)", e.toString()));
+                        }
+                        log("[DEBUG] Loaded " + libName);
+                    }
+                }
+                
                 isLoaded = true;
                 deleteAll(tempDir);
                 log("[DEBUG] delete tempdir");
@@ -141,5 +143,26 @@ public class OpenCV {
         }
 
         dir.delete();
+    }
+
+    private static boolean tryLoadLibrary(String[] libs) {
+        log("try loading native libraries from java.library.path");
+        try {
+            for (int i = 0; i < libs.length; i++) {
+                String libName = libs[i];
+                if (libName.indexOf(".") != -1) {
+                    // Remove lib and .so
+                    libName = libName.substring(3, libName.indexOf("."));
+                }
+                System.loadLibrary(libName);
+                log("[DEBUG] loaded " + libName + " from java.library.path");
+            }
+            log("[DEBUG] Loaded native libraries from java.library.path");
+            return true;
+        } catch (UnsatisfiedLinkError e) {
+            log("tryLoadLibraryFailed: " + e.getMessage());
+            return false;
+        }
+
     }
 }
