@@ -42,7 +42,7 @@ public class OpenCV {
     static {
         String[] LIBS = new String[]{
                 "libopencv_java420.so",
-                "libdc1394.so.2"};
+                "libdc1394.so.22"};
         isLoaded = tryLoadLibrary(LIBS);
         // Load from LD_PATH
         if (!isLoaded) {

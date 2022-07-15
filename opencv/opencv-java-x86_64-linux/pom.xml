@@ -16,7 +16,7 @@
 
     <properties>
         <opencvlib>libopencv_java420.so</opencvlib>
-        <libc>libdc1394.so.2</libc>
+        <libc>libdc1394.so.22</libc>
         <opencvjar>opencv-420.jar</opencvjar>
         <opencvDir>/opt/opencv/</opencvDir>
     </properties>
