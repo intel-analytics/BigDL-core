@@ -20,41 +20,34 @@ SGX_COMMON_CFLAGS := $(SGX_COMMON_FLAGS) -Wjump-misses-init -Wstrict-prototypes 
 SGX_COMMON_CXXFLAGS := $(SGX_COMMON_FLAGS) -Wnon-virtual-dtor -std=c++11
 
 
-Urts_Library_Name := sgx_urts
+Cpp_Files := ../src/main/cpp/quote_verification.cpp
 
-App_Cpp_Files := ../src/main/cpp/quote_verification.cpp
+Include_Paths := -I. -I$(SGX_SDK)/include -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
+C_Flags := -fPIC -Wno-attributes $(Include_Paths) -DNDEBUG -UEDEBUG -UDEBUG
 
-App_Include_Paths := -I. -I$(SGX_SDK)/include -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux
-App_C_Flags := -fPIC -Wno-attributes $(App_Include_Paths)
+Cpp_Flags := $(C_Flags)
 
-App_C_Flags += -DNDEBUG -UEDEBUG -UDEBUG
+Link_Flags := -L$(SGX_LIBRARY_PATH) -lsgx_dcap_quoteverify -lsgx_uae_service -lsgx_urts -lpthread -ldl
 
-App_Cpp_Flags := $(App_C_Flags)
+Cpp_Objects := $(Cpp_Files:.cpp=.o)
 
-App_Link_Flags := -L$(SGX_LIBRARY_PATH) -lsgx_dcap_quoteverify -l$(Urts_Library_Name) -lpthread -ldl
-
-App_Link_Flags += -lsgx_uae_service
-
-App_Cpp_Objects := $(App_Cpp_Files:.cpp=.o)
-
-App_Cpp_Shared_Objects := target/classes/libquote_verification.so
+Cpp_Shared_Objects := target/classes/libquote_verification.so
 
 
-######## App Objects ########
+######## Objects ########
 .PHONY: all 
-all: $(App_Cpp_Shared_Objects)  
+all: $(Cpp_Shared_Objects)  
 
 %.o: %.cpp 
-	@$(CXX) $(SGX_COMMON_CXXFLAGS) $(App_Cpp_Flags) -c $< -o $@
+	@$(CXX) $(SGX_COMMON_CXXFLAGS) $(Cpp_Flags) -c $< -o $@
 	@echo "CXX  <=  $<"
 
-$(App_Cpp_Shared_Objects): $(App_Cpp_Objects)
-	@$(CXX) -shared -o $@ $^ $(App_Link_Flags)
+$(Cpp_Shared_Objects): $(Cpp_Objects)
+	@$(CXX) -shared -o $@ $^ $(Link_Flags)
 	@echo "LINK =>  $@"
 
 
 .PHONY: clean
 
 clean:
-	@rm -f $(App_Cpp_Shared_Objects)  $(App_Cpp_Objects) 
-
+	@rm -f $(Cpp_Shared_Objects)  $(Cpp_Objects)

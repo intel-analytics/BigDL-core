@@ -1,3 +1,19 @@
+/*
+ * Copyright 2016 The BigDL Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include "com_intel_analytics_bigdl_ppml_attestation_Attestation.h"
 #include "sgx_dcap_quoteverify.h"
 #include "sgx_ql_quote.h"
@@ -14,25 +30,18 @@ using namespace std;
 
 /**
  * @param quote - ECDSA quote buffer
+ * @return verification result (int) 0 success, 1 failed, -1 error
  */
 int ecdsa_quote_verification(vector<uint8_t> quote) {
   int ret = 0;
   time_t current_time = 0;
   uint32_t supplemental_data_size = 0;
   uint8_t *p_supplemental_data = NULL;
-  // sgx_status_t sgx_ret = SGX_SUCCESS;
   quote3_error_t dcap_ret = SGX_QL_ERROR_UNEXPECTED;
   sgx_ql_qv_result_t quote_verification_result = SGX_QL_QV_RESULT_UNSPECIFIED;
-  // sgx_ql_qe_report_info_t qve_report_info;
   uint32_t collateral_expiration_status = 1;
 
-  // int updated = 0;
-  // quote3_error_t verify_qveid_ret = SGX_QL_ERROR_UNEXPECTED;
-  // sgx_enclave_id_t eid = 0;
-  // sgx_launch_token_t token = { 0 };
-
-  // Untrusted quote verification
-
+  // quote verification
   // call DCAP quote verify library to get supplemental data size
   dcap_ret = sgx_qv_get_quote_supplemental_data_size(&supplemental_data_size);
   if (dcap_ret == SGX_QL_SUCCESS &&
@@ -54,31 +63,26 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
     supplemental_data_size = 0;
   }
 
-  // set current time. This is only for sample purposes, in production mode a
-  // trusted time should be used.
+  // set current time.
   current_time = time(NULL);
 
   // call DCAP quote verify library for quote verification
   // here you can choose 'trusted' or 'untrusted' quote verification by
   // specifying parameter '&qve_report_info' if '&qve_report_info' is NOT NULL,
-  // this API will call Intel QvE to verify quote if '&qve_report_info' is NULL,
-  // this API will call 'untrusted quote verify lib' to verify quote, this mode
-  // doesn't rely on SGX capable system, but the results can not be
-  // cryptographically authenticated
   dcap_ret = sgx_qv_verify_quote(quote.data(), (uint32_t)quote.size(), NULL,
                                  current_time, &collateral_expiration_status,
                                  &quote_verification_result, NULL,
                                  supplemental_data_size, p_supplemental_data);
   if (dcap_ret == SGX_QL_SUCCESS) {
-    printf("\tInfo: App: sgx_qv_verify_quote successfully returned.\n");
+    printf("\tInfo: sgx_qv_verify_quote successfully returned.\n");
   } else {
-    printf("\tError: App: sgx_qv_verify_quote failed: 0x%04x\n", dcap_ret);
+    printf("\tError: sgx_qv_verify_quote failed: 0x%04x\n", dcap_ret);
   }
 
   // check verification result
   switch (quote_verification_result) {
   case SGX_QL_QV_RESULT_OK:
-    printf("\tInfo: App: Verification completed successfully.\n");
+    printf("\tInfo: Verification completed successfully.\n");
     ret = 0;
     break;
   case SGX_QL_QV_RESULT_CONFIG_NEEDED:
@@ -87,7 +91,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
   case SGX_QL_QV_RESULT_SW_HARDENING_NEEDED:
   case SGX_QL_QV_RESULT_CONFIG_AND_SW_HARDENING_NEEDED:
     printf(
-        "\tWarning: App: Verification completed with Non-terminal result: %x\n",
+        "\tWarning: Verification completed with Non-terminal result: %x\n",
         quote_verification_result);
     ret = 1;
     break;
@@ -95,7 +99,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
   case SGX_QL_QV_RESULT_REVOKED:
   case SGX_QL_QV_RESULT_UNSPECIFIED:
   default:
-    printf("\tError: App: Verification completed with Terminal result: %x\n",
+    printf("\tError: Verification completed with Terminal result: %x\n",
            quote_verification_result);
     ret = -1;
     break;
@@ -107,10 +111,12 @@ JNIEXPORT jint JNICALL
 Java_com_intel_analytics_bigdl_ppml_attestation_Attestation_sdkVerifyQuote(
     JNIEnv *env, jclass cls, jbyteArray quote) {
   // Return -1 if quote is null
-  if (quote == NULL) return -1;
+  if (quote == NULL)
+    return -1;
   // convert jbyteArray to vector<char>
   jbyte *jbae = env->GetByteArrayElements(quote, 0);
   jsize len = env->GetArrayLength(quote);
+  // Copy quote to quote_vector
   char *quote_arrary = (char *)jbae;
   vector<unsigned char> quote_vector;
   for (int i = 0; i < len; i++) {
