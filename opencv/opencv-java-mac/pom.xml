@@ -16,7 +16,10 @@
 
     <properties>
         <opencvlib>libopencv_java420.dylib</opencvlib>
-        <libpng>libpng16.16.dylib</libpng>
+        <libopencv_core>libopencv_core.4.2.0.dylib</libopencv_core>
+        <libopencv_imgcodecs>libopencv_imgcodecs.4.2.0.dylib</libopencv_imgcodecs>
+        <libopencv_imgproc>libopencv_imgproc.4.2.0.dylib</libopencv_imgproc>
+        <libopencv_java>libopencv_java420.dylib</libopencv_java>
         <opencvjar>opencv-420.jar</opencvjar>
         <opencvDir>/opt/opencv/</opencvDir>
     </properties>

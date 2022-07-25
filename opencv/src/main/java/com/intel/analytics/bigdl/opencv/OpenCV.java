@@ -49,7 +49,11 @@ public class OpenCV {
                 if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                     LIBS = new String[]{
                             "libopencv_java420.dylib",
-                            "libpng16.16.dylib"};
+                            "libopencv_core.4.2.0.dylib",
+                            "libopencv_imgcodecs.4.2.0.dylib", 
+                            "libopencv_imgproc.4.2.0.dylib"
+                            "libopencv_java420.dylib",
+                    };
                 }
                 // TODO for windows, we don't create mkl.native dir
                 Path tempDir = null;
