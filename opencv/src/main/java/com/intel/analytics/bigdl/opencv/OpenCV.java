@@ -41,8 +41,7 @@ public class OpenCV {
 
     static {
         String[] LIBS = new String[]{
-                "libopencv_java420.so",
-                "libdc1394.so.22"};
+                "libopencv_java420.so"};
         isLoaded = tryLoadLibrary(LIBS);
         // Load from LD_PATH
         if (!isLoaded) {
@@ -50,7 +49,7 @@ public class OpenCV {
                 if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                     LIBS = new String[]{
                             "libopencv_java420.dylib",
-                            "libmklml.dylib"};
+                            "libpng16.16.dylib"};
                 }
                 // TODO for windows, we don't create mkl.native dir
                 Path tempDir = null;
@@ -65,6 +64,7 @@ public class OpenCV {
                     log("[DEBUG] Loading " + libName);
                     if (OpenCV.class.getResource("/" + libName) != null) {
                         try {
+                            System.out.printf("#####", libName);
                             tmpFile = extract(tempDir, libName);
                             System.load(tmpFile.getAbsolutePath());
                         } catch (Exception e) {

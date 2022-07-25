@@ -16,6 +16,7 @@
 
     <properties>
         <opencvlib>libopencv_java420.dylib</opencvlib>
+        <libpng>libpng16.16.dylib</libpng>
         <opencvjar>opencv-420.jar</opencvjar>
         <opencvDir>/opt/opencv/</opencvDir>
     </properties>
@@ -26,6 +27,7 @@
                 <directory>${opencvDir}</directory>
                 <includes>
                     <include>${opencvlib}</include>
+                    <include>${libpng}</include>
                 </includes>
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>
