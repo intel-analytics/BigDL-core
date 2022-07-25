@@ -22,7 +22,7 @@ apt -y install libsgx-dcap-quote-verify libsgx-dcap-quote-verify-dev
 mvn clean package
 ```
 
-## Rebuild after change JNI
+## (Optional) Rebuild after change JNI
 
 Update JNI header
 
