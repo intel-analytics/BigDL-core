@@ -19,22 +19,16 @@ apt -y install libsgx-dcap-quote-verify libsgx-dcap-quote-verify-dev
 ## Usage
 
 ```bash
-mvn clean compile
+mvn clean package
 ```
 
-Generate Attestation C++ header
-
-```bash
-javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.attestation.Attestation
-```
-
-## Rebuild after change JNI
+## (Optional) Rebuild after change JNI
 
 Update JNI header
 
 ```bash
 javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.attestation.Attestation
-cp com_intel_analytics_bigdl_ppml_attestation_Attestation.sh src/main/cpp
+cp com_intel_analytics_bigdl_ppml_attestation_Attestation.h src/main/cpp
 ```
 
 Check if shared lib is package into jar
