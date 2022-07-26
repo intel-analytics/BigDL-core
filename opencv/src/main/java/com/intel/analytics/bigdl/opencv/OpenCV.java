@@ -41,7 +41,10 @@ public class OpenCV {
 
     static {
         String[] LIBS = new String[]{
-                "libopencv_java420.so"};
+                "libopencv_java420.so",
+                "libopencv_core.so.4.2.0",
+                "libopencv_imgcodecs.so.4.2.0",
+                "libopencv_imgproc.so.4.2.0"};
         isLoaded = tryLoadLibrary(LIBS);
         // Load from LD_PATH
         if (!isLoaded) {
@@ -51,8 +54,7 @@ public class OpenCV {
                             "libopencv_java420.dylib",
                             "libopencv_core.4.2.0.dylib",
                             "libopencv_imgcodecs.4.2.0.dylib", 
-                            "libopencv_imgproc.4.2.0.dylib",
-                            "libopencv_java420.dylib",
+                            "libopencv_imgproc.4.2.0.dylib"
                     };
                 }
                 // TODO for windows, we don't create mkl.native dir
