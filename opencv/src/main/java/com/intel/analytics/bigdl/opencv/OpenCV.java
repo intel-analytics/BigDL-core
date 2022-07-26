@@ -51,7 +51,7 @@ public class OpenCV {
                             "libopencv_java420.dylib",
                             "libopencv_core.4.2.0.dylib",
                             "libopencv_imgcodecs.4.2.0.dylib", 
-                            "libopencv_imgproc.4.2.0.dylib"
+                            "libopencv_imgproc.4.2.0.dylib",
                             "libopencv_java420.dylib",
                     };
                 }
