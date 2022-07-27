@@ -16,6 +16,9 @@
 
     <properties>
         <opencvlib>libopencv_java420.dylib</opencvlib>
+        <libopencv_core>libopencv_core.4.2.0.dylib</libopencv_core>
+        <libopencv_imgcodecs>libopencv_imgcodecs.4.2.0.dylib</libopencv_imgcodecs>
+        <libopencv_imgproc>libopencv_imgproc.4.2.0.dylib</libopencv_imgproc>
         <opencvjar>opencv-420.jar</opencvjar>
         <opencvDir>/opt/opencv/</opencvDir>
     </properties>
@@ -26,6 +29,9 @@
                 <directory>${opencvDir}</directory>
                 <includes>
                     <include>${opencvlib}</include>
+                    <include>${libopencv_core}</include>
+                    <include>${libopencv_imgcodecs}</include>
+                    <include>${libopencv_imgproc}</include>
                 </includes>
                 <targetPath>${project.build.directory}/classes</targetPath>
             </resource>
