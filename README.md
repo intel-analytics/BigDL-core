@@ -33,29 +33,7 @@ XCode 9.0
 
 ### Prepare OpenCV 4.2.0
 
-Download `opencv-420.jar` from maven. Copy this jar to `/opt/opencv` dir. Extract `libopencv_java420.so` (Linux) or `libopencv_java420.dylib` (macOS) from `opencv-420.jar`, and move to `/opt/opencv`.
-
-Or you can build this 2 files from OpenCV source code.
-
-```bash
-# Download source code
-wget https://github.com/opencv/opencv/archive/4.2.0.tar.gz
-# Install JAVA and Apache Ant
-export JAVA_HOME=..
-yum install -y ant
-# Build OpenCV
-tar -zxvf 4.2.0.tar.gz && cd opencv-4.2.0
-mkdir build && cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -DBUILD_TESTS=OFF ..
-make && make install
-# Copy jar & libs to /opt/opencv
-mkdir /opt/opencv
-cp ./bin/opencv-420.jar /opt/opencv
-# Change to libopencv_java420.dylib in MacOS
-cp ./lib/libopencv_java420.so /opt/opencv
-cd ../.. && rm -rf 4.2.0.tar.gz
-```
+Build OpenCV, please refer the [doc](./opencv/README.md) for details.
 
 ### Build BigDL-Core
 
