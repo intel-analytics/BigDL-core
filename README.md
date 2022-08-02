@@ -31,6 +31,10 @@ XCode 9.0
 
 ## Building from Source
 
+### Prepare OpenCV 4.2.0
+
+Build OpenCV, please refer the [doc](./opencv/README.md) for details.
+
 ### Build BigDL-Core
 
 Download or clone source code
