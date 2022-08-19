@@ -14,11 +14,6 @@
   <artifactId>ppml-java-x86_64-linux</artifactId>
   <packaging>jar</packaging>
 
-
-  <properties>
-    <make_exe>make</make_exe>
-  </properties>
-
   <build>
     <sourceDirectory>../src/main/java</sourceDirectory>
     <testSourceDirectory>../src/test/java</testSourceDirectory>
