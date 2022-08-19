@@ -34,7 +34,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>${make_exe}</executable>
+              <executable>${basedir}/download_ppml.sh</executable>
             </configuration>
           </execution>
         </executions>
