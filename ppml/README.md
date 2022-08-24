@@ -3,8 +3,7 @@
 C++ SGX/TDX attestation module for PPML
 
 ## Requirements
-
-You can get PPML module by building locally or downloading from  
+ 
 1. [Install Intel SGX SDK](https://github.com/intel/linux-sgx#install-the-intelr-sgx-sdk)
 
 2. Install SGX DCAP verification libs
