@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "com_intel_analytics_bigdl_ppml_attestation_Attestation.h"
+#include "com_intel_analytics_bigdl_ppml_dcap_Attestation.h"
 #include "sgx_dcap_quoteverify.h"
 #include "sgx_ql_quote.h"
 #include "sgx_urts.h"
