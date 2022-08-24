@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.intel.analytics.bigdl.ppml.attestation;
+package com.intel.analytics.bigdl.ppml.dcap;
 
 import org.junit.Test;
 

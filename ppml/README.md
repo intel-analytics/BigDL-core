@@ -3,7 +3,7 @@
 C++ SGX/TDX attestation module for PPML
 
 ## Requirements
-
+ 
 1. [Install Intel SGX SDK](https://github.com/intel/linux-sgx#install-the-intelr-sgx-sdk)
 
 2. Install SGX DCAP verification libs
@@ -27,8 +27,9 @@ mvn clean package
 Update JNI header
 
 ```bash
-javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.attestation.Attestation
-cp com_intel_analytics_bigdl_ppml_attestation_Attestation.h src/main/cpp
+mvn clean package -DskipTests
+javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.dcap.Attestation
+cp com_intel_analytics_bigdl_ppml_dcap_Attestation.h src/main/cpp
 ```
 
 Check if shared lib is package into jar

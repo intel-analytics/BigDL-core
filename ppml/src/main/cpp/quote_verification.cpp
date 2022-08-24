@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "com_intel_analytics_bigdl_ppml_attestation_Attestation.h"
+#include "com_intel_analytics_bigdl_ppml_dcap_Attestation.h"
 #include "sgx_dcap_quoteverify.h"
 #include "sgx_ql_quote.h"
 #include "sgx_urts.h"
@@ -108,7 +108,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
 }
 
 JNIEXPORT jint JNICALL
-Java_com_intel_analytics_bigdl_ppml_attestation_Attestation_sdkVerifyQuote(
+Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_sdkVerifyQuote(
     JNIEnv *env, jclass cls, jbyteArray quote) {
   // Return -1 if quote is null
   if (quote == NULL)
