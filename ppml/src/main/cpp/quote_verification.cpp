@@ -108,7 +108,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
 }
 
 JNIEXPORT jint JNICALL
-Java_com_intel_analytics_bigdl_ppml_attestation_Attestation_sdkVerifyQuote(
+Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_sdkVerifyQuote(
     JNIEnv *env, jclass cls, jbyteArray quote) {
   // Return -1 if quote is null
   if (quote == NULL)
