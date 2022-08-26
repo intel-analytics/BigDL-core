@@ -56,7 +56,7 @@
     <profile>
       <id>deploy</id>
       <modules>
-        <module>mkl-java-x86_64-linux</module>
+        <module>bigdl-core-math-x86_64-linux</module>
         <module>bigdl-core-math-mac</module>
         <!--<module>mkl-java-win64</module>-->
         <module>mkl-java-rh5</module>
