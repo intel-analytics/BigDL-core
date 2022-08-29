@@ -11,7 +11,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-  <artifactId>mkl-java-win64</artifactId>
+  <artifactId>bigdl-core-math-win64</artifactId>
   <packaging>jar</packaging>
 
   <properties>

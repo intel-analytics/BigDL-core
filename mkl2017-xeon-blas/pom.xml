@@ -49,7 +49,7 @@
     <profile>
       <id>rh5</id>
       <modules>
-        <module>mkl-java-rh5</module>
+        <module>bigdl-core-math-rh5</module>
       </modules>
     </profile>
 
@@ -58,8 +58,8 @@
       <modules>
         <module>bigdl-core-math-x86_64-linux</module>
         <module>bigdl-core-math-mac</module>
-        <!--<module>mkl-java-win64</module>-->
-        <module>mkl-java-rh5</module>
+        <!--<module>bigdl-core-math-win64</module>-->
+        <module>bigdl-core-math-rh5</module>
       </modules>
     </profile>
   </profiles>

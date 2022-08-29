@@ -11,7 +11,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-  <artifactId>mkl-java-x86_64-rh5</artifactId>
+  <artifactId>bigdl-core-x86_64-rh5</artifactId>
   <packaging>jar</packaging>
 
   <properties>
