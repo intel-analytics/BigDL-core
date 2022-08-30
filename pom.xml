@@ -92,7 +92,7 @@
   </properties>
 
   <modules>
-    <module>mkl2017-xeon-blas</module>
+    <module>bigdl-core-math</module>
     <module>native-dnn</module>
     <module>bigquant</module>
     <module>opencv</module>

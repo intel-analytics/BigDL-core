@@ -13,8 +13,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-      <artifactId>mkl-java-x86_64-linux</artifactId>
+      <groupId>com.intel.analytics.bigdl.core.native.math</groupId>
+      <artifactId>bigdl-core-math-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

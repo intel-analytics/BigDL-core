@@ -13,8 +13,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-      <artifactId>mkl-java-mac</artifactId>
+      <groupId>com.intel.analytics.bigdl.core.native.math</groupId>
+      <artifactId>bigdl-core-math-mac</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

@@ -3,20 +3,20 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>mkl-parent</artifactId>
+    <artifactId>bigdl-core-math-parent</artifactId>
     <groupId>com.intel.analytics.bigdl.core.native</groupId>
     <version>2.1.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.intel.analytics.bigdl.core.native.mkl</groupId>
-  <artifactId>mkl-java-mac</artifactId>
+  <groupId>com.intel.analytics.bigdl.core.native.math</groupId>
+  <artifactId>bigdl-core-x86_64-rh5</artifactId>
   <packaging>jar</packaging>
 
   <properties>
-    <iompLib>libiomp5.dylib</iompLib>
-    <iompLibDir>/opt/intel/lib/</iompLibDir>
+    <iompLib>libiomp5.so</iompLib>
+    <iompLibDir>/opt/intel/lib/intel64</iompLibDir>
     <make_exe>make</make_exe>
   </properties>
 
