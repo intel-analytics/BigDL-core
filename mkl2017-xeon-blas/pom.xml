@@ -10,7 +10,7 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>mkl-parent</artifactId>
+  <artifactId>bigdl-core-math-parent</artifactId>
   <groupId>com.intel.analytics.bigdl.core.native</groupId>
   <packaging>pom</packaging>
 
