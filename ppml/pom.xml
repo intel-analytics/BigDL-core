@@ -32,22 +32,9 @@
             </activation>
         </profile>
 
-        <!-- <profile>
+        <profile>
             <id>mac</id>
-            <modules>
-                <module>ppml-java-mac</module>
-            </modules>
-        </profile> -->
-
-
-
-
-        <!--<profile>
-            <id>win64</id>
-            <modules>
-                <module>ppml-java-win64</module>
-            </modules>
-        </profile>-->
+        </profile>
 
         <profile>
             <id>deploy</id>
