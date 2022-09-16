@@ -28,7 +28,7 @@ Update JNI header
 
 ```bash
 mvn clean package -DskipTests
-javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.dcap.Attestation
+javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.2.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.dcap.Attestation
 cp com_intel_analytics_bigdl_ppml_dcap_Attestation.h src/main/cpp
 ```
 
@@ -36,7 +36,7 @@ Check if shared lib is package into jar
 
 ```bash
 mvn clean package
-jar -tf ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.1.0-SNAPSHOT.jar | grep libquote_verification.so
+jar -tf ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.2.0-SNAPSHOT.jar | grep libquote_verification.so
 ```
 
 ## Reference
