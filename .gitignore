@@ -11,3 +11,7 @@ target/
 dependency-reduced-pom.xml
 .idea/
 .vscode/
+
+#build dir
+ckks/ckks-java-x86_64-linux/build
+python/src/build
