@@ -35,69 +35,6 @@
 
     <plugins>
       <plugin>
-        <groupId>org.qunix</groupId>
-        <artifactId>structure-maven-plugin</artifactId>
-        <version>0.0.2</version>
-        <inherited>false</inherited>
-        <configuration>
-          <detailed>true</detailed>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>modules</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.7</version>
-        <extensions>true</extensions>
-        <configuration>
-          <serverId>ossrh</serverId>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <autoReleaseAfterClose>false</autoReleaseAfterClose>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.0.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.10.1</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>7</source>
-          <target>7</target>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.8</version>
@@ -122,20 +59,6 @@
               </tasks>
             </configuration>
           </execution>
-<!--          <execution>-->
-<!--            <id>build-jni</id>-->
-<!--            <phase>process-classes</phase>-->
-<!--            <goals>-->
-<!--              <goal>run</goal>-->
-<!--            </goals>-->
-<!--            <configuration>-->
-<!--              <tasks>-->
-<!--                <exec executable="make" dir="${project.basedir}/" failonerror="true">-->
-<!--                  <arg line="-j 4"/>-->
-<!--                </exec>-->
-<!--              </tasks>-->
-<!--            </configuration>-->
-<!--          </execution>-->
         </executions>
       </plugin>
     </plugins>
