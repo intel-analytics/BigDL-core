@@ -54,6 +54,8 @@
                   <arg line="../"/>
                 </exec>
                 <exec executable="make" dir="${ckksBuild}" failonerror="true">
+                  <env key = "CC" value = "gcc"/>
+                  <env key = "CXX" value = "g++"/>
                   <arg line="-j8"/>
                 </exec>
               </tasks>
