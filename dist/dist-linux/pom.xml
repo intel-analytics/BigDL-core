@@ -37,5 +37,10 @@
       <artifactId>ppml-java-x86_64-linux</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.intel.analytics.bigdl.core.native.ckks</groupId>
+      <artifactId>ckks-java-x86_64-linux</artifactId>
+      <version>${project.version}</version>
+    </dependency>
    </dependencies>
 </project>
