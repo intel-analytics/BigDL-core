@@ -51,6 +51,7 @@ public class CKKS {
           "libjawt.so",
           "libjvm.so"
         };
+        // TODO: remove this when we can delete this dependency in libvflhe_jni.so
         loadJvmLibs(javaLibs);
 
         isLoaded = tryLoadLibrary(LIBS);
