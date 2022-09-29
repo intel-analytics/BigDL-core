@@ -19,6 +19,7 @@ package com.intel.analytics.bigdl.ckks;
 import java.io.*;
 import java.lang.Exception;
 import java.nio.ByteBuffer;
+import java.util.LinkedList;
 import java.util.List;
 import java.net.URL;
 import java.nio.file.Files;
@@ -45,6 +46,12 @@ public class CKKS {
     static {
         String[] LIBS = new String[]{
           "libvflhe_jni.so"};
+
+        String[] javaLibs = new String[]{
+          "libjawt.so",
+          "libjvm.so"
+        };
+        loadJvmLibs(javaLibs);
 
         isLoaded = tryLoadLibrary(LIBS);
         if (!isLoaded) {
@@ -75,6 +82,35 @@ public class CKKS {
                 throw new RuntimeException("Failed to load MKL");
             }
         }
+    }
+
+    private static void loadJvmLibs(String[] fileNames) {
+        String javaHome = System.getProperty("java.home");
+        if (javaHome == null || javaHome.isEmpty()) {
+            throw new RuntimeException("Failed to find JAVA_HOME, please set JAVA_HOME first.");
+        }
+        File javaHomeDir = new File(javaHome);
+        for (String fileName: fileNames) {
+            List<File> file = findFilesRecursive(javaHomeDir, fileName);
+            if (file.isEmpty()) {
+                throw new RuntimeException("Failed to find " + fileName +
+                  " in JAVA_HOME, please check your JAVA_HOME first.");
+            }
+            System.load(file.get(0).getAbsolutePath());
+        }
+    }
+
+    private static List<File> findFilesRecursive(File f, String name) {
+        List<File> files = new LinkedList<File>();
+        if (f.isDirectory()) {
+            File[] subs = f.listFiles();
+            for(File sub : subs){
+                files.addAll(findFilesRecursive(sub, name));
+            }
+        } else if (f.getName().equals(name)) {
+            files.add(f);
+        }
+        return files;
     }
 
     // Extract so file from jar to a temp path
