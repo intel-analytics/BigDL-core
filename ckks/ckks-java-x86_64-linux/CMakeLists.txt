@@ -4,6 +4,8 @@ set(CMAKE_CXX_STANDARD 17) # seal requires C++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_EXE_LINKER_FLAGS    "-Wl,--as-needed ${CMAKE_EXE_LINKER_FLAGS}")
+set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--as-needed ${CMAKE_SHARED_LINKER_FLAGS}")
 
 # option(ENABLE_INTEL_HEXL "Enable Intel HEXL library" OFF)
 include(cmake/seal.cmake)
@@ -27,4 +29,4 @@ add_library(vflhe_ckks_common ../src/main/c/ckks_common.cpp ../src/main/c/common
 target_link_libraries(vflhe_ckks_common libseal)
 
 add_library(vflhe_jni SHARED ../src/main/c/com_intel_analytics_bigdl_ckks_CKKS.cpp ../src/main/c/kms.h  ../src/main/c/com_intel_analytics_bigdl_ckks_CKKS.h ../src/main/c/common.h ../src/main/c/ckks_common.h  ../src/main/c/data_encryptor.h)
-target_link_libraries(vflhe_jni libseal vflhe_kms vflhe_data_encryptor vflhe_ckks_common ${JNI_LIBRARIES} pthread)
+target_link_libraries(vflhe_jni libseal vflhe_kms vflhe_data_encryptor vflhe_ckks_common ${JNI_LIBRARIES} pthread -static-libstdc++)
