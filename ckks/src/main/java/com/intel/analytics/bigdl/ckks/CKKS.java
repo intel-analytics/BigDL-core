@@ -47,12 +47,6 @@ public class CKKS {
         String[] LIBS = new String[]{
           "libvflhe_jni.so"};
 
-        String[] javaLibs = new String[]{
-          "libjawt.so"
-        };
-        // TODO: remove this when we can delete this dependency in libvflhe_jni.so
-        loadJvmLibs(javaLibs);
-
         isLoaded = tryLoadLibrary(LIBS);
         if (!isLoaded) {
             try {
@@ -81,22 +75,6 @@ public class CKKS {
                 // TODO: Add an argument for user, continuing to run even if MKL load failed.
                 throw new RuntimeException("Failed to load MKL");
             }
-        }
-    }
-
-    private static void loadJvmLibs(String[] fileNames) {
-        String javaHome = System.getProperty("java.home");
-        if (javaHome == null || javaHome.isEmpty()) {
-            throw new RuntimeException("Failed to find JAVA_HOME, please set JAVA_HOME first.");
-        }
-        File javaHomeDir = new File(javaHome);
-        for (String fileName: fileNames) {
-            List<File> file = findFilesRecursive(javaHomeDir, fileName);
-            if (file.isEmpty()) {
-                throw new RuntimeException("Failed to find " + fileName +
-                  " in JAVA_HOME, please check your JAVA_HOME first.");
-            }
-            System.load(file.get(0).getAbsolutePath());
         }
     }
 
