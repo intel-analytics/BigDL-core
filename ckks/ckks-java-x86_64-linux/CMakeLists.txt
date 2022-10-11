@@ -27,4 +27,4 @@ add_library(vflhe_ckks_common ../src/main/c/ckks_common.cpp ../src/main/c/common
 target_link_libraries(vflhe_ckks_common libseal)
 
 add_library(vflhe_jni SHARED ../src/main/c/com_intel_analytics_bigdl_ckks_CKKS.cpp ../src/main/c/kms.h  ../src/main/c/com_intel_analytics_bigdl_ckks_CKKS.h ../src/main/c/common.h ../src/main/c/ckks_common.h  ../src/main/c/data_encryptor.h)
-target_link_libraries(vflhe_jni libseal vflhe_kms vflhe_data_encryptor vflhe_ckks_common ${JNI_LIBRARIES} pthread)
+target_link_libraries(vflhe_jni libseal vflhe_kms vflhe_data_encryptor vflhe_ckks_common ${JNI_LIBRARIES} pthread -static-libstdc++)
