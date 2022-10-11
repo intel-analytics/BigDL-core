@@ -47,7 +47,6 @@ public class MKL {
     static {
         String[] LIBS = new String[]{
             "libiomp5.so",
-            "libmklml_intel.so",
             "libjmkl.so"};
 
         isLoaded = tryLoadLibrary(LIBS);
@@ -56,12 +55,10 @@ public class MKL {
                 if (System.getProperty("os.name").toLowerCase().contains("mac")) {
                     LIBS = new String[]{
                         "libiomp5.dylib",
-                        "libmklml.dylib",
                         "libjmkl.dylib"};
                 } else if(System.getProperty("os.name").toLowerCase().contains("win")) {
                     LIBS = new String[]{
                         "libiomp5md.dll",
-                        "mklml.dll",
                         "libjmkl.dll"};
                 }
 
