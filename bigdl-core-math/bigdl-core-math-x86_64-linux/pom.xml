@@ -26,7 +26,6 @@
         <directory>${iompLibDir}</directory>
         <includes>
           <include>${iompLib}</include>
-          <include>libmklml_intel.so</include>
         </includes>
         <targetPath>${project.build.directory}/classes</targetPath>
       </resource>
