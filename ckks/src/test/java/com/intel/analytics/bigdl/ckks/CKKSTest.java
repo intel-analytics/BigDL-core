@@ -60,7 +60,7 @@ public class CKKSTest {
     float[] target = new float[]{1, 1, 0, 1};
     byte[] enTarget = ckks.ckksEncrypt(ckksEncryptor, target);
 
-    long ckksCommon = ckks.createCkksCommonInstance(a);
+    long ckksCommon = ckks.createCkksCommon(a);
     System.out.println(ckksCommon);
 
     byte[][] enResult = ckks.train(ckksCommon, enInput, enTarget);

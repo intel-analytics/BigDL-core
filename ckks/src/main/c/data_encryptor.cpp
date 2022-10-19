@@ -3,45 +3,12 @@
 DataEncryptor::DataEncryptor(vector<string> secret) {
   stringstream ss;
 
-
   for (const string &s : secret)
     ss << s;
   cout << "Init stringstream" << endl;
 
   params_ = make_unique<EncryptionParameters>();
   params_->load(ss);
-  context_ = new SEALContext(*params_);
-  print_line(__LINE__);
-  cout << "Get encryption parameters and print" << endl;
-  print_parameters(*context_);
-
-  pub_key_ = make_unique<PublicKey>();
-  pub_key_->load(*context_, ss);
-
-  rln_key_ = make_unique<RelinKeys>();
-  rln_key_->load(*context_, ss);
-
-  sec_key_ = make_unique<SecretKey>();
-  sec_key_->load(*context_, ss);
-
-  encoder_ = new CKKSEncoder(*context_);
-  encryptor_ = make_unique<Encryptor>(*context_, *pub_key_);
-
-  cout << "Init DataEncryptor" << endl;
-  if (sec_key_)
-    decryptor_ = make_unique<Decryptor>(*context_, *sec_key_);
-  cout << "Init decryptor_" << endl;
-}
-
-DataEncryptor::DataEncryptor(string secret) {
-  stringstream ss;
-
-  cout << "Init stringstream" << endl;
-  ss << secret;
-
-  params_ = make_unique<EncryptionParameters>();
-  params_->load(ss);
-
   context_ = new SEALContext(*params_);
   print_line(__LINE__);
   cout << "Get encryption parameters and print" << endl;

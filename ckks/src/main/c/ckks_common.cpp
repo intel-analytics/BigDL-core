@@ -7,30 +7,8 @@ CKKS_Common::CKKS_Common(vector<string> secret) {
 
   // params_
   // relin
-  ss << secret[0];
-  ss << secret[2];
-  cout << "Init CKKS_Common stringstream" << endl;
-  params_ = make_unique<EncryptionParameters>();
-  params_->load(ss);
-
-  context_ = new SEALContext(*params_);
-  encoder_ = new CKKSEncoder(*context_);
-  evaluator_ = make_unique<Evaluator>(*context_);
-
-  print_line(__LINE__);
-  cout << "Get CKKS_Common encryption parameters and print" << endl;
-  print_parameters(*context_);
-
-  rln_key_ = make_unique<RelinKeys>();
-  rln_key_->load(*context_, ss);
-}
-
-CKKS_Common::CKKS_Common(string secret) {
-  stringstream ss;
-
-  // params_
-  // relin
-  ss << secret;
+  for (const string &s : secret)
+    ss << s;
   cout << "Init CKKS_Common stringstream" << endl;
   params_ = make_unique<EncryptionParameters>();
   params_->load(ss);

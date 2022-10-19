@@ -151,6 +151,7 @@ public class CKKS {
 
     }
 
+    // save ckks keys to a folder
     public static void saveSecret(byte[][] secret, String path) throws IOException {
         FileOutputStream fos = new FileOutputStream(path);
         fos.write(ByteBuffer.allocate(4).putInt(secret.length).array());
@@ -177,6 +178,7 @@ public class CKKS {
       return secret;
     }
 
+    // secrets are encrypt params & public key & relinear key & private key
     public native byte[][] createSecrets();
 
     public native long createCkksEncryptor(byte[][] secret);
@@ -185,6 +187,21 @@ public class CKKS {
 
     public native float[] ckksDecrypt(long encryptor, byte[] data);
 
+    public long createCkksCommon(byte[][] secret) {
+        if (secret.length == 2) {
+            // encrypt params & relinear key
+            return createCkksCommonInstance(secret);
+        } else if (secret.length == 4) {
+            // encrypt params & public key & relinear key & private key
+            byte[][] er = new byte[2][];
+            er[0] = secret[0]; // encrypt params
+            er[1] = secret[2]; // relinear key
+            return createCkksCommonInstance(er);
+        } else {
+            throw new RuntimeException("Illegal ckks key length " + secret.length +
+                    ". Excepted 2 or 4.");
+        }
+    }
     public native long createCkksCommonInstance(byte[][] secret);
 
     public native byte[][] train(long ckksCommon, byte[] output, byte[] target);
