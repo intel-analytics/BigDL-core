@@ -198,8 +198,8 @@ public class CKKS {
             er[1] = secret[2]; // relinear key
             return createCkksCommonInstance(er);
         } else {
-            throw new RuntimeException("Illegal ckks key length " + secret.length +
-                    ". Excepted 2 or 4.");
+            throw new IllegalArgumentException("Illegal ckks key size " + secret.length +
+                    ". Excepted 2 or 4 keys.");
         }
     }
     public native long createCkksCommonInstance(byte[][] secret);
