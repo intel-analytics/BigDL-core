@@ -90,14 +90,14 @@ Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_tdxGenerateQuote(
 
     if (TDX_ATTEST_SUCCESS != tdx_att_get_report(&report_data, &tdx_report)) {
         fprintf(stderr, "\nFailed to get the report\n");
-        return 1;
+        return NULL;
     }
     print_hex_dump("\n\t\tTDX report\n", " ", tdx_report.d, sizeof(tdx_report.d));
 
     if (TDX_ATTEST_SUCCESS != tdx_att_get_quote(&report_data, NULL, 0, &selected_att_key_id,
         &p_quote_buf, &quote_size, 0)) {
         fprintf(stderr, "\nFailed to get the quote\n");
-        return 1;
+        return NULL;
     }
     print_hex_dump("\n\t\tTDX quote data\n", " ", p_quote_buf, quote_size);
 
@@ -110,6 +110,9 @@ Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_tdxGenerateQuote(
     }
     fprintf(stdout, "\nWrote TD Quote to quote.dat\n");
 
-    // tdx_att_free_quote(p_quote_buf);
-    return p_quote_buf;
+    jbyteArray ret = env->NewByteArray(len);
+    env->SetByteArrayRegion(ret, 0, quote_size, (jbyte*) p_quote_buf);
+
+    tdx_att_free_quote(p_quote_buf);
+    return ret;
 }
