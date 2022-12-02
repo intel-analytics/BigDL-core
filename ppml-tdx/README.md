@@ -1,44 +1,27 @@
-# PPML (Privacy Preserving Machine Learning)
+# PPML-TDX (Privacy Preserving Machine Learning)
 
-C++ SGX/TDX attestation module for PPML
+C++ TDX attestation module for PPML
 
 ## Requirements
  
 1. [Install Intel SGX SDK](https://github.com/intel/linux-sgx#install-the-intelr-sgx-sdk)
 
-2. Install SGX DCAP verification libs
+2. Install `libtdx-attest`
 
 ```bash
-# Ubuntu 18.04, root
-echo "deb [trusted=yes arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu bionic main" > etc/apt/sources.list.d/intel-sgx.list
-wget -qO - https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | apt-key add
-apt update
-apt -y install libsgx-dcap-quote-verify libsgx-dcap-quote-verify-dev
+# Centos, root
+yum install -y yum-utils && \
+yum-config-manager --add-repo \
+https://enclave-cn-shanghai.oss-cn-shanghai.aliyuncs.com/repo/alinux/enclave-expr.repo
+
+yum install libtdx-attest libtdx-attest-devel
 ```
 
 ## Usage
 
+Configure environment variables `SGX_SDK`, `JAVA_HOME`, `PPML_BUILD` correctly. Then build jar with command:
 ```bash
+export PPML_BUILD=true
+
 mvn clean package
 ```
-
-## (Optional) Rebuild after change JNI
-
-Update JNI header
-
-```bash
-mvn clean package -DskipTests
-javah -cp ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.2.0-SNAPSHOT.jar com.intel.analytics.bigdl.ppml.dcap.Attestation
-cp com_intel_analytics_bigdl_ppml_dcap_Attestation.h src/main/cpp
-```
-
-Check if shared lib is package into jar
-
-```bash
-mvn clean package
-jar -tf ppml-java-x86_64-linux/target/ppml-java-x86_64-linux-2.2.0-SNAPSHOT.jar | grep libquote_verification.so
-```
-
-## Reference
-
-* The `quote_verification.cpp` is tailored from [SGXDataCenterAttestationPrimitives/SampleCode/QuoteVerificationSample/App/App.cpp](https://github.com/intel/SGXDataCenterAttestationPrimitives/blob/master/SampleCode/QuoteVerificationSample/App)
