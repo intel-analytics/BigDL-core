@@ -7,6 +7,7 @@ SGX_DEBUG ?= 0
 # Don't support 32bit in this sample
 SGX_COMMON_FLAGS := -m64
 SGX_LIBRARY_PATH := $(SGX_SDK)/lib64
+TDX_LIBRARY_PATH := /usr/lib64
 SGX_ENCLAVE_SIGNER := $(SGX_SDK)/bin/x64/sgx_sign
 SGX_EDGER8R := $(SGX_SDK)/bin/x64/sgx_edger8r
 
@@ -27,11 +28,11 @@ C_Flags := -fPIC -Wno-attributes $(Include_Paths) -DNDEBUG -UEDEBUG -UDEBUG
 
 Cpp_Flags := $(C_Flags)
 
-Link_Flags := -L$(SGX_LIBRARY_PATH) -lsgx_dcap_quoteverify -lsgx_uae_service -lsgx_urts -lpthread -ldl
+Link_Flags := -L$(TDX_LIBRARY_PATH) -ltdx_attest -lpthread -ldl
 
 Cpp_Objects := $(Cpp_Files:.cpp=.o)
 
-Cpp_Shared_Objects := target/classes/liblibtdx_attest.so
+Cpp_Shared_Objects := target/classes/libtdx_attest.so
 
 
 ######## Objects ########

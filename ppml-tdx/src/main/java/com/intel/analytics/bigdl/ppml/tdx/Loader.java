@@ -47,7 +47,7 @@ public class Loader {
 
         copyAll(tempDir);
 
-        loadLibrary("quote_verification", tempDir);
+        loadLibrary("tdx_attest", tempDir);
 
         deleteAll(tempDir);
     }

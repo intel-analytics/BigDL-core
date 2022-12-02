@@ -29,6 +29,8 @@ public class AttestationTest {
 
     @Test
     public void tdxGenerateQuoteTest() throws Exception {
-        assertTrue(Attestation.tdxGenerateQuote() != null);
+        Attestation tdx = new Attestation();
+        String res = new String(tdx.tdxGenerateQuote());
+        assertTrue(res != "");
     }
 }
