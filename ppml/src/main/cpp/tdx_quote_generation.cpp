@@ -29,7 +29,7 @@
  *
  */
 
-#include "com_intel_analytics_bigdl_ppml_tdx_Attestation.h"
+#include "com_intel_analytics_bigdl_ppml_dcap_Attestation.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -76,7 +76,7 @@ void gen_report_data(uint8_t *reportdata)
 }
 
 JNIEXPORT jbyteArray JNICALL
-Java_com_intel_analytics_bigdl_ppml_tdx_Attestation_tdxGenerateQuote(
+Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_tdxGenerateQuote(
     JNIEnv *env, jclass cls) {
     uint32_t quote_size = 0;
     tdx_report_data_t report_data = {{0}};
