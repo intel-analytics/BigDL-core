@@ -37,6 +37,7 @@ public class Loader {
 
     public void init() throws IOException {
         libraries.add("quote_verification");
+        libraries.add("tdx_attest");
 
         Path tempDir = null;
         if (os.contains("win")) {

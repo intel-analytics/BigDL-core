@@ -44,4 +44,6 @@ public class Attestation {
     }
 
     public native static int sdkVerifyQuote(byte[] quote);
+
+    public native static byte[] tdxGenerateQuote();
 }

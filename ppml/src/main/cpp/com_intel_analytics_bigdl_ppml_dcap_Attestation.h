@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_sdkVerifyQuote
   (JNIEnv *, jclass, jbyteArray);
 
+/*
+ * Class:     com_intel_analytics_bigdl_ppml_tdx_Attestation
+ * Method:    tdxGenerateQuote
+ * Signature: ()[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_intel_analytics_bigdl_ppml_tdx_Attestation_tdxGenerateQuote
+  (JNIEnv *, jclass);
+
 #ifdef __cplusplus
 }
 #endif
