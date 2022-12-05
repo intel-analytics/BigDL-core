@@ -40,7 +40,7 @@ Cpp_Shared_Objects := target/classes/libquote_verification.so
 
 TDX_Cpp_Objects := $(TDX_Cpp_Files:.cpp=.o)
 
-TDX_Cpp_Shared_Objects := target/classes/libtdx_attest.so
+TDX_Cpp_Shared_Objects := target/classes/libtdx_quote_generation.so
 
 ######## Objects ########
 .PHONY: all 
