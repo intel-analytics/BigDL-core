@@ -16,7 +16,11 @@ tar xzf sgx_debian_local_repo.tgz
 echo 'deb [trusted=yes arch=amd64] file:///opt/intel/sgx_debian_local_repo focal main' | tee /etc/apt/sources.list.d/intel-sgx.list 
 wget -qO - https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | apt-key add - 
 apt-get update 
-apt-get -y install libtdx-attest libtdx-attest-dev libsgx-dcap-quote-verify libsgx-dcap-quote-verify-dev
+
+# Install DCAP Quote Verification lib for Attestation.sdkVerifyQuote()
+apt-get -y install libsgx-dcap-quote-verify libsgx-dcap-quote-verify-dev
+# Install DCAP TDX lib for Attestation.tdxGenerateQuote()
+apt-get -y install libtdx-attest libtdx-attest-dev 
 
 ln -s /usr/lib/x86_64-linux-gnu/libtdx_attest.so.1 /usr/lib/x86_64-linux-gnu/libtdx_attest.so
 ```

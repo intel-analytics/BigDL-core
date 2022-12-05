@@ -68,36 +68,21 @@ Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_tdxGenerateQuote(
     tdx_report_t tdx_report = {{0}};
     tdx_uuid_t selected_att_key_id = {0};
     uint8_t *p_quote_buf = NULL;
-    FILE *fptr = NULL;
 
     gen_report_data(report_data.d);
-    //print_hex_dump("\n\t\tTDX report data\n", " ", report_data.d, sizeof(report_data.d));
-
     if (TDX_ATTEST_SUCCESS != tdx_att_get_report(&report_data, &tdx_report)) {
         fprintf(stderr, "\nFailed to get the report\n");
         return NULL;
     }
-    //print_hex_dump("\n\t\tTDX report\n", " ", tdx_report.d, sizeof(tdx_report.d));
-
     if (TDX_ATTEST_SUCCESS != tdx_att_get_quote(&report_data, NULL, 0, &selected_att_key_id,
         &p_quote_buf, &quote_size, 0)) {
         fprintf(stderr, "\nFailed to get the quote\n");
         return NULL;
     }
-    //print_hex_dump("\n\t\tTDX quote data\n", " ", p_quote_buf, quote_size);
-
     fprintf(stdout, "\nSuccessfully get the TD Quote\n");
-    fptr = fopen("quote.dat","wb");
-    if( fptr )
-    {
-        fwrite(p_quote_buf, quote_size, 1, fptr);
-        fclose(fptr);
-    }
-    fprintf(stdout, "\nWrote TD Quote to quote.dat\n");
 
     jbyteArray ret = env->NewByteArray(quote_size);
     env->SetByteArrayRegion(ret, 0, quote_size, (jbyte*) p_quote_buf);
-
     tdx_att_free_quote(p_quote_buf);
     return ret;
 }
