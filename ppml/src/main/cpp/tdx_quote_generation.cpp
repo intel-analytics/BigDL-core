@@ -67,7 +67,7 @@ Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_tdxGenerateQuote(
     jbyte *jbae = env->GetByteArrayElements(report_data, 0);
     jsize len = env->GetArrayLength(report_data);
     if (len > 64) {
-        return -1;
+        return NULL;
     }
     char *report_data_arrary = (char *)jbae;
     tdx_report_data_t report_data = {{0}};
