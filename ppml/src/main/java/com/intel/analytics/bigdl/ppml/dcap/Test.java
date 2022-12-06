@@ -18,32 +18,12 @@ package com.intel.analytics.bigdl.ppml.dcap;
 
 import java.util.*;
 
-public class Attestation {
-    private static boolean _isLoaded = false;
-
-    static {
-        try {
-            Loader loader = new Loader();
-            loader.init();
-
-            _isLoaded = true;
-        } catch (Exception e) {
-            _isLoaded = false;
-
-            e.printStackTrace();
-            throw new RuntimeException("Failed to load PPML Native");
-        }
+public class Test {
+    
+    public static void main(String[] args){
+        Attestation tdx = new Attestation();
+        String res = new String(tdx.tdxGenerateQuote());
+        System.out.println(res);
     }
 
-    /**
-     * Check if shared lib is loaded
-     * @return boolean
-     */
-    public static boolean isAttestationLoaded() {
-        return _isLoaded;
-    }
-
-    public native static int sdkVerifyQuote(byte[] quote);
-
-    public native static byte[] tdxGenerateQuote();
 }
