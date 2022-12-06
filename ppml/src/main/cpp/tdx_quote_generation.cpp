@@ -62,14 +62,23 @@ void gen_report_data(uint8_t *reportdata)
 
 JNIEXPORT jbyteArray JNICALL
 Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_tdxGenerateQuote(
-    JNIEnv *env, jclass cls) {
+    JNIEnv *env, jclass cls, jbyteArray report_data) {
     uint32_t quote_size = 0;
+    jbyte *jbae = env->GetByteArrayElements(report_data, 0);
+    jsize len = env->GetArrayLength(report_data);
+    if (len > 64) {
+        return -1;
+    }
+    char *report_data_arrary = (char *)jbae;
     tdx_report_data_t report_data = {{0}};
+    for (int i = 0; i < len; i++) {
+        report_data.d[i] = report_data_arrary[i];
+    } 
     tdx_report_t tdx_report = {{0}};
     tdx_uuid_t selected_att_key_id = {0};
     uint8_t *p_quote_buf = NULL;
 
-    gen_report_data(report_data.d);
+    // gen_report_data(report_data.d);
     if (TDX_ATTEST_SUCCESS != tdx_att_get_report(&report_data, &tdx_report)) {
         fprintf(stderr, "\nFailed to get the report\n");
         return NULL;

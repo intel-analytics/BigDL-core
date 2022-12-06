@@ -22,7 +22,8 @@ public class Test {
     
     public static void main(String[] args){
         Attestation tdx = new Attestation();
-        String res = new String(tdx.tdxGenerateQuote());
+        byte[] reportData = "ppmltest".getBytes();
+        String res = new String(tdx.tdxGenerateQuote(reportData));
         System.out.println(res);
     }
 

@@ -18,10 +18,10 @@ JNIEXPORT jint JNICALL Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_sdkV
 /*
  * Class:     com_intel_analytics_bigdl_ppml_dcap_Attestation
  * Method:    tdxGenerateQuote
- * Signature: ()[B
+ * Signature: ([B])[B
  */
 JNIEXPORT jbyteArray JNICALL Java_com_intel_analytics_bigdl_ppml_dcap_Attestation_tdxGenerateQuote
-  (JNIEnv *, jclass);
+  (JNIEnv *, jclass, jbyteArray);
 
 #ifdef __cplusplus
 }
