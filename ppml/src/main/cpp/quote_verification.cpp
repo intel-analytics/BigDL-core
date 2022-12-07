@@ -86,13 +86,46 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
     ret = 0;
     break;
   case SGX_QL_QV_RESULT_CONFIG_NEEDED:
+    printf(
+        "\tWarning: Verification completed with Non-terminal result: %x\n",
+        quote_verification_result);
+    printf("The SGX platform firmware and SW are at the latest security patching level"
+            "but there are platform hardware configurations"
+            "that may expose the enclave to vulnerabilities.")
+    ret = 1;
+    break;
   case SGX_QL_QV_RESULT_OUT_OF_DATE:
+    printf(
+          "\tWarning: Verification completed with Non-terminal result: %x\n",
+          quote_verification_result);
+    printf("The SGX platform firmware and SW are not at the latest security patching level."
+            "The platform needs to be patched with firmware and/or software patches.")
+      ret = 1;
+      break;
   case SGX_QL_QV_RESULT_OUT_OF_DATE_CONFIG_NEEDED:
+    printf(
+          "\tWarning: Verification completed with Non-terminal result: %x\n",
+          quote_verification_result);
+    printf("The SGX platform firmware and SW are not at the latest security patching level."
+           "The platform needs to be patched with firmware and/or software patches. ")
+      ret = 1;
+      break;
   case SGX_QL_QV_RESULT_SW_HARDENING_NEEDED:
+    printf(
+              "\tWarning: Verification completed with Non-terminal result: %x\n",
+              quote_verification_result);
+    printf("The SGX platform firmware and SW are at the latest security patching level"
+     "but there are certain vulnerabilities that can only be mitigated with"
+      "software mitigations implemented by the enclave. ")
+       ret = 1;
+       break;
   case SGX_QL_QV_RESULT_CONFIG_AND_SW_HARDENING_NEEDED:
     printf(
         "\tWarning: Verification completed with Non-terminal result: %x\n",
         quote_verification_result);
+    printf("The SGX platform firmware and SW are at the latest security patching level"
+            "but there are certain vulnerabilities that can only be mitigated with"
+            "software mitigations implemented by the enclave.")
     ret = 1;
     break;
   case SGX_QL_QV_RESULT_INVALID_SIGNATURE:
