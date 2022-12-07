@@ -77,6 +77,8 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
     printf("\tInfo: sgx_qv_verify_quote successfully returned.\n");
   } else {
     printf("\tError: sgx_qv_verify_quote failed: 0x%04x\n", dcap_ret);
+    printf("please refer to P65 of https://download.01.org/intel-sgx/latest/dcap-latest/linux"
+        "/docs/Intel_SGX_ECDSA_QuoteLibReference_DCAP_API.pdf for more information\n")
   }
 
   // check verification result
@@ -125,8 +127,6 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
       ret = -1;
       break;
   default:
-    printf("please refer to https://download.01.org/intel-sgx/latest/dcap-latest/linux"
-    "/docs/Intel_SGX_ECDSA_QuoteLibReference_DCAP_API.pdf for more information\n")
     ret = -1;
     break;
   }
