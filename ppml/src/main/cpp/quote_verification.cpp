@@ -78,7 +78,7 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
   } else {
     printf("\tError: sgx_qv_verify_quote failed: 0x%04x\n", dcap_ret);
     printf("please refer to P65 of https://download.01.org/intel-sgx/latest/dcap-latest/linux"
-        "/docs/Intel_SGX_ECDSA_QuoteLibReference_DCAP_API.pdf for more information\n")
+        "/docs/Intel_SGX_ECDSA_QuoteLibReference_DCAP_API.pdf for more information\n");
   }
 
   // check verification result
@@ -89,41 +89,41 @@ int ecdsa_quote_verification(vector<uint8_t> quote) {
   case SGX_QL_QV_RESULT_CONFIG_NEEDED:
     printf("The SGX platform firmware and SW are at the latest security patching level"
             "but there are platform hardware configurations"
-            "that may expose the enclave to vulnerabilities.\n")
+            "that may expose the enclave to vulnerabilities.\n");
     ret = 1;
     break;
   case SGX_QL_QV_RESULT_OUT_OF_DATE:
     printf("The SGX platform firmware and SW are not at the latest security patching level."
-            "The platform needs to be patched with firmware and/or software patches.\n")
+            "The platform needs to be patched with firmware and/or software patches.\n");
       ret = 1;
       break;
   case SGX_QL_QV_RESULT_OUT_OF_DATE_CONFIG_NEEDED:
     printf("The SGX platform firmware and SW are not at the latest security patching level."
-           "The platform needs to be patched with firmware and/or software patches.\n")
+           "The platform needs to be patched with firmware and/or software patches.\n");
       ret = 1;
       break;
   case SGX_QL_QV_RESULT_SW_HARDENING_NEEDED:
     printf("The SGX platform firmware and SW are at the latest security patching level"
      "but there are certain vulnerabilities that can only be mitigated with"
-      "software mitigations implemented by the enclave.\n")
+      "software mitigations implemented by the enclave.\n");
        ret = 1;
        break;
   case SGX_QL_QV_RESULT_CONFIG_AND_SW_HARDENING_NEEDED:
     printf("The SGX platform firmware and SW are at the latest security patching level"
             "but there are certain vulnerabilities that can only be mitigated with"
-            "software mitigations implemented by the enclave.\n")
+            "software mitigations implemented by the enclave.\n");
     ret = 1;
     break;
   case SGX_QL_QV_RESULT_INVALID_SIGNATURE:
-    printf("\tThe signature over the application report is invalid\n")
+    printf("\tThe signature over the application report is invalid\n");
       ret = -1;
       break;
   case SGX_QL_QV_RESULT_REVOKED:
-    printf("\tThe attestation key or platform has been revoked\n")
+    printf("\tThe attestation key or platform has been revoked\n");
       ret = -1;
       break;
   case SGX_QL_QV_RESULT_UNSPECIFIED:
-    printf("\tThe Quote verification failed due to an error in one of the input\n")
+    printf("\tThe Quote verification failed due to an error in one of the input\n");
       ret = -1;
       break;
   default:
