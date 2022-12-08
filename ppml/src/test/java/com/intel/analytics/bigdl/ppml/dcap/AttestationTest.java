@@ -36,4 +36,14 @@ public class AttestationTest {
         // length 10, but all 0
         assertTrue(Attestation.sdkVerifyQuote(new byte[10]) == -1);
     }
+
+    @Test
+    public void generateTDXQuote() throws Exception {
+        if (System.getenv("TDX_VM") != null) {
+            Attestation tdx = new Attestation();
+            byte[] reportData = "ppmltest".getBytes();
+            String res = new String(tdx.tdxGenerateQuote(reportData));
+            assertTrue(res.length > 0);
+        }
+    }
 }
