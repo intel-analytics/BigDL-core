@@ -18,6 +18,8 @@ package com.intel.analytics.bigdl.ppml.dcap;
 
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.assertTrue;
 
 public class AttestationTest {
@@ -39,7 +41,8 @@ public class AttestationTest {
 
     @Test
     public void generateTDXQuote() throws Exception {
-        if (System.getenv("TDX_VM") != null) {
+        File tdx_dev = new File("/dev/tdx-attest");
+        if (tdx_dev.exists()) {
             Attestation tdx = new Attestation();
             byte[] reportData = "ppmltest".getBytes();
             String res = new String(tdx.tdxGenerateQuote(reportData));
