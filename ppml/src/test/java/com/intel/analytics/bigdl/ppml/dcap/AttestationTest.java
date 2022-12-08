@@ -43,7 +43,7 @@ public class AttestationTest {
             Attestation tdx = new Attestation();
             byte[] reportData = "ppmltest".getBytes();
             String res = new String(tdx.tdxGenerateQuote(reportData));
-            assertTrue(res.length > 0);
+            assertTrue(res.length() > 0);
         }
     }
 }
