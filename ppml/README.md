@@ -28,6 +28,7 @@ ln -s /usr/lib/x86_64-linux-gnu/libtdx_attest.so.1 /usr/lib/x86_64-linux-gnu/lib
 ## Usage
 
 ```bash
+export PPML_BUILD=true
 mvn clean package
 ```
 
