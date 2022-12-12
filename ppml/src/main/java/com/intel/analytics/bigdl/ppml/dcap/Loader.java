@@ -36,8 +36,14 @@ public class Loader {
     private String os = System.getProperty("os.name").toLowerCase();
 
     public void init() throws IOException {
-        libraries.add("quote_verification");
-        libraries.add("tdx_quote_generation");
+        File sgx_dev = new File("/dev/sgx/enclave");
+        if (sgx_dev.exists()) {
+            libraries.add("quote_verification");
+        }
+        File tdx_dev = new File("/dev/tdx-attest");
+        if (tdx_dev.exists()) {
+            libraries.add("tdx_quote_generation");
+        }
 
         Path tempDir = null;
         if (os.contains("win")) {
@@ -48,9 +54,12 @@ public class Loader {
 
         copyAll(tempDir);
 
-        loadLibrary("quote_verification", tempDir);
-        loadLibrary("tdx_quote_generation", tempDir);
-
+        if (sgx_dev.exists()) {
+            loadLibrary("quote_verification", tempDir);
+        }
+        if (tdx_dev.exists()) {
+            loadLibrary("tdx_quote_generation", tempDir);
+        }
         deleteAll(tempDir);
     }
 
