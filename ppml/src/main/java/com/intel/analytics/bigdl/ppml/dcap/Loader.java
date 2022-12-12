@@ -36,8 +36,15 @@ public class Loader {
     private String os = System.getProperty("os.name").toLowerCase();
 
     public void init() throws IOException {
+        // TODO: check SGX device to determine whether to load libquote_verification
         libraries.add("quote_verification");
-        libraries.add("tdx_quote_generation");
+
+        File tdx_dev = new File("/dev/tdx-attest");
+        if (tdx_dev.exists()) {
+            libraries.add("tdx_quote_generation");
+        } else {
+            System.out.println("Not found /dev/tdx-attest, disable TDX quote generation.");
+        }
 
         Path tempDir = null;
         if (os.contains("win")) {
@@ -49,8 +56,10 @@ public class Loader {
         copyAll(tempDir);
 
         loadLibrary("quote_verification", tempDir);
-        loadLibrary("tdx_quote_generation", tempDir);
-
+        
+        if (tdx_dev.exists()) {
+            loadLibrary("tdx_quote_generation", tempDir);
+        }
         deleteAll(tempDir);
     }
 
