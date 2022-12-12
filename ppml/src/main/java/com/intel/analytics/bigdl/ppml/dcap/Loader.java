@@ -36,13 +36,14 @@ public class Loader {
     private String os = System.getProperty("os.name").toLowerCase();
 
     public void init() throws IOException {
-        File sgx_dev = new File("/dev/sgx/enclave");
-        if (sgx_dev.exists()) {
-            libraries.add("quote_verification");
-        }
+        // TODO: check SGX device to determine whether to load libquote_verification
+        libraries.add("quote_verification");
+
         File tdx_dev = new File("/dev/tdx-attest");
         if (tdx_dev.exists()) {
             libraries.add("tdx_quote_generation");
+        } else {
+            System.out.println("Not found /dev/tdx-attest, disable TDX quote generation.");
         }
 
         Path tempDir = null;
@@ -54,9 +55,8 @@ public class Loader {
 
         copyAll(tempDir);
 
-        if (sgx_dev.exists()) {
-            loadLibrary("quote_verification", tempDir);
-        }
+        loadLibrary("quote_verification", tempDir);
+        
         if (tdx_dev.exists()) {
             loadLibrary("tdx_quote_generation", tempDir);
         }
