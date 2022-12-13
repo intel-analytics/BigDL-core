@@ -2,6 +2,10 @@
 
 C++ SGX/TDX attestation module for PPML
 
+## Supported operating systems
+
+* Ubuntu 20.04 LTS Server 64bits
+
 ## Requirements
  
 1. [Install Intel SGX SDK](https://github.com/intel/linux-sgx#install-the-intelr-sgx-sdk)
