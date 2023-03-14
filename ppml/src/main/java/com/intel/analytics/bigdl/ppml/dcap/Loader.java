@@ -38,12 +38,22 @@ public class Loader {
     public void init() throws IOException {
         // TODO: check SGX device to determine whether to load libquote_verification
         libraries.add("quote_verification");
+        
+        File sgx_dev = new File("/dev/sgx/enclave");
+        if (sgx_dev.exists()) {
 
-        File tdx_dev = new File("/dev/tdx-attest");
+            libraries.add("sgx_trts");
+            libraries.add("sgx_tservice");
+
+        } else {
+            System.out.println("Not found /dev/sgx/enclave, disable SGX quote generation.");
+        }
+
+        File tdx_dev = new File("/dev/tdx-guest");
         if (tdx_dev.exists()) {
             libraries.add("tdx_quote_generation");
         } else {
-            System.out.println("Not found /dev/tdx-attest, disable TDX quote generation.");
+            System.out.println("Not found /dev/tdx-guest, disable TDX quote generation.");
         }
 
         Path tempDir = null;
