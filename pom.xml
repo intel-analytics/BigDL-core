@@ -98,7 +98,6 @@
     <module>opencv</module>
     <module>dist</module>
     <module>ppml</module>
-    <module>ckks</module>
   </modules>
 
   <profiles>
